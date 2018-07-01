@@ -1,2 +1,2 @@
 # PiHole-Panel
-Pi-hole statistics and control panel using Python and GTK3
+Pi-hole statistics and control panel for Gnome 3
