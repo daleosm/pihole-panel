@@ -29,6 +29,7 @@ class GridWindow(Gtk.Window):
 
         box = Gtk.Box(spacing=8)
 
+        status = Gtk.Label(label="Status: " + str(json_obj['status']), margin=4, halign=Gtk.Align.START)
 
         stats = Gtk.Label(label="Blocked Today: " + str(json_obj['ads_blocked_today']) + "\n" +
         "Ads Percentage Today: " + str(json_obj['ads_percentage_today']) + "%\n"
@@ -37,15 +38,16 @@ class GridWindow(Gtk.Window):
         "Queries Forwarded: " + str(json_obj['queries_forwarded']) + "\n"
         "Queries Cached: " + str(json_obj['queries_cached']) + "\n"
         "Clients Ever Seen: " + str(json_obj['clients_ever_seen']) + "\n"
-        "Unique Clients: " + str(json_obj['unique_clients']) + "\n"
-        "Status: " + str(json_obj['status']), margin=4, halign=Gtk.Align.START)
+        "Unique Clients: " + str(json_obj['unique_clients']), 
+        margin=4, halign=Gtk.Align.START)
 
         box.pack_start(stats, True, True, 0)
 
         frame_vert.add(box)
 
-        grid.attach(button1, 4, 1, 1, 1)
-        grid.attach(frame_vert, 1, 2, 4, 1)
+        grid.add(status)
+        grid.attach_next_to(button1, status, Gtk.PositionType.RIGHT, 1, 2)
+        grid.attach(frame_vert, 0, 2, 3, 1)
 
 
 win = GridWindow()
