@@ -10,6 +10,8 @@ from gi.repository import Gtk
 #reload(sys)
 #sys.setdefaultencoding("utf-8")
 
+# HELP: https://discourse.pi-hole.net/t/pi-hole-api/1863
+
 # Change to Your Pi-Hole Admin Console Url
 pihole = "http://pi.hole/admin/"
 # Change to Your Pi-Hole Admin Console Hashed Password (see WEBPASSWORD in /etc/pihole/setupVars.conf)
@@ -55,7 +57,6 @@ class GridWindow(Gtk.Window):
         grid.attach(status, 1, 1, 1, 1)
         grid.attach_next_to(button1, status, Gtk.PositionType.RIGHT, 1, 1)
         grid.attach(frame_vert, 0, 2, 3, 3)
-
 
 win = GridWindow()
 win.connect("destroy", Gtk.main_quit)
