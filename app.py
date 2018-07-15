@@ -11,6 +11,7 @@ from gi.repository import Gtk
 #sys.setdefaultencoding("utf-8")
 
 # HELP: https://discourse.pi-hole.net/t/pi-hole-api/1863
+# HELP https://github.com/pi-hole/AdminLTE/issues/575
 
 # Change to Your Pi-Hole Admin Console Url
 pihole = "http://pi.hole/admin/"
@@ -22,7 +23,7 @@ class GridWindow(Gtk.Window):
     def __init__(self):
         Gtk.Window.__init__(self, title="PiHole-Panel")
 
-        url = pihole + "api.php?summary"
+        url = pihole + "api.php?summary" #api.php?enable&auth=" + passwd
         result = urlopen(url, timeout = 15).read()
         json_obj = json.loads(result)
 
