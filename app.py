@@ -2,13 +2,13 @@ import gi
 import json
 from urllib.request import urlopen
 
+gi.require_version('Gtk', '3.0')
+from gi.repository import Gtk
+
 # If you have UTF-8 problems then uncomment next 3 lines
 #import sys
 #reload(sys)
 #sys.setdefaultencoding("utf-8")
-
-gi.require_version('Gtk', '3.0')
-from gi.repository import Gtk
 
 # Change to Your Pi-Hole Admin Console Url
 pihole = "http://pi.hole/admin/"
@@ -24,19 +24,19 @@ class GridWindow(Gtk.Window):
         result = urlopen(url, timeout = 15).read()
         json_obj = json.loads(result)
 
-        grid = Gtk.Grid(margin=10)
+        grid = Gtk.Grid(margin=4)
         grid.set_column_homogeneous(True)
         self.add(grid)
 
-        frame_vert = Gtk.Frame(label='Stats', halign=Gtk.Align.FILL)
+        frame_vert = Gtk.Frame(label='Stats')
 
-        button1 = Gtk.Switch()
+        button1 = Gtk.Switch(halign=Gtk.Align.END)
         #button1.connect("notify::active", self.on_switch_activated)
         #button1.set_active(True)
 
         box = Gtk.Box(spacing=8)
 
-        status = Gtk.Label(label="Status: " + str(json_obj['status']), margin=4, halign=Gtk.Align.START)
+        status = Gtk.Label(label="Status: " + str(json_obj['status']), margin=4)
 
         stats = Gtk.Label(label="Blocked Today: " + str(json_obj['ads_blocked_today']) + "\n" +
         "Ads Percentage Today: " + str(json_obj['ads_percentage_today']) + "%\n"
@@ -52,9 +52,9 @@ class GridWindow(Gtk.Window):
 
         frame_vert.add(box)
 
-        grid.add(status)
-        grid.attach_next_to(button1, status, Gtk.PositionType.RIGHT, 1, 2)
-        grid.attach(frame_vert, 0, 2, 3, 1)
+        grid.attach(status, 1, 1, 1, 1)
+        grid.attach_next_to(button1, status, Gtk.PositionType.RIGHT, 1, 1)
+        grid.attach(frame_vert, 0, 2, 3, 3)
 
 
 win = GridWindow()
