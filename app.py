@@ -11,7 +11,8 @@ from gi.repository import Gtk
 #sys.setdefaultencoding("utf-8")
 
 # HELP: https://discourse.pi-hole.net/t/pi-hole-api/1863
-# HELP https://github.com/pi-hole/AdminLTE/issues/575
+# HELP: https://github.com/pi-hole/AdminLTE/issues/575
+# HELP: https://python-gtk-3-tutorial.readthedocs.io/en/latest/introduction.html
 
 # Change to Your Pi-Hole Admin Console Url
 pihole = "http://pi.hole/admin/"
