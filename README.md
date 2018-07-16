@@ -5,4 +5,4 @@ Coming soon!
 
 
 PiHole-Panel 0.1
-![](images/PiHole-Panel-0.1.png)
+![](PiHole-Panel-0.1.png)
