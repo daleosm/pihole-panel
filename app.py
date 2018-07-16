@@ -26,6 +26,11 @@ class GridWindow(Gtk.Window):
         url = pihole + "api.php?summary" #api.php?enable&auth=" + passwd
         result = urlopen(url, timeout = 15).read()
         json_obj = json.loads(result)
+        
+        # auth example
+        #url2 = pihole + "api.php?enable&auth=" + passwd
+        #result2 = urlopen(url2, timeout = 15).read()
+        #json_obj2 = json.loads(result2)
 
         grid = Gtk.Grid(margin=4)
         grid.set_column_homogeneous(True)
