@@ -5,7 +5,7 @@ gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
 from pathlib import Path
 import xml.etree.ElementTree as ET
-
+from urllib.request import urlopen
 
 # Configuration variables of the app
 config_directory = str(Path.home()) + "/.config"
@@ -32,10 +32,9 @@ class AssistantApp:
         self.assistant.connect('prepare', self.on_prepare)
 
         self.assistant.set_current_page(page_num)
-	
+
         if self.is_config_file_exist(config_directory, config_filename) == False:
             self.assistant.show()
-
 
     def create_config_dir(self, config_directory):
         if not os.path.exists(config_directory):
@@ -55,15 +54,13 @@ class AssistantApp:
         # Load main screen
         from app import GridWindow
         GridWindow()
-        
 
     def on_prepare(self, assistant, page):
         current_page = assistant.get_current_page()
         n_pages = assistant.get_n_pages()
         title = 'GTK Assistant (%d of %d)' % (current_page + 1, n_pages)
         assistant.set_title(title)
-        #assistant.set_keep_above(True)
-
+        # assistant.set_keep_above(True)
 
     def on_page_one_next(self, current_page, ip_address_entry, key_code_entry):
         configs = {}
@@ -80,26 +77,28 @@ class AssistantApp:
 
         return next_page_index
 
-
     def validate_configs(self, configs):
         ip_address = configs['ip_address']
         key_code = configs['key_code']
+        url = ip_address + "api.php?enable&auth=" + key_code
 
-        # -----------
-        # Do some validation here on ip_address, key_code combination
-        # -----------
+        # Check config
+        with urlopen(url) as response:
+            html = response.read()
+            json_html =(str(html.decode("utf-8") ))
 
-        # If validation success
-        return True
+        if json_html == '{"status":"enabled"}':
+            # If validation success
+            return True
 
-        # Else
-        # dialog = Gtk.MessageDialog(self.assistant, 0, Gtk.MessageType.ERROR,
-        #                            Gtk.ButtonsType.CANCEL, "Invalid combination of IP Address and KeyCode")
-        # dialog.format_secondary_text("Additional explanation here if necessary")
-        # dialog.connect("response", lambda *a: dialog.destroy()) # Cancel button removes the dialog box
-        # dialog.run()
-        # return False
-
+        else:
+            dialog = Gtk.MessageDialog(self.assistant, 0, Gtk.MessageType.ERROR,
+                                   Gtk.ButtonsType.CANCEL, "Invalid combination of Address and Key Code")
+            #dialog.format_secondary_text("Additional explanation here if necessary")
+            # Cancel button removes the dialog box
+            dialog.connect("response", lambda *a: dialog.destroy())
+            dialog.run()
+            return False
 
     def save_configs(self, config_directory, config_filename, configs):
         filename = config_directory + "/" + config_filename
@@ -111,7 +110,6 @@ class AssistantApp:
 
         tree = ET.ElementTree(root)
         tree.write(filename)
-
 
     def load_configs(self, config_directory, config_filename):
         filename = config_directory + "/" + config_filename
@@ -131,20 +129,18 @@ class AssistantApp:
 
         return configs
 
-
     def check_configs_and_get_page_num(self, configs):
         if 'ip_address' in configs and 'key_code' in configs:
             return 1
 
         return 0
 
-
     def create_preferences_page(self, configs):
         # Create IP Address box
 
         ip_address_box = Gtk.HBox(homogeneous=False, spacing=12)
         # ip_address_box.set_border_width(12)
-        ip_address_label = Gtk.Label(label='IP Address: ')
+        ip_address_label = Gtk.Label(label='Address: ')
         ip_address_box.pack_start(ip_address_label, False, False, 12)
 
         ip_address_entry = Gtk.Entry()
@@ -157,12 +153,13 @@ class AssistantApp:
         # key_code_explanation_box.set_border_width(12)
         key_code_explanation_label = Gtk.Label(label='Your Key Code is your Pi-Hole admin console hashed password\n'
                                                '(see WEBPASSWORD in /etc/pihole/setupVars.conf).')
-        key_code_explanation_box.pack_start(key_code_explanation_label, False, False, 12)
+        key_code_explanation_box.pack_start(
+            key_code_explanation_label, False, False, 12)
 
         # Create Key Code box
 
         key_code_box = Gtk.HBox(homogeneous=False, spacing=12)
-        key_code_label = Gtk.Label(label='Key Code:     ')
+        key_code_label = Gtk.Label(label='Key Code:')
         key_code_box.pack_start(key_code_label, False, False, 12)
 
         key_code_entry = Gtk.Entry()
@@ -185,16 +182,16 @@ class AssistantApp:
 
         self.assistant.set_page_complete(page_box, True)
 
-        pixbuf = self.assistant.render_icon(Gtk.STOCK_DIALOG_INFO, Gtk.IconSize.DIALOG, None)
+        pixbuf = self.assistant.render_icon(
+            Gtk.STOCK_DIALOG_INFO, Gtk.IconSize.DIALOG, None)
 
         self.assistant.set_page_header_image(page_box, pixbuf)
 
-        self.assistant.set_forward_page_func(self.on_page_one_next, ip_address_entry, key_code_entry)
-
+        self.assistant.set_forward_page_func(
+            self.on_page_one_next, ip_address_entry, key_code_entry)
 
     def on_edit_preferences_clicked(self, button):
         self.assistant.set_current_page(0)
-
 
     def create_about_page(self):
         label = Gtk.Label(label='Congratulations!')
@@ -220,9 +217,9 @@ class AssistantApp:
         self.assistant.set_page_title(page_box, 'Done')
         self.assistant.set_page_type(page_box, Gtk.AssistantPageType.CONFIRM)
 
-        pixbuf = self.assistant.render_icon(Gtk.STOCK_DIALOG_INFO, Gtk.IconSize.DIALOG, None)
+        pixbuf = self.assistant.render_icon(
+            Gtk.STOCK_DIALOG_INFO, Gtk.IconSize.DIALOG, None)
         self.assistant.set_page_header_image(page_box, pixbuf)
-
 
 
 if __name__ == '__main__':
