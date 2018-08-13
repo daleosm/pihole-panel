@@ -10,7 +10,7 @@ import xml.etree.ElementTree as ET
 # Configuration variables of the app
 config_directory = str(Path.home()) + "/.config"
 config_filename = "gtk_assistant_configs.xml"
-title = "GTK Assistant"
+title = "PiHole-Panel Assistant"
 
 
 class AssistantApp:
