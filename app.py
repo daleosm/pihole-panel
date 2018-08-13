@@ -10,6 +10,7 @@
 
 import json
 from urllib.request import urlopen
+from pathlib import Path
 
 import gi
 gi.require_version('Gtk', '3.0')
@@ -17,14 +18,11 @@ from gi.repository import Gtk, GObject
 
 # AssistantApp window class
 from gtk_assistant import AssistantApp
+wc = AssistantApp()
 
-
-# Change to Your Pi-Hole Admin Console Url
-# base_url = "http://pi.hole/admin/"
-base_url = "http://192.168.0.12/admin/"
-# Change to Your Pi-Hole Admin Console Hashed Password (see WEBPASSWORD in /etc/pihole/setupVars.conf)
-web_password = ""
-update_interval_seconds = 3  # Time interval between updates
+# Configuration variables of the app
+config_directory = str(Path.home()) + "/.config"
+config_filename = "gtk_assistant_configs.xml"
 
 
 class GridWindow(Gtk.Window):
@@ -77,7 +75,7 @@ class GridWindow(Gtk.Window):
         button1 = Gtk.Switch(halign=Gtk.Align.CENTER)
         button1.connect("notify::active", self.on_status_switch_activated)
 
-        status_label = Gtk.Label()
+        status_label = Gtk.Label(halign=Gtk.Align.END)
         status_label.set_markup("<b>%s</b>" % 'Status:')
 
         box = Gtk.Box(spacing=3)
@@ -86,13 +84,13 @@ class GridWindow(Gtk.Window):
 
         # To add space between elements
         empty_label_1 = Gtk.Label(label='', margin=1)
-        self.grid.attach(empty_label_1, 0, 1, 1, 1)
+        self.grid.attach(empty_label_1, 2, 1, 1, 1)
 
-        self.grid.attach(box, 0, 2, 1, 1)
+        self.grid.attach(box, 2, 2, 1, 1)
 
         # To add space between elements
         empty_label_2 = Gtk.Label(label='', margin=1)
-        self.grid.attach(empty_label_2, 0, 3, 1, 1)
+        self.grid.attach(empty_label_2, 2, 3, 1, 1)
 
         return status_label, button1
 
@@ -279,7 +277,16 @@ def make_dictionary_keys_readable(dict):
     return new_dict
 
 
-win = GridWindow()
-win.connect("destroy", Gtk.main_quit)
-win.show_all()
+if wc.is_config_file_exist(config_directory, config_filename) == True:
+    configs = wc.load_configs(config_directory, config_filename)
+
+    base_url = configs['ip_address']
+    web_password = configs['key_code']
+
+    update_interval_seconds = 3  # Time interval between updates
+
+    win = GridWindow()
+    win.connect("destroy", Gtk.main_quit)
+    win.show_all()
+
 Gtk.main()
