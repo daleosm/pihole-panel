@@ -10,7 +10,3 @@ apps:
   pihole-panel:
     command: /usr/bin/python3 ./app.py
 
-parts:
-  my-part:
-    # See 'snapcraft plugins'
-    plugin: nil
