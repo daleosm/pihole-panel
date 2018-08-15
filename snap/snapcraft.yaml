@@ -6,10 +6,6 @@ description: |
 grade: stable # must be 'stable' to release into candidate/stable channels
 confinement: strict # use 'strict' once you have the right plugs and slots
 
-apps: 
-  pihole-panel:
-    command: pihole_panel
-
 parts:
   my-part:
     # See 'snapcraft plugins'
@@ -20,8 +16,8 @@ parts:
     plugin: dump
     source: .
     stage:
-      - bin/pihole_panel
+      - bin/pihole-panel
       - bin/gtk_assistant
     organize:
-      pihole_panel: bin/pihole_panel
+      pihole-panel: bin/pihole-panel
       gtk_assistant: bin/gtk_assistant
