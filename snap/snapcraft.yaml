@@ -16,10 +16,12 @@ parts:
     plugin: python
     python-version: python3
 
-wrapper:
+  wrapper:
     plugin: dump
     source: .
     stage:
       - bin/pihole_panel
+      - bin/gtk_assistant
     organize:
       pihole_panel: bin/pihole_panel
+      gtk_assistant: bin/gtk_assistant
