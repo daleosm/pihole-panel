@@ -8,7 +8,7 @@ confinement: strict # use 'strict' once you have the right plugs and slots
 
 apps: 
   pihole-panel:
-    command: python bin/pihole_panel
+    command: python $SNAP/bin/pihole_panel
 
 parts:
   my-part:
