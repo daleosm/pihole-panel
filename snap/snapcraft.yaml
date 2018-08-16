@@ -20,5 +20,7 @@ parts:
   wrapper:
     plugin: dump
     source: .
+    override-build: |
+      chmod +x bin/pihole-panel
     stage:
       - bin/pihole-panel
