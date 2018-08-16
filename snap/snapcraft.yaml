@@ -17,7 +17,5 @@ parts:
     source: .
     stage:
       - bin/pihole-panel
-      - bin/gtk_assistant
     organize:
       pihole-panel: bin/pihole-panel
-      gtk_assistant: bin/gtk_assistant
