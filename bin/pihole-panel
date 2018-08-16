@@ -1,4 +1,4 @@
 #!/bin/bash
-chmod 755 "$BINPATH/pihole-panel"
+echo "Test 1.. 2.. 3.."
 BINPATH=`dirname $0`
 python3 "$BINPATH/../pihole-panel/main.py" $@
