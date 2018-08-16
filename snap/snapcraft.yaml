@@ -23,4 +23,4 @@ parts:
     stage:
       - bin/pihole-panel
     override-build: |
-      chmod +x bin/pihole-panel
+      chmod +x pihole-panel
