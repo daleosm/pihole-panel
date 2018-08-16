@@ -4,7 +4,7 @@ summary: Pi-hole statistics and control panel using Python and GTK3  # 79 char l
 description: |
  PiHole-Panel is a statistics and control panel for the Pi-hole adblocker optimized for the Gnome 3 desktop.
 grade: stable # must be 'stable' to release into candidate/stable channels
-confinement: classic # use 'strict' once you have the right plugs and slots
+confinement: strict # use 'strict' once you have the right plugs and slots
 
 
 apps:
