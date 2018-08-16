@@ -5,5 +5,5 @@ PiHole-Panel is a statistics and control panel for the Pi-hole adblocker optimiz
 
 Coming soon!
 
-PiHole-Panel 0.6
+PiHole-Panel 0.7
 
