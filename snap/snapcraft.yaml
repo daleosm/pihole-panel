@@ -25,12 +25,6 @@ parts:
     # See 'snapcraft plugins'
     plugin: python
     python-version: python3
-    stage-packages:
-    - python3
-    - gobject-introspection
-    - gir1.2-gtk-3.0
-    - gir1.2-glib-2.0
-    - python3-gi
 
   wrapper:
     plugin: dump
@@ -39,3 +33,9 @@ parts:
       - bin/pihole-panel
       - pihole-panel/main.py
       - pihole-panel/gtk_assistant.py
+    stage-packages:
+      - python3
+      - gobject-introspection
+      - gir1.2-gtk-3.0
+      - gir1.2-glib-2.0
+      - python3-gi
