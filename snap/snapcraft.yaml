@@ -17,8 +17,11 @@ parts:
     plugin: python
     python-version: python3
     stage-packages:
+      - python-gi
       - python3-gi
       - gir1.2-gtk-3.0
+      - python-gi-cairo 
+      - python3-gi-cairo
 
   wrapper:
     plugin: dump
