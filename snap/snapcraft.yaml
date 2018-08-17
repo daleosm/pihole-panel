@@ -16,13 +16,13 @@ parts:
     # See 'snapcraft plugins'
     plugin: python
     python-version: python3
+    stage-packages:
+      - python3-gi
+      - gir1.2-gtk-3.0
 
   wrapper:
     plugin: dump
     source: .
-    stage-packages:
-      - python3-gi
-      - gir1.2-gtk-3.0
     stage:
       - bin/pihole-panel
       - pihole-panel/main.py
