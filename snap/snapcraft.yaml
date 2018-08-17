@@ -22,5 +22,3 @@ parts:
     source: .
     stage:
       - bin/pihole-panel
-    override-build: |
-      chmod +x pihole-panel
