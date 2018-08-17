@@ -22,3 +22,5 @@ parts:
     source: .
     stage:
       - bin/pihole-panel
+      - pihole-panel/main.py
+      - pihole-panel/gtk_assistant.py
