@@ -6,6 +6,10 @@ description: |
 grade: stable # must be 'stable' to release into candidate/stable channels
 confinement: strict # use 'strict' once you have the right plugs and slots
 
+build-packages:
+  - python3
+  - python3-gi
+  - gir1.2-gtk-3.0
 
 apps:
   pihole-panel:
@@ -17,23 +21,9 @@ parts:
     plugin: python
     python-version: python3
     stage-packages:
-      - python-gi
-      - python3-gi
-      - gir1.2-gtk-3.0
-      - gir1.2-glib-2.0
-      - gir1.2-gdkpixbuf-2.0
-      - python-gi-cairo 
-      - python3-gi-cairo
-
-    build-packages:
-      - python-gi
-      - python3-gi
-      - gir1.2-gtk-3.0
-      - gir1.2-glib-2.0
-      - gir1.2-gdkpixbuf-2.0
-      - python-gi-cairo 
-      - python3-gi-cairo
-
+    - python3
+    - python3-gi
+    - gir1.2-gtk-3.0
 
   wrapper:
     plugin: dump
