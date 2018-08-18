@@ -10,17 +10,6 @@ parts:
   wrapper:
     after: [desktop-gtk3]
     ... # the rest of your part here
-  
-  my-part:
-    # See 'snapcraft plugins'
-    plugin: python
-    python-version: python3
-    stage-packages:
-    - python3
-    - gobject-introspection
-    - gir1.2-gtk-3.0
-    - gir1.2-glib-2.0
-    - python3-gi
 
 apps:
   pihole-panel:
