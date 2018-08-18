@@ -9,12 +9,17 @@ confinement: strict # use 'strict' once you have the right plugs and slots
 parts:
   wrapper:
     after: [desktop-gtk3]
-    ... # the rest of your part here
+    stage-packages:
+    - python3
+    - gobject-introspection
+    - gir1.2-gtk-3.0
+    - gir1.2-glib-2.0
+    - python3-gi
 
 apps:
   pihole-panel:
     command: desktop-launch $SNAP/bin/pihole-panel
-    desktop: ... # you need a .desktop file either in your snap whose path in your snap is written here, or
+    #desktop: ... # you need a .desktop file either in your snap whose path in your snap is written here, or
       # omit this statement and make sure there is a file in your source at snap/gui/pihole-panel.desktop
     plugs:
       - desktop
