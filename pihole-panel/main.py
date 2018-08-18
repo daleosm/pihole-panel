@@ -153,7 +153,7 @@ class GridWindow(Gtk.Window):
             self.top_ads_frame.table_box.destroy()
 
         if top_ads_dict:
-            table_box = self.create_table_box("Domain", "Hits", top_ads_dict)
+            table_box = self.create_table_box("Domain", "Hits", top_ads_dict)https://github.com/daleosm/PiHole-Panel/tree/master/snap
             # Save so that it can be destroyed later
             self.top_ads_frame.table_box = table_box
             self.top_ads_frame.add(table_box)
@@ -275,8 +275,7 @@ if wc.is_config_file_exist(config_directory, config_filename) == True:
     base_url = configs['ip_address']
     web_password = configs['key_code']
 
-    update_interval_seconds = 3  # Time interval between updates
-
+    update_interval_seconds = 3
     win = GridWindow()
     win.connect("destroy", Gtk.main_quit)
     win.show_all()
