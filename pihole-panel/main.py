@@ -153,7 +153,7 @@ class GridWindow(Gtk.Window):
             self.top_ads_frame.table_box.destroy()
 
         if top_ads_dict:
-            table_box = self.create_table_box("Domain", "Hits", top_ads_dict)https://github.com/daleosm/PiHole-Panel/tree/master/snap
+            table_box = self.create_table_box("Domain", "Hits", top_ads_dict)
             # Save so that it can be destroyed later
             self.top_ads_frame.table_box = table_box
             self.top_ads_frame.add(table_box)
