@@ -3,5 +3,5 @@ Encoding=UTF-8
 Version=1.0
 Type=Application
 Terminal=false
-Exec=bin/pihole-panel
+Exec=pihole-panel
 Name=PiHole-Panel
