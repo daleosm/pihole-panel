@@ -13,7 +13,8 @@ from gtk_assistant import AssistantApp
 wc = AssistantApp()
 
 # Configuration variables of the app
-config_directory = str(Path.home()) + "/.config"
+config_directory = "/.config"
+#str(Path.home()) + 
 config_filename = "gtk_assistant_configs.xml"
 
 
