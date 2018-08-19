@@ -13,8 +13,7 @@ from gtk_assistant import AssistantApp
 wc = AssistantApp()
 
 # Configuration variables of the app
-config_directory = "/.config"
-#str(Path.home()) + 
+config_directory = str(Path.home()) +"/snap/pihole-panel/common"
 config_filename = "gtk_assistant_configs.xml"
 
 
