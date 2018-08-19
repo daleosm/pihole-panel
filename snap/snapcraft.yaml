@@ -3,6 +3,8 @@ version: '0.9' # just for humans, typically '1.2+git' or '1.3.2'
 summary: Pi-hole statistics and control panel using Python and GTK3  # 79 char long summary
 description: |
  PiHole-Panel is a statistics and control panel for the Pi-hole adblocker optimized for the Gnome 3 desktop.
+icon: pihole-panel/pihole-panel.png
+
 grade: stable # must be 'stable' to release into candidate/stable channels
 confinement: strict # use 'strict' once you have the right plugs and slots
 
@@ -30,7 +32,6 @@ parts:
 apps:
   pihole-panel:
     command: desktop-launch $SNAP/bin/pihole-panel
-    icon: pihole-panel/pihole-panel.png
     # desktop: ... # you need a .desktop file either in your snap whose path in your snap is written here, or
       # omit this statement and make sure there is a file in your source at snap/gui/pihole-panel.desktop
     plugs:
