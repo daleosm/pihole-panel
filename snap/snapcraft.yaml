@@ -25,10 +25,12 @@ parts:
       - bin/pihole-panel
       - pihole-panel/main.py
       - pihole-panel/gtk_assistant.py
+      - pihole-panel/pihole-panel.png
 
 apps:
   pihole-panel:
     command: desktop-launch $SNAP/bin/pihole-panel
+    icon: pihole-panel/pihole-panel.png
     # desktop: ... # you need a .desktop file either in your snap whose path in your snap is written here, or
       # omit this statement and make sure there is a file in your source at snap/gui/pihole-panel.desktop
     plugs:
