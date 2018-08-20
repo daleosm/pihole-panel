@@ -54,7 +54,7 @@ class AssistantApp:
         assistant.hide()
 
         # Load main screen
-        from app import GridWindow
+        from main import GridWindow
         GridWindow()
 
     def on_prepare(self, assistant, page):
