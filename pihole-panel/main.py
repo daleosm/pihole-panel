@@ -164,7 +164,7 @@ class GridWindow(Gtk.Window):
     def get_status_and_statistics(self, base_url):
         url = base_url + "api.php?summary"
         result = urllib.request.urlopen(url, timeout=15).read()
-        json_obj = json.loads(str(result))
+        json_obj = json.loads(result)
         # print(json_obj)
 
         status = str(json_obj['status'])
@@ -175,7 +175,7 @@ class GridWindow(Gtk.Window):
     def get_top_items(self, base_url, web_password):
         url = base_url + "api.php?topItems&auth=" + web_password
         results = urllib.request.urlopen(url, timeout=15).read()
-        json_obj = json.loads(str(results))
+        json_obj = json.loads(results)
         # print(json_obj)
 
         top_queries_dict = json_obj['top_queries']
@@ -209,14 +209,14 @@ class GridWindow(Gtk.Window):
     def send_enable_request(self):
         url = base_url + "api.php?enable&auth=" + web_password
         results = urllib.request.urlopen(url, timeout=15).read()
-        json_obj = json.loads(str(results))
+        json_obj = json.loads(results)
         # print(json_obj)
         return json_obj['status']
 
     def send_disable_request(self):
         url = base_url + "api.php?disable&auth=" + web_password
         results = urllib.request.urlopen(url, timeout=15).read()
-        json_obj = json.loads(str(results))
+        json_obj = json.loads(results)
         # print(json_obj)
         return json_obj['status']
 
