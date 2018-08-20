@@ -36,5 +36,6 @@ apps:
       # omit this statement and make sure there is a file in your source at snap/gui/pihole-panel.desktop
     plugs:
       - desktop
+      - network
       - x11
       - wayland
