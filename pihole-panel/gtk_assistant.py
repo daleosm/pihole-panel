@@ -53,7 +53,7 @@ class AssistantApp:
         assistant.hide()
 
         # Load main screen
-        from app import GridWindow
+        from main import GridWindow
         GridWindow()
         
 
