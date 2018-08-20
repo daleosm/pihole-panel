@@ -10,8 +10,7 @@ import xml.etree.ElementTree as ET
 from urllib.request import urlopen
 
 # Configuration variables of the app
-config_directory = "/.config"
-#str(Path.home()) + 
+config_directory = str(Path.home()) +"/snap/pihole-panel/common"
 config_filename = "gtk_assistant_configs.xml"
 title = "PiHole-Panel Assistant"
 
