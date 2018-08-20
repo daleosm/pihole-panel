@@ -175,7 +175,7 @@ class GridWindow(Gtk.Window):
     def get_top_items(self, base_url, web_password):
         url = base_url + "api.php?topItems&auth=" + web_password
         results = urllib.request.urlopen(url, timeout=15).read()
-        json_obj = json.loads(results.decode('utf-8'))
+        json_obj = json.loads(str(results))
         # print(json_obj)
 
         top_queries_dict = json_obj['top_queries']
