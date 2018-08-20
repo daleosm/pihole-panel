@@ -10,7 +10,8 @@ import xml.etree.ElementTree as ET
 from urllib.request import urlopen
 
 # Configuration variables of the app
-config_directory = str(Path.home()) +"/snap/pihole-panel/common"
+config_directory = "/.config"
+#str(Path.home()) + 
 config_filename = "gtk_assistant_configs.xml"
 title = "PiHole-Panel Assistant"
 
@@ -54,7 +55,7 @@ class AssistantApp:
         assistant.hide()
 
         # Load main screen
-        from main import GridWindow
+        from app import GridWindow
         GridWindow()
 
     def on_prepare(self, assistant, page):
@@ -226,4 +227,4 @@ class AssistantApp:
 
 if __name__ == '__main__':
     AssistantApp()
-    Gtk.main()
+Gtk.main()
