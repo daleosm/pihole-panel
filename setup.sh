@@ -7,4 +7,11 @@ fi
 
 cd /tmp
 $SUDO wget https://github.com/daleosm/PiHole-Panel/archive/master.zip
-$SUDO unzip
+$SUDO unzip master.zip
+
+cd Pihole-Panel/
+$SUDO mv bin/pihole-panel /usr/bin
+$SUDO mv pihole-panel /usr/lib
+$SUDO mv pihole-panel.desktop /usr/share/applications
+
+echo "Done!"
