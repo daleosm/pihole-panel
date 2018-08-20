@@ -1,11 +1,5 @@
 #!/usr/bin/env python3
 
-# If you have UTF-8 problems then uncomment next 3 lines
-import sys
-from importlib import reload
-reload(sys)
-sys.setdefaultencoding("utf-8")
-
 import os
 import gi
 gi.require_version('Gtk', '3.0')
