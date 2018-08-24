@@ -3,5 +3,5 @@ PiHole-Panel is a statistics and control panel for Pi-hole and optmised for the 
 
 ![](pihole-panel_preview.png)
 
-PiHole-Panel 0.6
+PiHole-Panel 0.6 BETA
 
