@@ -143,11 +143,12 @@ class AssistantApp:
         # Create IP Address box
 
         ip_address_box = Gtk.HBox(homogeneous=False, spacing=12)
-        # ip_address_box.set_border_width(12)
-        ip_address_label = Gtk.Label(label='IP Address: ')
+        
+        ip_address_label = Gtk.Label(label='Pi Address: ')
         ip_address_box.pack_start(ip_address_label, False, False, 12)
 
         ip_address_entry = Gtk.Entry()
+        ip_address_entry.set_text("http://pi.hole/admin/")
         ip_address_box.pack_start(ip_address_entry, False, False, 4)
         if 'ip_address' in configs:
             ip_address_entry.set_text(configs['ip_address'])
