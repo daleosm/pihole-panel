@@ -14,3 +14,8 @@ Uninstall:
 ```
 sudo sh ./uninstall.sh
 ```
+
+Troubleshoot:
+```
+rm ~/.config/gtk_assistant_configs.xml
+```
