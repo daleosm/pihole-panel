@@ -17,7 +17,8 @@ class AssistantApp:
     def __init__(self):
         self.assistant = Gtk.Assistant()
         self.assistant.set_default_size(-1, -1)
-
+        self.assistant.set_wmclass ("PiHole Panel", "PiHole Panel")
+        self.assistant.set_title ("PiHole Panel")
         self.create_config_dir(config_directory)
 
         configs = self.load_configs(config_directory, config_filename)
