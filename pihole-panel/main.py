@@ -21,6 +21,7 @@ from gtk_assistant import AssistantApp
 wc = AssistantApp()
 
 # Configuration variables of the app
+update_interval_seconds = 3  # Time interval between updates
 config_directory = str(Path.home()) + "/.config"
 config_filename = "gtk_assistant_configs.xml"
 
@@ -282,8 +283,6 @@ if wc.is_config_file_exist(config_directory, config_filename) == True:
 
     base_url = configs['ip_address']
     web_password = configs['key_code']
-
-    update_interval_seconds = 3  # Time interval between updates
 
     win = GridWindow()
     win.set_icon_from_file("/usr/lib/pihole-panel/pihole-panel.png")
