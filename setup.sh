@@ -7,8 +7,7 @@ rm master.zip
 
 cd PiHole-Panel-master/
 mv -f bin/pihole-panel /usr/bin
-rm -R /usr/lib/pihole-panel
-mv pihole-panel /usr/lib
+mv -f pihole-panel /usr/lib
 mv -f pihole-panel.desktop /usr/share/applications
 rm -R /tmp/PiHole-Panel-master
 
