@@ -5,3 +5,7 @@ PiHole-Panel is a statistics and control panel for Pi-hole and optimised for the
 
 PiHole-Panel 0.6 BETA
 
+Install:
+```
+sudo sh ./setup.sh
+```
