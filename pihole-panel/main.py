@@ -288,6 +288,8 @@ if wc.is_config_file_exist(config_directory, config_filename) == True:
     win = GridWindow()
     win.set_icon_from_file("/usr/lib/pihole-panel/pihole-panel.png")
     win.connect("destroy", Gtk.main_quit)
+    win.set_wmclass ("PiHole Panel", "PiHole Panel")
+    win.set_title ("PiHole Panel")
     win.show_all()
 
 Gtk.main()
