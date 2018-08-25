@@ -157,7 +157,7 @@ class AssistantApp:
         # Create Key Code explanation box
         key_code_explanation_box = Gtk.VBox(homogeneous=False, spacing=12)
         # key_code_explanation_box.set_border_width(12)
-        key_code_explanation_label = Gtk.Label(label='Your Key Code is your Pi-Hole admin console hashed password\n'
+        key_code_explanation_label = Gtk.Label(label='Your Key Code is your Pi-hole admin console hashed password\n'
                                                '(see WEBPASSWORD in /etc/pihole/setupVars.conf).')
         key_code_explanation_box.pack_start(key_code_explanation_label, False, False, 12)
 
