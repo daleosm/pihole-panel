@@ -9,3 +9,8 @@ Install:
 ```
 sudo sh ./setup.sh
 ```
+
+Uninstall:
+```
+sudo sh ./uninstall.sh
+```
