@@ -82,8 +82,8 @@ class AssistantApp:
 
 
     def validate_configs(self, configs):
-        ip_address = configs['ip_address']
-        key_code = configs['key_code']
+        #ip_address = configs['ip_address']
+        #key_code = configs['key_code']
 
         # -----------
         # Do some validation here on ip_address, key_code combination
@@ -228,7 +228,4 @@ class AssistantApp:
 
 if __name__ == '__main__':
     AssistantApp()
-    cwin = AssistantApp()
-    cwin.set_wmclass ("PiHole Panel", "PiHole Panel")
-    cwin.set_title ("PiHole Panel")
     Gtk.main()
