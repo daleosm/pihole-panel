@@ -7,6 +7,9 @@ PiHole-Panel 1.0
 
 Install:
 ```
+You may require sudo apt install python3-gi
+```
+```
 sudo sh ./setup.sh
 ```
 
