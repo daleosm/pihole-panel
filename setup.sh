@@ -11,9 +11,10 @@ $SUDO unzip master.zip
 $SUDO rm master.zip
 
 cd PiHole-Panel-master/
-$SUDO mv bin/pihole-panel /usr/bin
+$SUDO mv -f bin/pihole-panel /usr/bin
+$SUDO rm -R /usr/lib/pihole-panel
 $SUDO mv pihole-panel /usr/lib
-$SUDO mv pihole-panel.desktop /usr/share/applications
+$SUDO mv -f pihole-panel.desktop /usr/share/applications
 $SUDO rm -R /tmp/PiHole-Panel-master
 
 echo "Done!"
