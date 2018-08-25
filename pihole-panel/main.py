@@ -286,7 +286,7 @@ if wc.is_config_file_exist(config_directory, config_filename) == True:
     update_interval_seconds = 3  # Time interval between updates
 
     win = GridWindow()
-    win.set_icon_from_file("pihole-panel.png")
+    win.set_icon_from_file("/usr/lib/pihole-panel/pihole-panel.png")
     win.connect("destroy", Gtk.main_quit)
     win.show_all()
 
