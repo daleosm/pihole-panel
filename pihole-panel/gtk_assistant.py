@@ -228,4 +228,7 @@ class AssistantApp:
 
 if __name__ == '__main__':
     AssistantApp()
+    cwin = AssistantApp()
+    cwin.set_wmclass ("PiHole Panel", "PiHole Panel")
+    cwin.set_title ("PiHole Panel")
     Gtk.main()
