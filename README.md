@@ -1,5 +1,5 @@
 # PiHole-Panel
-PiHole-Panel is a statistics and control panel for Pi-hole and optimised for the Gnome desktop.
+PiHole-Panel is a statistics and control panel for Pi-hole.
 
 ![](pihole-panel_preview.png)
 
