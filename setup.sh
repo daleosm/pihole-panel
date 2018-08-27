@@ -5,6 +5,7 @@ wget https://github.com/daleosm/PiHole-Panel/archive/master.zip
 unzip master.zip
 rm master.zip
 
+# Keep things tidy
 if [ -e ~/.config/gtk_assistant_configs.xml ]; then
     mv ~/.config/gtk_assistant_configs.xml ~/.config/pihole_panel_configs.xml
 fi
