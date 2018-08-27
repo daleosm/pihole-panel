@@ -3,9 +3,9 @@ PiHole-Panel is a statistics and control panel for Pi-hole and optimised for the
 
 ![](pihole-panel_preview.png)
 
-PiHole-Panel 1.0
+PiHole-Panel 1.1
 
-Install:
+Install/Update:
 ```
 sudo apt install python3-gi
 ```
@@ -20,5 +20,5 @@ sudo sh ./uninstall.sh
 
 Troubleshoot:
 ```
-rm ~/.config/gtk_assistant_configs.xml
+rm ~/.config/pihole_panel_configs.xml
 ```

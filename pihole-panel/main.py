@@ -23,7 +23,7 @@ wc = AssistantApp()
 # Configuration variables of the app
 update_interval_seconds = 3  # Time interval between updates
 config_directory = str(Path.home()) + "/.config"
-config_filename = "gtk_assistant_configs.xml"
+config_filename = "pihole_panel_configs.xml"
 
 
 class GridWindow(Gtk.Window):
