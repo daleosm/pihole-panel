@@ -1,5 +1,5 @@
 # PiHole-Panel
-PiHole-Panel is a statistics and control panel for Pi-hole.
+Pi-hole statistics and control panel using Python and GTK3.
 
 ![](pihole-panel_preview.png)
 
