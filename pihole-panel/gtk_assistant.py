@@ -1,5 +1,7 @@
 import os
 import gi
+import hashlib
+
 gi.require_version('Gtk', '3.0')
 
 from gi.repository import Gtk
@@ -70,6 +72,10 @@ class AssistantApp:
         configs = {}
         configs['ip_address'] = ip_address_entry.get_text()
         configs['key_code'] = key_code_entry.get_text()
+
+        # Double to prevent rainbow attack
+        configs['key_code'] = hashlib.sha256(configs['key_code'].encode('utf-8')).hexdigest()
+        configs['key_code'] = hashlib.sha256(configs['key_code'].encode('utf-8')).hexdigest()
 
         result = self.validate_configs(configs)
 
@@ -145,7 +151,7 @@ class AssistantApp:
 
         ip_address_box = Gtk.HBox(homogeneous=False, spacing=12)
         
-        ip_address_label = Gtk.Label(label='Pi Address: ')
+        ip_address_label = Gtk.Label(label='Pi Address:  ')
         ip_address_box.pack_start(ip_address_label, False, False, 12)
 
         ip_address_entry = Gtk.Entry()
@@ -154,20 +160,20 @@ class AssistantApp:
         if 'ip_address' in configs:
             ip_address_entry.set_text(configs['ip_address'])
 
-        # Create Key Code explanation box
+        # Create Password explanation box
         key_code_explanation_box = Gtk.VBox(homogeneous=False, spacing=12)
-        # key_code_explanation_box.set_border_width(12)
-        key_code_explanation_label = Gtk.Label(label='Your Key Code is your Pi-hole admin console hashed password\n'
-                                               '(see WEBPASSWORD in /etc/pihole/setupVars.conf).')
+        key_code_explanation_box.set_border_width(12)
+        key_code_explanation_label = Gtk.Label(label='Details for your Pi-hole admin console.')
         key_code_explanation_box.pack_start(key_code_explanation_label, False, False, 12)
 
-        # Create Key Code box
+        # Create Password box
 
         key_code_box = Gtk.HBox(homogeneous=False, spacing=12)
-        key_code_label = Gtk.Label(label='Key Code:     ')
+        key_code_label = Gtk.Label(label='Password:     ')
         key_code_box.pack_start(key_code_label, False, False, 12)
 
         key_code_entry = Gtk.Entry()
+        key_code_entry.set_visibility(False)
         key_code_box.pack_start(key_code_entry, False, False, 0)
         if 'key_code' in configs:
             key_code_entry.set_text(configs['key_code'])
