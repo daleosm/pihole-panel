@@ -85,7 +85,7 @@ class AssistantApp:
     def validate_configs(self, configs):
         #ip_address = configs['ip_address']
         #key_code = configs['key_code']
-
+        
         # -----------
         # Do some validation here on ip_address, key_code combination
         # -----------
@@ -105,7 +105,7 @@ class AssistantApp:
     def save_configs(self, config_directory, config_filename, configs):
         filename = config_directory + "/" + config_filename
 
-        root = ET.Element("gtk_assistant_configs")
+        root = ET.Element("pihole_panel_configs")
 
         for key, value in configs.items():
             ET.SubElement(root, key).text = value
