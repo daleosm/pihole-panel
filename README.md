@@ -1,9 +1,10 @@
 # PiHole-Panel
 ![](pihole-panel_preview.png)
 
-PiHole-Panel 1.2
+PiHole-Panel 1.3
+- Now works with admin console password 
 
-Pi-hole statistics and control panel using Python and GTK3.
+Pi-hole statistics and control panel using Python and GTK3
 Install/Update:
 ```
 sudo apt install python3-gi
