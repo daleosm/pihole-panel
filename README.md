@@ -2,6 +2,7 @@
 ![](pihole-panel_preview.png)
 
 PiHole-Panel 1.2
+
 Pi-hole statistics and control panel using Python and GTK3.
 
 Install/Update:
