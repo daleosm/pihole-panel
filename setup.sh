@@ -12,7 +12,7 @@ fi
 
 cd PiHole-Panel-master/
 mv -f bin/pihole-panel /usr/bin
-rm -r /usr/lib/pihole-panel
+rm -r -f /usr/lib/pihole-panel
 mv -f pihole-panel /usr/lib
 mv -f pihole-panel.desktop /usr/share/applications
 rm -R /tmp/PiHole-Panel-master
