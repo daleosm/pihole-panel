@@ -105,7 +105,7 @@ class AssistantApp:
     def save_configs(self, config_directory, config_filename, configs):
         filename = config_directory + "/" + config_filename
 
-        root = ET.Element("pihole_panel_configs")
+        root = ET.Element("gtk_assistant_configs")
 
         for key, value in configs.items():
             ET.SubElement(root, key).text = value
