@@ -1,7 +1,8 @@
 # PiHole-Panel
 ![](pihole-panel_preview.png)
 
-PiHole-Panel 1.3
+PiHole-Panel 1.4
+- Implemented validation for setup
 - Now works with admin console password 
 
 Pi-hole statistics and control panel using Python and GTK3
