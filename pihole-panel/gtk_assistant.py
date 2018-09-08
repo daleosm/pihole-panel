@@ -1,9 +1,11 @@
 import os
 import gi
+import json
 import hashlib
 
 gi.require_version('Gtk', '3.0')
 
+from urllib.request import urlopen
 from gi.repository import Gtk
 from pathlib import Path
 import xml.etree.ElementTree as ET
@@ -89,15 +91,26 @@ class AssistantApp:
 
 
     def validate_configs(self, configs):
-        #ip_address = configs['ip_address']
-        #key_code = configs['key_code']
         
-        # -----------
-        # Do some validation here on ip_address, key_code combination
-        # -----------
+        ip_address = configs['ip_address']
+        key_code = configs['key_code']
+        
+        url = ip_address + "api.php?enable&auth=" + key_code
+        results = urlopen(url, timeout=15).read()
+        json_obj = str(json.loads(results))
 
+        if json_obj == "[]":
+
+            dialog = Gtk.MessageDialog(self.assistant, 0, Gtk.MessageType.ERROR,
+            Gtk.ButtonsType.CANCEL, "Invalid combination of Pi Address and Password")
+            dialog.connect("response", lambda *a: dialog.destroy()) # Cancel button removes the dialog box
+            dialog.run()
+        
+            return False
+
+        else:
         # If validation success
-        return True
+            return True
 
         # Else
         # dialog = Gtk.MessageDialog(self.assistant, 0, Gtk.MessageType.ERROR,
