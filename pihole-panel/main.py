@@ -1,13 +1,3 @@
-# If you have UTF-8 problems then uncomment next 3 lines
-#import sys
-# reload(sys)
-# sys.setdefaultencoding("utf-8")
-
-# HELP: https://discourse.pi-hole.net/t/pi-hole-api/1863
-# HELP: https://github.com/pi-hole/AdminLTE/issues/575
-# HELP: https://python-gtk-3-tutorial.readthedocs.io/en/latest/introduction.html
-
-
 import json
 from urllib.request import urlopen
 from pathlib import Path
@@ -17,10 +7,12 @@ gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, GObject
 
 # AssistantApp window class
+
 from gtk_assistant import AssistantApp
 wc = AssistantApp()
 
 # Configuration variables of the app
+
 update_interval_seconds = 3  # Time interval between updates
 config_directory = str(Path.home()) + "/.config"
 config_filename = "pihole_panel_configs.xml"
@@ -38,6 +30,7 @@ class GridWindow(Gtk.Window):
         self.grid = grid
 
         # Create the various elements of the window
+
         self.status_label, self.status_button = self.draw_status_elements()
         self.statistics_frame = self.draw_statistics_frame()
         self.top_queries_frame = self.draw_top_queries_frame()
@@ -46,6 +39,7 @@ class GridWindow(Gtk.Window):
         self.fetch_data_and_update_display()    # Initial data fetch-and-display
 
         # Create a timer --> self.on_timer will be called periodically
+
         GObject.timeout_add_seconds(update_interval_seconds, self.on_timer)
 
     # This function is called periodically
@@ -54,10 +48,12 @@ class GridWindow(Gtk.Window):
         self.fetch_data_and_update_display()
         return True
 
-    # Fetch required data from the Pi-Hole API, and update the window elements using responses received
 
     def fetch_data_and_update_display(self):
+        # Fetch required data from the Pi-Hole API, and update the window elements using responses received
+
         # Fetch data
+
         status, statistics_dict = self.get_status_and_statistics(base_url)
         readable_statistics_dict = make_dictionary_keys_readable(
             statistics_dict)
@@ -65,6 +61,7 @@ class GridWindow(Gtk.Window):
             base_url, web_password)
 
         # Update frames
+
         self.update_status_elements(status)
         self.update_statistics_frame(readable_statistics_dict)
         self.update_top_queries_frame(top_queries_dict)
@@ -84,12 +81,13 @@ class GridWindow(Gtk.Window):
         box.pack_start(button1, True, True, 4)
 
         # To add space between elements
+
         empty_label_1 = Gtk.Label(label='', margin=1)
         self.grid.attach(empty_label_1, 2, 1, 1, 1)
-
         self.grid.attach(box, 2, 2, 1, 1)
 
         # To add space between elements
+
         empty_label_2 = Gtk.Label(label='', margin=1)
         self.grid.attach(empty_label_2, 2, 3, 1, 1)
 
@@ -123,6 +121,7 @@ class GridWindow(Gtk.Window):
 
     def update_status_elements(self, status):
         # Activate/ deactivate the button so that it reflects the actual current status
+
         if status == "enabled":
             self.status_button.set_active(True)
         else:
@@ -174,7 +173,6 @@ class GridWindow(Gtk.Window):
         url = base_url + "api.php?summary"
         result = urlopen(url, timeout=15).read()
         json_obj = json.loads(result)
-        # print(json_obj)
 
         status = str(json_obj['status'])
         del json_obj['status']  # we only want the statistics
@@ -185,7 +183,6 @@ class GridWindow(Gtk.Window):
         url = base_url + "api.php?topItems&auth=" + web_password
         results = urlopen(url, timeout=15).read()
         json_obj = json.loads(results)
-        # print(json_obj)
 
         top_queries_dict = json_obj['top_queries']
         top_ads_dict = json_obj['top_ads']
@@ -193,7 +190,9 @@ class GridWindow(Gtk.Window):
         return top_queries_dict, top_ads_dict
 
     def draw_top_ads(self, grid, top_ads_dict):
+
         # Frame to contain the wrapper box
+
         frame_vert = Gtk.Frame(label='Top Ads')
         frame_vert.set_border_width(10)
 
@@ -219,20 +218,20 @@ class GridWindow(Gtk.Window):
         url = base_url + "api.php?enable&auth=" + web_password
         results = urlopen(url, timeout=15).read()
         json_obj = json.loads(results)
-        # print(json_obj)
         return json_obj['status']
 
     def send_disable_request(self):
         url = base_url + "api.php?disable&auth=" + web_password
         results = urlopen(url, timeout=15).read()
         json_obj = json.loads(results)
-        # print(json_obj)
         return json_obj['status']
 
     # This function creates a box that contains data in the 'items_dict' arranged as a 2-column table
 
     def create_table_box(self, left_heading, right_heading, items_dict):
+
         # First column box
+
         first_column_box = Gtk.Box(
             orientation=Gtk.Orientation.VERTICAL, spacing=0)
         first_col_heading_label = Gtk.Label(margin=4, halign=Gtk.Align.START)
@@ -241,6 +240,7 @@ class GridWindow(Gtk.Window):
         first_column_box.pack_start(first_col_heading_label, False, False, 4)
 
         # Second column box
+
         second_column_box = Gtk.Box(
             orientation=Gtk.Orientation.VERTICAL, spacing=0)
         second_col_label = Gtk.Label(margin=4, halign=Gtk.Align.END)
@@ -249,6 +249,7 @@ class GridWindow(Gtk.Window):
         second_column_box.pack_start(second_col_label, False, False, 4)
 
         # Add rows to the two two columns
+
         for first, second in items_dict.items():
             first_col_label = Gtk.Label(
                 label=str(first), margin=4, halign=Gtk.Align.START)
@@ -259,6 +260,7 @@ class GridWindow(Gtk.Window):
             second_column_box.pack_start(second_col_label, False, False, 0)
 
         # Include the two boxes in one wrapper box (table box)
+
         table_box = Gtk.Box(spacing=8)
         table_box.pack_start(first_column_box, True, True, 0)
         table_box.pack_start(second_column_box, True, True, 0)
@@ -267,6 +269,7 @@ class GridWindow(Gtk.Window):
 
 
 # This function makes the keys in the dictionary human-readable
+
 def make_dictionary_keys_readable(dict):
     new_dict = {}
     for key, val in dict.items():
