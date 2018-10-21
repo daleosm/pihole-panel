@@ -4,6 +4,7 @@
 PiHole-Panel 1.4
 - Implemented validation for setup
 - Now works with admin console password 
+- Updated icon
 
 Pi-hole statistics and control panel using Python and GTK3
 
