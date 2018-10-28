@@ -1,10 +1,13 @@
 # PiHole-Panel
 ![](pihole-panel_preview.png)
 
+PiHole-Panel 1.5
+- Truncated URLs over 36 characters
+- Updated icon
+
 PiHole-Panel 1.4
 - Implemented validation for setup
 - Now works with admin console password 
-- Updated icon
 
 Pi-hole statistics and control panel using Python and GTK3
 
