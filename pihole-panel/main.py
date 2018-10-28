@@ -251,8 +251,9 @@ class GridWindow(Gtk.Window):
         # Add rows to the two two columns
 
         for first, second in items_dict.items():
+            info = (first[:36] + '..') if len(first) > 36 else first
             first_col_label = Gtk.Label(
-                label=str(first), margin=4, halign=Gtk.Align.START)
+                label=str(info), margin=4, halign=Gtk.Align.START)
             first_column_box.pack_start(first_col_label, False, False, 0)
 
             second_col_label = Gtk.Label(
