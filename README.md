@@ -1,5 +1,8 @@
 # PiHole-Panel
 ![](pihole-panel_preview.png)
+PiHole-Panel 1.6 COMING SOON
+- Update notification
+- More helpful error messages
 
 PiHole-Panel 1.5
 - Truncated URLs over 36 characters
@@ -9,7 +12,7 @@ PiHole-Panel 1.4
 - Implemented validation for setup
 - Now works with admin console password 
 
-Pi-hole statistics and control panel using Python and GTK3
+Live/Dynamic Pi-hole statistics and control panel using Python and GTK3
 
 Install/Update:
 ```
