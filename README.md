@@ -1,7 +1,7 @@
 # PiHole-Panel
 ![](pihole-panel_preview.png)
 
-PiHole-Panel 1.6 [b]COMING SOON[/b]
+PiHole-Panel 1.6 COMING SOON
 - Update notification
 - More helpful error messages
 
