@@ -13,7 +13,7 @@ PiHole-Panel 1.4
 - Implemented validation for setup
 - Now works with admin console password 
 
-Pi-hole realtime statistics and control panel using Python and GTK3
+PiHole-Panel is a realtime statistics and control panel for Pi-hole Ad blocker 
 
 Install/Update:
 ```
