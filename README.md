@@ -1,6 +1,6 @@
 # PiHole-Panel
-![](pihole-panel_preview.png)
-
+![](firststartup.png)
+![](mainwindow.png)
 PiHole-Panel 1.6 COMING SOON
 - Update notification
 - More helpful error messages
