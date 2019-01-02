@@ -2,7 +2,7 @@
 ![](mainwindow.png)
 ![](firststartup.png)
 
-PiHole-Panel 1.6 COMING SOON
+PiHole-Panel 1.6 **COMING SOON**
 - Update notification
 - More helpful error messages
 
