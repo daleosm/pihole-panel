@@ -14,6 +14,7 @@ wc = AssistantApp()
 # Configuration variables of the app
 
 update_interval_seconds = 3  # Time interval between updates
+version_number = "1.6"
 config_directory = str(Path.home()) + "/.config"
 config_filename = "pihole_panel_configs.xml"
 
@@ -35,6 +36,7 @@ class GridWindow(Gtk.Window):
         self.statistics_frame = self.draw_statistics_frame()
         self.top_queries_frame = self.draw_top_queries_frame()
         self.top_ads_frame = self.draw_top_ads_frame()
+        self.updates_frame = self.draw_updates_frame()
 
         self.fetch_data_and_update_display()    # Initial data fetch-and-display
 
@@ -48,6 +50,18 @@ class GridWindow(Gtk.Window):
         self.fetch_data_and_update_display()
         return True
 
+    def version_check(self):
+        # Fetch version number from GitHub repo
+
+        get_version = urlopen('https://raw.githubusercontent.com/daleosm/PiHole-Panel/master/VERSION').read()
+        get_version = get_version.decode('utf-8')
+        get_version = get_version.strip('\n')
+        print(get_version)
+
+        if get_version > version_number:
+            return True
+        else:
+            return False
 
     def fetch_data_and_update_display(self):
         # Fetch required data from the Pi-Hole API, and update the window elements using responses received
@@ -117,6 +131,18 @@ class GridWindow(Gtk.Window):
         self.grid.attach(frame_vert, 2, 4, 1, 1)
         return frame_vert
 
+    def draw_updates_frame(self):
+        
+        if self.version_check() == True:
+            label = Gtk.Label()
+            label.set_markup("There is a new version <a href=\"https://github.com/daleosm/PiHole-Panel\" "
+                         "title=\"Click to find out more\">update available</a>.")
+            label.set_line_wrap(True)
+            label.set_justify(Gtk.Justification.FILL)
+            
+            self.grid.attach(label, 2, 5, 1, 1)
+            return label
+
     # Following 4 functions updates the values of window elements with given (fetched) values
 
     def update_status_elements(self, status):
@@ -174,6 +200,16 @@ class GridWindow(Gtk.Window):
         result = urlopen(url, timeout=15).read()
         json_obj = json.loads(result)
 
+        #        if json_obj == "[]":
+        #
+        #            # Cancel button removes the dialog box
+        #
+        #            return False
+        #
+        #        else:
+        #
+        #            return True
+        
         status = str(json_obj['status'])
         del json_obj['status']  # we only want the statistics
 
