@@ -2,9 +2,11 @@
 ![](mainwindow.png)
 ![](firststartup.png)
 
+PiHole-Panel 1.7
+- More helpful error messages
+
 PiHole-Panel 1.6
 - Update notification
-- More helpful error messages
 
 PiHole-Panel 1.5
 - Truncated URLs over 36 characters
