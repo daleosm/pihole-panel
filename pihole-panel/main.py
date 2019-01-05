@@ -30,14 +30,11 @@ class GridWindow(Gtk.Window):
 
         self.grid = grid
 
-        # Create the various elements of the window
-
         self.status_label, self.status_button = self.draw_status_elements()
         self.statistics_frame = self.draw_statistics_frame()
         self.top_queries_frame = self.draw_top_queries_frame()
         self.top_ads_frame = self.draw_top_ads_frame()
         self.updates_frame = self.draw_updates_frame()
-
         self.fetch_data_and_update_display()    # Initial data fetch-and-display
 
         # Create a timer --> self.on_timer will be called periodically
@@ -54,11 +51,10 @@ class GridWindow(Gtk.Window):
         # Fetch version number from GitHub repo
 
         get_version = urlopen('https://raw.githubusercontent.com/daleosm/PiHole-Panel/master/VERSION').read()
-        get_version = get_version.decode('utf-8')
-        get_version = get_version.strip('\n')
-        print(get_version)
+        version_decoded = get_version.decode('utf-8')
+        latest_version = version_decoded.strip('\n')
 
-        if get_version > version_number:
+        if latest_version > version_number:
             return True
         else:
             return False
@@ -199,17 +195,6 @@ class GridWindow(Gtk.Window):
         url = base_url + "api.php?summary"
         result = urlopen(url, timeout=15).read()
         json_obj = json.loads(result)
-
-        #        if json_obj == "[]":
-        #
-        #            # Cancel button removes the dialog box
-        #
-        #            return False
-        #
-        #        else:
-        #
-        #            return True
-        
         status = str(json_obj['status'])
         del json_obj['status']  # we only want the statistics
 
@@ -304,7 +289,6 @@ class GridWindow(Gtk.Window):
 
         return table_box
 
-
 # This function makes the keys in the dictionary human-readable
 
 def make_dictionary_keys_readable(dict):
@@ -316,7 +300,6 @@ def make_dictionary_keys_readable(dict):
         # print('{} --> {}'.format(key, new_key))
 
     return new_dict
-
 
 if wc.is_config_file_exist(config_directory, config_filename) == True:
     configs = wc.load_configs(config_directory, config_filename)
