@@ -13,7 +13,7 @@ wc = AssistantApp()
 
 # Configuration variables of the app
 
-update_interval_seconds = 3  # Time interval between updates
+update_interval_seconds = 1  # Time interval between updates
 version_number = "1.6"
 config_directory = str(Path.home()) + "/.config"
 config_filename = "pihole_panel_configs.xml"
@@ -50,13 +50,13 @@ class GridWindow(Gtk.Window):
     def version_check(self):
         # Fetch version number from GitHub repo
 
-        get_version = urlopen('https://raw.githubusercontent.com/daleosm/PiHole-Panel/master/VERSION').read()
-        version_decoded = get_version.decode('utf-8')
-        latest_version = version_decoded.strip('\n')
+        #get_version = urlopen('https://raw.githubusercontent.com/daleosm/PiHole-Panel/master/VERSION').read()
+        #version_decoded = get_version.decode('utf-8')
+        #latest_version = version_decoded.strip('\n')
 
-        if latest_version > version_number:
-            return True
-        else:
+        #if latest_version > version_number:
+        #    return True
+        #else:
             return False
 
     def fetch_data_and_update_display(self):
@@ -192,9 +192,11 @@ class GridWindow(Gtk.Window):
     # Following 3 functions send requests to Pi-Hole API and return the response received
 
     def get_status_and_statistics(self, base_url):
+        
         url = base_url + "api.php?summary"
         result = urlopen(url, timeout=15).read()
         json_obj = json.loads(result)
+
         status = str(json_obj['status'])
         del json_obj['status']  # we only want the statistics
 
@@ -306,12 +308,13 @@ if wc.is_config_file_exist(config_directory, config_filename) == True:
 
     base_url = configs['ip_address']
     web_password = configs['key_code']
-
+    wc.validate_configs(configs)
     win = GridWindow()
     win.set_icon_from_file("/usr/lib/pihole-panel/pihole-panel.png")
     win.connect("destroy", Gtk.main_quit)
     win.set_wmclass ("PiHole Panel", "PiHole Panel")
     win.set_title ("PiHole Panel")
+    win.set_position(Gtk.WindowPosition.CENTER)
     win.show_all()
 
 Gtk.main()
