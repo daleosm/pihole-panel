@@ -16,7 +16,7 @@ PiHole-Panel 1.4
 - Implemented validation for setup
 - Now works with admin console password 
 
-PiHole-Panel is a realtime statistics and control panel for Pi-hole Ad blocker 
+**PiHole-Panel is a realtime statistics and control panel for Pi-hole Ad blocker**
 
 Install/Update:
 ```
