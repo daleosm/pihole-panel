@@ -14,7 +14,7 @@ wc = AssistantApp()
 # Configuration variables of the app
 
 update_interval_seconds = 1  # Time interval between updates
-version_number = "1.6"
+version_number = "1.7"
 config_directory = str(Path.home()) + "/.config"
 config_filename = "pihole_panel_configs.xml"
 
