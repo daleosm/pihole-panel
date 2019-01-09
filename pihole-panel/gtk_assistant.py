@@ -24,6 +24,7 @@ class AssistantApp:
         self.assistant.set_default_size(-1, -1)
         self.assistant.set_wmclass("PiHole Panel", "PiHole Panel")
         self.assistant.set_title("PiHole Panel")
+        self.assistant.set_position(Gtk.WindowPosition.CENTER)
         self.create_config_dir(config_directory)
 
         configs = self.load_configs(config_directory, config_filename)
@@ -106,6 +107,7 @@ class AssistantApp:
                                        Gtk.ButtonsType.CANCEL, "Invalid combination of Pi Address and Password")
             
             dialog.connect("response", lambda *a: dialog.destroy())
+            dialog.set_position(Gtk.WindowPosition.CENTER)
             dialog.run()
 
             return False
