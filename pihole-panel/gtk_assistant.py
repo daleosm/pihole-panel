@@ -30,7 +30,7 @@ class AssistantApp:
         configs = self.load_configs(config_directory, config_filename)
         page_num = self.check_configs_and_get_page_num(configs)
 
-        self.create_preferences_page(configs)
+        self.create_setup_page(configs)
         self.create_about_page()
 
         self.assistant.connect('cancel', self.on_close_cancel)
@@ -151,7 +151,7 @@ class AssistantApp:
 
         return 0
 
-    def create_preferences_page(self, configs):
+    def create_setup_page(self, configs):
         # Create IP Address box
 
         ip_address_box = Gtk.HBox(homogeneous=False, spacing=12)
@@ -171,7 +171,7 @@ class AssistantApp:
         key_code_explanation_box = Gtk.VBox(homogeneous=False, spacing=12)
         key_code_explanation_box.set_border_width(12)
         key_code_explanation_label = Gtk.Label(
-            label='Details for your Pi-hole admin console.')
+            label='Details for your Pi-hole admin console')
         key_code_explanation_box.pack_start(
             key_code_explanation_label, False, False, 12)
 
@@ -199,7 +199,7 @@ class AssistantApp:
 
         # Set other page properties
 
-        self.assistant.set_page_title(page_box, 'Preferences')
+        self.assistant.set_page_title(page_box, 'Setup')
         self.assistant.set_page_type(page_box, Gtk.AssistantPageType.INTRO)
 
         self.assistant.set_page_complete(page_box, True)
@@ -212,14 +212,14 @@ class AssistantApp:
         self.assistant.set_forward_page_func(
             self.on_page_one_next, ip_address_entry, key_code_entry)
 
-    def on_edit_preferences_clicked(self, button):
+    def on_edit_setup_clicked(self, button):
         self.assistant.set_current_page(0)
 
     def create_about_page(self):
         label = Gtk.Label(label='Congratulations!')
 
-        button = Gtk.Button.new_with_label("Edit Preferences")
-        button.connect("clicked", self.on_edit_preferences_clicked)
+        button = Gtk.Button.new_with_label("Edit Setup")
+        button.connect("clicked", self.on_edit_setup_clicked)
 
         dummy_box_left = Gtk.VBox(spacing=6)
         dummy_box_right = Gtk.VBox(spacing=6)
