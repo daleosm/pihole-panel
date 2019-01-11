@@ -1,6 +1,6 @@
 # PiHole-Panel
 ![](mainwindow.png)
-![](firststartup.png)
+
 
 PiHole-Panel 1.7
 - More helpful error messages
