@@ -1,5 +1,5 @@
 # PiHole-Panel
-![](mainwindow.png)
+![](https://raw.githubusercontent.com/daleosm/PiHole-Panel/master/mainwindow.png)
 
 
 PiHole-Panel 1.7
