@@ -5,7 +5,7 @@ pipeline {
             agent {
                 docker {
                     image 'python:3-alpine'
-                    args '-v gi'
+                    args '-p gi'
                 }
             }
             steps {
