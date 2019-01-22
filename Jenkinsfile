@@ -3,8 +3,8 @@ pipeline {
     stages {
         stage('Build') { 
             agent {
-                docker {
-                    image 'ubuntu'
+                dockerfile {
+                    filename 'Dockerfile.build'
                 }
             }
             steps {
