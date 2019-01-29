@@ -50,13 +50,13 @@ class GridWindow(Gtk.Window):
     def version_check(self):
         # Fetch version number from GitHub repo
 
-        #get_version = urlopen('https://raw.githubusercontent.com/daleosm/PiHole-Panel/master/VERSION').read()
-        #version_decoded = get_version.decode('utf-8')
-        #latest_version = version_decoded.strip('\n')
+        get_version = urlopen('https://raw.githubusercontent.com/daleosm/PiHole-Panel/master/VERSION').read()
+        version_decoded = get_version.decode('utf-8')
+        latest_version = version_decoded.strip('\n')
 
-        #if latest_version > version_number:
-        #    return True
-        #else:
+        if latest_version > version_number:
+            return True
+        else:
             return False
 
     def fetch_data_and_update_display(self):
