@@ -2,6 +2,9 @@
 ![](https://raw.githubusercontent.com/daleosm/PiHole-Panel/master/mainwindow.png)
 
 
+PiHole-Panel 1.8
+- Fixed handling of when Pi-hole host is down
+
 PiHole-Panel 1.7
 - More helpful error messages
 
