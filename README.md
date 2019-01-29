@@ -4,6 +4,7 @@
 
 PiHole-Panel 1.8
 - Fixed handling of when Pi-hole host is down
+- Fixed accidental commenting out of update system
 
 PiHole-Panel 1.7
 - More helpful error messages
