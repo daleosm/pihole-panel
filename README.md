@@ -27,7 +27,7 @@ sudo apt install python3-gi
 ```
 ```
 cd ~/Downloads
-sudo dpkg -i PiHole-Panel.deb
+sudo dpkg -i PiHole-Panel-1.8.deb
 ```
 
 Uninstall:
