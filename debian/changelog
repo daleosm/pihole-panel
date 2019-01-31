@@ -1,4 +1,4 @@
-gentoo (0.9.12-1) UNRELEASED; urgency=low
+gentoo (0.8-1) UNRELEASED; urgency=low
 
    * Initial Release. Closes: #12345
    * This is my first Debian package.
