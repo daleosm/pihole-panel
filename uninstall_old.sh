@@ -1,4 +1,5 @@
 #!/bin/bash
+# Legacy code
 
 rm /usr/bin/pihole-panel
 rm -R /usr/lib/pihole-panel
