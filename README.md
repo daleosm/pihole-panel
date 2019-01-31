@@ -3,6 +3,7 @@
 
 
 PiHole-Panel 1.8
+- Now works with package manager
 - Fixed handling of when Pi-hole host is down
 - Fixed update notification
 
@@ -25,12 +26,13 @@ Install/Update:
 sudo apt install python3-gi
 ```
 ```
-sudo sh ./setup.sh
+cd ~/Downloads
+sudo dpkg -i PiHole-Panel.deb
 ```
 
 Uninstall:
 ```
-sudo sh ./uninstall.sh
+sudo apt remove pihole-panel
 ```
 
 Troubleshoot:
