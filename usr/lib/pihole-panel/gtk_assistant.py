@@ -1,3 +1,7 @@
+# Application: PiHole-Panel
+# Author: Dale Osm (https://github.com/daleosm/)
+# GNU GENERAL PUBLIC LICENSE
+#
 import os
 import gi
 import json
