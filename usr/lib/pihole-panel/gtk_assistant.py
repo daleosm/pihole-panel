@@ -1,7 +1,7 @@
 import os
 import gi
 import json
-import hashlib
+from hashlib import sha256
 import urllib.request
 import urllib.error
 gi.require_version('Gtk', '3.0')
