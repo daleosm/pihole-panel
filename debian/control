@@ -1,5 +1,5 @@
 Source: pihole-panel
-Maintainer: Dale Osm
+Maintainer: Dale Osm <joy-mg@debian.org>
 
 Package: PiHole-Panel
 Version: 1.8
