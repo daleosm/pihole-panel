@@ -1,6 +1,7 @@
 Source: pihole-panel
+Maintainer: Dale Osm
+
 Package: PiHole-Panel
 Version: 1.8
-Maintainer: Dale Osm
 Architecture: any
 Description: PiHole-Panel is a control panel and real-time statistics for the Pi-hole Adblocker.
