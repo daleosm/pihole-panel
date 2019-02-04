@@ -1,9 +1,15 @@
 Source: pihole-panel
-Maintainer: Dale Osm <joy-mg@debian.org>
-Standards-Version: 4.1.4
-Build-Depends: debhelper (>= 12~)
+Section: devel
+Priority: optional
+Maintainer: Ubuntu Developers <webmaster@daleosm.com>
+XSBC-Original-Maintainer: Dale Osm <webmaster@daleosm.com>
+Standards-Version: 3.9.5
+Build-Depends: debhelper (>= 7)
+Vcs-Bzr: lp:ubuntu/hello
+Homepage: https://github.com/daleosm/PiHole-Panel
 
 Package: pihole-panel
-Version: 1.8
 Architecture: any
-Description: PiHole-Panel is a control panel and real-time statistics for the Pi-hole Adblocker.
+Depends: ${shlibs:Depends}
+Description: PiHole-Panel is a control panel 
+and real-time statistics for the Pi-hole Adblocker.
