@@ -1,7 +1,5 @@
-pihole-panel (0.8) stable; urgency=low
+pihole-panel (0.8) cosmic; urgency=low
 
- * change details
-  - more change details
- * even more change details
+  * New upstream release with lots of bug fixes and feature improvements.
 
--- dale osm <webmaster@daleosm.com>  Thu, 21 Oct 2013 11:12:00 -0400
+-- Jane Doe <packager@example.com>  Thu, 21 Oct 2013 11:12:00 -0400
