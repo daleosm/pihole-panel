@@ -7,8 +7,8 @@ Standards-Version: 3.9.5
 Build-Depends: debhelper (>= 7)
 Vcs-Bzr: lp:ubuntu/hello
 Homepage: https://github.com/daleosm/PiHole-Panel
-
 Package: pihole-panel
-Architecture: any
-Depends: ${shlibs:Depends}
+Version: 1.8
+Architecture: amd64
+Depends: python-gi
 Description: PiHole-Panel is a control panel and real-time statistics for the Pi-hole Adblocker.
