@@ -1,5 +1,7 @@
-pihole-panel (0.8) stable; urgency=medium
+pihole-panel (0.8) stable; urgency=low
 
- * Initial release
+ * change details
+  - more change details
+ * even more change details
 
--- Josip Rodin <joy-mg@debian.org>  Mon, 22 Mar 2010 00:37:31 +0100
+-- maintainer name webmaster@daleosm.com  4/02/2019
