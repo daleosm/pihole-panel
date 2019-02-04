@@ -1,6 +1,6 @@
 Source: pihole-panel
 Maintainer: Dale Osm <joy-mg@debian.org>
-Standards-Version: 5.6.11
+Standards-Version: 4.1.4
 Build-Depends: debhelper (>= 12~)
 
 Package: pihole-panel
