@@ -1,7 +1,7 @@
 Source: pihole-panel
 Maintainer: Dale Osm <joy-mg@debian.org>
 
-Package: PiHole-Panel
+Package: pihole-panel
 Version: 1.8
 Architecture: any
 Description: PiHole-Panel is a control panel and real-time statistics for the Pi-hole Adblocker.
