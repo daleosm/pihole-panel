@@ -11,5 +11,4 @@ Homepage: https://github.com/daleosm/PiHole-Panel
 Package: pihole-panel
 Architecture: any
 Depends: ${shlibs:Depends}
-Description: PiHole-Panel is a control panel 
-and real-time statistics for the Pi-hole Adblocker.
+Description: PiHole-Panel is a control panel and real-time statistics for the Pi-hole Adblocker.
