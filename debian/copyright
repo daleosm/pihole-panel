@@ -1,9 +1,9 @@
 Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: pihole-panel
-Source: ftp://ftp.example.com/pub/games
+Source: https://github.com/daleosm/PiHole-Panel/
 
 Files: *
-Copyright: Copyright 1998 John Doe <jdoe@example.com>
+Copyright: Copyright 2018 Dale Osm <webmaster@daleosm.com>
 License: GPL-2+
 
 Files: debian/*
