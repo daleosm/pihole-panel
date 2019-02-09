@@ -5,7 +5,6 @@ Maintainer: Ubuntu Developers <webmaster@daleosm.com>
 XSBC-Original-Maintainer: Dale Osm <webmaster@daleosm.com>
 Standards-Version: 3.9.5
 Build-Depends: debhelper (>= 7)
-Vcs-Bzr: lp:ubuntu/hello
 Homepage: https://github.com/daleosm/PiHole-Panel
 
 Package: pihole-panel
