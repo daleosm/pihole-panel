@@ -6,7 +6,6 @@ XSBC-Original-Maintainer: Dale Osm <webmaster@daleosm.com>
 Standards-Version: 3.9.5
 Build-Depends: debhelper (>= 7)
 Homepage: https://github.com/daleosm/PiHole-Panel
-
 Package: pihole-panel
 Version: 1.8
 Architecture: amd64
