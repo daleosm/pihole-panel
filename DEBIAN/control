@@ -9,5 +9,5 @@ Homepage: https://github.com/daleosm/PiHole-Panel
 Package: pihole-panel
 Version: 1.8
 Architecture: amd64
-Depends: python-gi
+Depends: python3-gi
 Description: PiHole-Panel is a control panel and real-time statistics for the Pi-hole Adblocker.
