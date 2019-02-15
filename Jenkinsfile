@@ -5,7 +5,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'dpkg-deb --build $WORKSPACE PiHole-Panel_master/PiHole-Panel-latest.deb' 
+                sh 'dpkg-deb --build $WORKSPACE /var/lib/jenkins/workspace/PiHole-Panel_master/PiHole-Panel-latest.deb' 
             }
         }
     }
