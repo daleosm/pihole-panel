@@ -1,4 +1,4 @@
-# update with lintian stage on .deb file
+!update with lintian stage on .deb file
 pipeline {
     agent any
 
