@@ -1,7 +1,7 @@
 # Application: PiHole-Panel
 # Author: Dale Osm (https://github.com/daleosm/)
 # GNU GENERAL PUBLIC LICENSE
-#
+# PIPELINE TEST
 import json
 from urllib.request import urlopen
 from pathlib import Path
