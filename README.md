@@ -1,4 +1,6 @@
 # PiHole-Panel
+PiHole-Panel is a control panel and real-time statistics for the Pi-hole Adblocker. 
+
 ![](https://raw.githubusercontent.com/daleosm/PiHole-Panel/master/mainwindow.png)
 
 
