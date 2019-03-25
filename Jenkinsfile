@@ -12,7 +12,7 @@ pipeline {
                 sh 'rm $WORKSPACE/VERSION'
                 sh 'rm $WORKSPACE/README.md'
                 
-                sh 'dpkg-deb --build $WORKSPACE /var/lib/jenkins/workspace/PiHole-Panel_master/PiHole-Panel-latest.deb' 
+                sh 'dpkg-buildpackage --build $WORKSPACE /var/lib/jenkins/workspace/PiHole-Panel_master/PiHole-Panel-latest.deb' 
             }
         }
     }
