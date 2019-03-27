@@ -3,6 +3,8 @@ PiHole-Panel is a control panel and real-time statistics for the Pi-hole Adblock
 
 ![](https://raw.githubusercontent.com/daleosm/PiHole-Panel/master/mainwindow.png)
 
+PiHole-Panel 1.9
+- Created temporary fix for Gravity Last Updated until Ubuntu 19.10 released
 
 PiHole-Panel 1.8
 - Now works with package manager
