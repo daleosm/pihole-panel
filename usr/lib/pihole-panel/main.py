@@ -202,7 +202,10 @@ class GridWindow(Gtk.Window):
         json_obj = json.loads(result)
 
         status = str(json_obj['status'])
-        del json_obj['status']  # we only want the statistics
+        del json_obj['status']  # We only want the statistics
+        del json_obj["gravity_last_updated"] # This needs more work
+        del json_obj["dns_queries_all_types"] # Useless
+        print json_obJ
 
         return status, json_obj
 
