@@ -8,7 +8,7 @@ pipeline {
                 sh "ls ${WORKSPACE}/ | egrep -v 'DEBIAN|usr' | xargs rm -rf"
                 sh 'dpkg-deb --build ${WORKSPACE}/ ../PiHole-Panel-latest.deb'
                 sh 'cd ../'
-                sh 'mv PiHole-Panel-latest.deb ${WORKSPACE}/'
+                sh 'mv PiHole-Panel-latest.deb /var/lib/jenkins/workspace/PiHole-Panel_master/'
             }
         }
     }
