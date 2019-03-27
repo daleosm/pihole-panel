@@ -1,0 +1,5 @@
+tar-ignore = "README.md"
+tar-ignore = "VERSION"
+tar-ignore = "LICENSE"
+tar-ignore = "main_window.png"
+tar-ignore = "uninstall_old.sh"
