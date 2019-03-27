@@ -1,8 +1,8 @@
 #!/bin/bash
 # Legacy code
 
-rm /usr/bin/pihole-panel
-rm -R /usr/lib/pihole-panel
-rm /usr/share/applications/pihole-panel.desktop
+sudo rm /usr/bin/pihole-panel
+sudo rm -R /usr/lib/pihole-panel
+sudo rm /usr/share/applications/pihole-panel.desktop
 
 echo "Done!"
