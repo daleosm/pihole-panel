@@ -204,11 +204,23 @@ class GridWindow(Gtk.Window):
         status = str(json_obj['status'])
         del json_obj['status']  # We only want the statistics
         
-        if hasattr(json_obj, 'gravity_last_updated'):
-            del json_obj["gravity_last_updated"] # This needs more work
+        if 'gravity_last_updated' in json_obj:
+            del json_obj['gravity_last_updated'] # This needs more work
             
-        if hasattr(json_obj, "dns_queries_all_types"):  
-            del json_obj["dns_queries_all_types"] # Useless
+        if 'dns_queries_all_types' in json_obj:  
+            del json_obj['dns_queries_all_types'] # Useless
+            
+        if 'reply_NODATA' in json_obj):  
+            del json_obj['reply_NODATA'] # Useless
+        
+        if 'reply_NXDOMAIN' in json_obj:  
+            del json_obj['reply_NXDOMAIN'] # Useless
+            
+        if 'reply_CNAME' in json_obj:  
+            del json_obj['reply_CNAME'] # Useless
+            
+        if 'reply_IP' in json_obj:  
+            del json_obj['reply_IP'] # Useless
         
         return status, json_obj
 
