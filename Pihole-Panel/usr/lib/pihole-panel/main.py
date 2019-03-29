@@ -210,7 +210,7 @@ class GridWindow(Gtk.Window):
         if 'dns_queries_all_types' in json_obj:  
             del json_obj['dns_queries_all_types'] # Useless
             
-        if 'reply_NODATA' in json_obj):  
+        if 'reply_NODATA' in json_obj:  
             del json_obj['reply_NODATA'] # Useless
         
         if 'reply_NXDOMAIN' in json_obj:  
