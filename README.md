@@ -5,7 +5,7 @@ PiHole-Panel is a control panel and real-time statistics for the Pi-hole Adblock
 
 PiHole-Panel 1.9
 - Now compatible with latest API
-- Created temporary fix for Gravity Last Updated until Ubuntu 19.04 release
+- Created temporary fix for Gravity Last Updated
 
 PiHole-Panel 1.8
 - Now works with package manager
@@ -16,9 +16,7 @@ Upcoming features:
   - Ability to use multiple Pi-hole hosts
   - Live tracking of DNS requests
 
-## Install
-
-Install/Update:
+## Install//Update
 ```
 sudo apt install python3-gi
 ```
@@ -27,12 +25,12 @@ cd ~/Downloads
 sudo dpkg -i PiHole-Panel-latest.deb
 ```
 
-Uninstall:
+## Uninstall
 ```
 sudo apt remove pihole-panel
 ```
 
-Troubleshoot:
+## Troubleshoot
 ```
 rm ~/.config/pihole_panel_configs.xml
 ```
