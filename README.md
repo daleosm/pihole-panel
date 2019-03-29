@@ -1,7 +1,7 @@
 # PiHole-Panel
 PiHole-Panel is a control panel and real-time statistics for the Pi-hole Adblocker. 
 
-![](https://raw.githubusercontent.com/daleosm/PiHole-Panel/master/mainwindow.png)
+![](https://raw.githubusercontent.com/daleosm/PiHole-Panel/master/main_window.png)
 
 PiHole-Panel 1.9
 - Now compatible with latest API
