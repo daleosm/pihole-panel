@@ -16,7 +16,7 @@ Upcoming features:
   - Ability to use multiple Pi-hole hosts
   - Live tracking of DNS requests
 
-## Install//Update
+## Install/Update
 ```
 sudo apt install python3-gi
 ```
