@@ -4,7 +4,7 @@
 
 PiHole-Panel 1.9
 - Now compatible with latest API
-- Created temporary fix for Gravity Last Updated
+- Temporary fix for Gravity Last Updated
 
 PiHole-Panel 1.8
 - Now works with package manager
