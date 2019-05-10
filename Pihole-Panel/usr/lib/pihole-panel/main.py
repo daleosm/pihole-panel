@@ -8,7 +8,8 @@ from pathlib import Path
 
 import gi
 gi.require_version('Gtk', '3.0')
-from gi.repository import Gtk, GObject
+from gi.repository import Gtk, GLib
+from gi.repository import GLib as glib
 
 # AssistantApp window class
 
@@ -43,7 +44,7 @@ class GridWindow(Gtk.Window):
 
         # Create a timer --> self.on_timer will be called periodically
 
-        GObject.timeout_add_seconds(update_interval_seconds, self.on_timer)
+        glib.timeout_add_seconds(update_interval_seconds, self.on_timer)
 
     # This function is called periodically
 
