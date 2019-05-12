@@ -1,6 +1,8 @@
 # PiHole-Panel
 
 ![](https://raw.githubusercontent.com/daleosm/PiHole-Panel/master/main_window.png)
+PiHole-Panel 2.0
+- Changes to API now require 3 second update interval.
 
 PiHole-Panel 1.9
 - Now compatible with latest API
