@@ -1,10 +1,16 @@
-pihole-panel (0.9) cosmic; urgency=low
+-- Dale Osm <webmaster@daleosm.com> Sun, 12 May 2019 12:06:04 +0000
+pihole-panel (2.0) cosmic; urgency=high
+
+  * Changes to API now require 3 second update interval.
+  
+-- Dale Osm <webmaster@daleosm.com> Mon, 24 Mar 2019 10:23:31 +0000
+pihole-panel (1.9) cosmic; urgency=low
 
   * Now compatible with latest API.
   * Temporary fix for Gravity Last Updated.
 
 -- Dale Osm <webmaster@daleosm.com> Fri, 29 Mar 2019 12:27:49 +0000
-pihole-panel (0.8) cosmic; urgency=low
+pihole-panel (1.8) cosmic; urgency=low
 
   * New upstream release with lots of bug fixes and feature improvements.
 
