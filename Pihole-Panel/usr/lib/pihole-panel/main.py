@@ -110,17 +110,20 @@ class GridWindow(Gtk.Window):
         return status_label, button1
 
     def draw_hosts_combo(self):
+        
+        name_store = Gtk.ListStore(int, str)
+        name_store.append([1, "Billy Bob"])
+        name_store.append([11, "Billy Bob Junior"])
+        name_store.append([12, "Sue Bob"])
+        name_store.append([2, "Joey Jojo"])
+        name_store.append([3, "Rob McRoberts"])
+        name_store.append([31, "Xavier McRoberts"])
 
-        currencies = ["Euro", "US Dollars", "British Pound", "Japanese Yen",
-            "Russian Ruble", "Mexican peso", "Swiss franc"]
+        hosts_combo = Gtk.ComboBox.new_with_model_and_entry(name_store)
+        hosts_combo.set_entry_text_column(1)
+        hosts_combo.set_active(3)
 
-        hosts_combo = Gtk.ComboBoxText()
-        hosts_combo.set_entry_text_column(0)
-        hosts_combo.set_active(1)
         hosts_combo.connect("changed", self.on_hosts_combo_changed)
-
-        for currency in currencies:
-            hosts_combo.append_text(currency)
 
         self.grid.attach(hosts_combo, 1, 2, 1, 1)
 
@@ -331,7 +334,7 @@ class GridWindow(Gtk.Window):
         return table_box
 
     def on_hosts_combo_changed(self, combo):
-        text = combo.get_active_text()
+        text = combo.get_active()
         if text is not None:
             print("Selected: currency=%s" % text)
 
