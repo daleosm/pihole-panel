@@ -40,6 +40,7 @@ class GridWindow(Gtk.Window):
         self.top_queries_frame = self.draw_top_queries_frame()
         self.top_ads_frame = self.draw_top_ads_frame()
         self.updates_frame = self.draw_updates_frame()
+        self.hosts_combo = self.draw_hosts_combo()
         self.fetch_data_and_update_display()    # Initial data fetch-and-display
 
         # Create a timer --> self.on_timer will be called periodically
@@ -107,6 +108,21 @@ class GridWindow(Gtk.Window):
         self.grid.attach(empty_label_2, 2, 3, 1, 1)
 
         return status_label, button1
+
+    def draw_hosts_combo(self):
+
+        currencies = ["Euro", "US Dollars", "British Pound", "Japanese Yen",
+            "Russian Ruble", "Mexican peso", "Swiss franc"]
+
+        hosts_combo = Gtk.ComboBoxText()
+        hosts_combo.set_entry_text_column(0)
+        hosts_combo.set_active(1)
+        hosts_combo.connect("changed", self.on_hosts_combo_changed)
+
+        for currency in currencies:
+            hosts_combo.append_text(currency)
+
+        self.grid.attach(hosts_combo, 1, 2, 1, 1)
 
     def draw_statistics_frame(self):
         frame_vert = Gtk.Frame(label='Statistics')
@@ -313,6 +329,11 @@ class GridWindow(Gtk.Window):
         table_box.pack_start(second_column_box, True, True, 0)
 
         return table_box
+
+    def on_hosts_combo_changed(self, combo):
+        text = combo.get_active_text()
+        if text is not None:
+            print("Selected: currency=%s" % text)
 
 # This function makes the keys in the dictionary human-readable
 
