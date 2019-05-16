@@ -2,18 +2,18 @@
 # Author: Dale Osm (https://github.com/daleosm/)
 # GNU GENERAL PUBLIC LICENSE
 # PIPELINE TEST
+from gtk_assistant import AssistantApp
+from gi.repository import GLib as glib
+from gi.repository import Gtk, GLib
 import json
 from urllib.request import urlopen
 from pathlib import Path
 
 import gi
 gi.require_version('Gtk', '3.0')
-from gi.repository import Gtk, GLib
-from gi.repository import GLib as glib
 
 # AssistantApp window class
 
-from gtk_assistant import AssistantApp
 wc = AssistantApp()
 
 # Configuration variables of the app
@@ -56,7 +56,8 @@ class GridWindow(Gtk.Window):
     def version_check(self):
         # Fetch version number from GitHub repo
 
-        get_version = urlopen('https://raw.githubusercontent.com/daleosm/PiHole-Panel/master/VERSION').read()
+        get_version = urlopen(
+            'https://raw.githubusercontent.com/daleosm/PiHole-Panel/master/VERSION').read()
         version_decoded = get_version.decode('utf-8')
         latest_version = version_decoded.strip('\n')
 
@@ -110,7 +111,7 @@ class GridWindow(Gtk.Window):
         return status_label, button1
 
     def draw_hosts_combo(self):
-        
+
         name_store = Gtk.ListStore(int, str)
         name_store.append([1, "Billy Bob"])
         name_store.append([11, "Billy Bob Junior"])
@@ -152,14 +153,14 @@ class GridWindow(Gtk.Window):
         return frame_vert
 
     def draw_updates_frame(self):
-        
+
         if self.version_check() == True:
             label = Gtk.Label()
             label.set_markup("There is a new version <a href=\"https://github.com/daleosm/PiHole-Panel\" "
-                         "title=\"Click to find out more\">update available</a>.")
+                             "title=\"Click to find out more\">update available</a>.")
             label.set_line_wrap(True)
             label.set_justify(Gtk.Justification.FILL)
-            
+
             self.grid.attach(label, 2, 5, 1, 1)
             return label
 
@@ -216,32 +217,32 @@ class GridWindow(Gtk.Window):
     # Following 3 functions send requests to Pi-Hole API and return the response received
 
     def get_status_and_statistics(self, base_url):
-        
+
         url = base_url + "api.php?summary"
         result = urlopen(url, timeout=15).read()
         json_obj = json.loads(result)
 
         status = str(json_obj['status'])
         del json_obj['status']  # We only want the statistics
-        
+
         if 'gravity_last_updated' in json_obj:
-            del json_obj['gravity_last_updated'] # This needs more work
-            
-        if 'dns_queries_all_types' in json_obj:  
-            del json_obj['dns_queries_all_types'] # Useless
-            
-        if 'reply_NODATA' in json_obj:  
-            del json_obj['reply_NODATA'] # Useless
-        
-        if 'reply_NXDOMAIN' in json_obj:  
-            del json_obj['reply_NXDOMAIN'] # Useless
-            
-        if 'reply_CNAME' in json_obj:  
-            del json_obj['reply_CNAME'] # Useless
-            
-        if 'reply_IP' in json_obj:  
-            del json_obj['reply_IP'] # Useless
-        
+            del json_obj['gravity_last_updated']  # This needs more work
+
+        if 'dns_queries_all_types' in json_obj:
+            del json_obj['dns_queries_all_types']  # Useless
+
+        if 'reply_NODATA' in json_obj:
+            del json_obj['reply_NODATA']  # Useless
+
+        if 'reply_NXDOMAIN' in json_obj:
+            del json_obj['reply_NXDOMAIN']  # Useless
+
+        if 'reply_CNAME' in json_obj:
+            del json_obj['reply_CNAME']  # Useless
+
+        if 'reply_IP' in json_obj:
+            del json_obj['reply_IP']  # Useless
+
         return status, json_obj
 
     def get_top_items(self, base_url, web_password):
@@ -340,6 +341,7 @@ class GridWindow(Gtk.Window):
 
 # This function makes the keys in the dictionary human-readable
 
+
 def make_dictionary_keys_readable(dict):
     new_dict = {}
     for key, val in dict.items():
@@ -350,6 +352,7 @@ def make_dictionary_keys_readable(dict):
 
     return new_dict
 
+
 if wc.is_config_file_exist(config_directory, config_filename) == True:
     configs = wc.load_configs(config_directory, config_filename)
 
@@ -359,8 +362,8 @@ if wc.is_config_file_exist(config_directory, config_filename) == True:
     win = GridWindow()
     win.set_icon_from_file("/usr/lib/pihole-panel/pihole-panel.png")
     win.connect("destroy", Gtk.main_quit)
-    win.set_wmclass ("PiHole Panel", "PiHole Panel")
-    win.set_title ("PiHole Panel")
+    win.set_wmclass("PiHole Panel", "PiHole Panel")
+    win.set_title("PiHole Panel")
     win.set_position(Gtk.WindowPosition.CENTER)
     win.show_all()
 
