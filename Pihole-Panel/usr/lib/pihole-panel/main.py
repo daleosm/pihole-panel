@@ -336,7 +336,7 @@ class GridWindow(Gtk.Window):
     def on_hosts_combo_changed(self, combo):
         text = combo.get_active()
         if text is not None:
-            print("Selected: currency=%s" % text)
+            print("Selected: host=%s" % text)
 
 # This function makes the keys in the dictionary human-readable
 
