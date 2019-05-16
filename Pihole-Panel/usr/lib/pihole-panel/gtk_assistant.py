@@ -100,7 +100,7 @@ class AssistantApp:
         url = ip_address + "api.php?enable&auth=" + key_code
 
         try:
-            results = urllib.request.urlopen(url, timeout=5).read()
+            urllib.request.urlopen(url, timeout=5).read()
 
         except urllib.error.URLError as e:
             dialog = Gtk.MessageDialog(self.assistant, 0, Gtk.MessageType.ERROR,
