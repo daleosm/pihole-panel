@@ -154,6 +154,10 @@ class AssistantApp:
             if len(element_list) > 0:
                 configs['key_code'] = element_list[0].text
 
+            element_list = xml_root.findall("./default_host")
+            if len(element_list) > 0:
+                configs['default_host'] = element_list[0].text
+
         return configs
 
     def check_configs_and_get_page_num(self, configs):
