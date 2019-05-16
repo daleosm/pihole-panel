@@ -40,6 +40,7 @@ class GridWindow(Gtk.Window):
         self.top_queries_frame = self.draw_top_queries_frame()
         self.top_ads_frame = self.draw_top_ads_frame()
         self.updates_frame = self.draw_updates_frame()
+        self.hosts_combo = self.draw_hosts_combo()
         self.fetch_data_and_update_display()    # Initial data fetch-and-display
 
         # Create a timer --> self.on_timer will be called periodically
@@ -108,7 +109,6 @@ class GridWindow(Gtk.Window):
 
         return status_label, button1
 
-<<<<<<< HEAD
     def draw_hosts_combo(self):
         
         name_store = Gtk.ListStore(int, str)
@@ -120,17 +120,13 @@ class GridWindow(Gtk.Window):
         name_store.append([31, "Xavier McRoberts"])
 
         hosts_combo = Gtk.ComboBox.new_with_model_and_entry(name_store)
-        hosts_combo.set_entry_text_column(default_host)
+        hosts_combo.set_entry_text_column(1)
         hosts_combo.set_active(3)
 
         hosts_combo.connect("changed", self.on_hosts_combo_changed)
 
         self.grid.attach(hosts_combo, 1, 2, 1, 1)
 
-        return hosts_combo
-
-=======
->>>>>>> 2bcb7c4458fa1cacb22beb72ccba0e8b335262b2
     def draw_statistics_frame(self):
         frame_vert = Gtk.Frame(label='Statistics')
         frame_vert.set_border_width(10)
@@ -337,6 +333,11 @@ class GridWindow(Gtk.Window):
 
         return table_box
 
+    def on_hosts_combo_changed(self, combo):
+        text = combo.get_active()
+        if text is not None:
+            print("Selected: host=%s" % text)
+
 # This function makes the keys in the dictionary human-readable
 
 def make_dictionary_keys_readable(dict):
@@ -353,7 +354,6 @@ if wc.is_config_file_exist(config_directory, config_filename) == True:
     configs = wc.load_configs(config_directory, config_filename)
 
     base_url = configs['ip_address']
-    default_host = int(configs['default_host'])
     web_password = configs['key_code']
     wc.validate_configs(configs)
     win = GridWindow()
