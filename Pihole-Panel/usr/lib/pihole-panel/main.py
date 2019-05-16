@@ -40,7 +40,6 @@ class GridWindow(Gtk.Window):
         self.top_queries_frame = self.draw_top_queries_frame()
         self.top_ads_frame = self.draw_top_ads_frame()
         self.updates_frame = self.draw_updates_frame()
-        self.hosts_combo = self.draw_hosts_combo()
         self.fetch_data_and_update_display()    # Initial data fetch-and-display
 
         # Create a timer --> self.on_timer will be called periodically
@@ -108,24 +107,6 @@ class GridWindow(Gtk.Window):
         self.grid.attach(empty_label_2, 2, 3, 1, 1)
 
         return status_label, button1
-
-    def draw_hosts_combo(self):
-        
-        name_store = Gtk.ListStore(int, str)
-        name_store.append([1, "Billy Bob"])
-        name_store.append([11, "Billy Bob Junior"])
-        name_store.append([12, "Sue Bob"])
-        name_store.append([2, "Joey Jojo"])
-        name_store.append([3, "Rob McRoberts"])
-        name_store.append([31, "Xavier McRoberts"])
-
-        hosts_combo = Gtk.ComboBox.new_with_model_and_entry(name_store)
-        hosts_combo.set_entry_text_column(1)
-        hosts_combo.set_active(3)
-
-        hosts_combo.connect("changed", self.on_hosts_combo_changed)
-
-        self.grid.attach(hosts_combo, 1, 2, 1, 1)
 
     def draw_statistics_frame(self):
         frame_vert = Gtk.Frame(label='Statistics')
@@ -332,11 +313,6 @@ class GridWindow(Gtk.Window):
         table_box.pack_start(second_column_box, True, True, 0)
 
         return table_box
-
-    def on_hosts_combo_changed(self, combo):
-        text = combo.get_active()
-        if text is not None:
-            print("Selected: host=%s" % text)
 
 # This function makes the keys in the dictionary human-readable
 
