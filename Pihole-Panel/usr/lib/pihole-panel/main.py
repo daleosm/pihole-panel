@@ -84,7 +84,7 @@ class GridWindow(Gtk.Window):
         self.update_top_queries_frame(top_queries_dict)
         self.update_top_ads_frame(top_ads_dict)
 
-    # Following 4 functions draw the elements of the window (labels, buttons and 3 frames for statistics, top queries and top ads)
+    # Following 6 functions draw the elements of the window (labels, combobox, buttons and 3 frames for statistics, top queries and top ads)
 
     def draw_status_elements(self):
         button1 = Gtk.Switch(halign=Gtk.Align.CENTER)
@@ -127,6 +127,7 @@ class GridWindow(Gtk.Window):
         hosts_combo.connect("changed", self.on_hosts_combo_changed)
 
         self.grid.attach(hosts_combo, 1, 2, 1, 1)
+        return hosts_combo
 
     def draw_statistics_frame(self):
         frame_vert = Gtk.Frame(label='Statistics')
