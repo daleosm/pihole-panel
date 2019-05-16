@@ -108,6 +108,29 @@ class GridWindow(Gtk.Window):
 
         return status_label, button1
 
+<<<<<<< HEAD
+    def draw_hosts_combo(self):
+        
+        name_store = Gtk.ListStore(int, str)
+        name_store.append([1, "Billy Bob"])
+        name_store.append([11, "Billy Bob Junior"])
+        name_store.append([12, "Sue Bob"])
+        name_store.append([2, "Joey Jojo"])
+        name_store.append([3, "Rob McRoberts"])
+        name_store.append([31, "Xavier McRoberts"])
+
+        hosts_combo = Gtk.ComboBox.new_with_model_and_entry(name_store)
+        hosts_combo.set_entry_text_column(default_host)
+        hosts_combo.set_active(3)
+
+        hosts_combo.connect("changed", self.on_hosts_combo_changed)
+
+        self.grid.attach(hosts_combo, 1, 2, 1, 1)
+
+        return hosts_combo
+
+=======
+>>>>>>> 2bcb7c4458fa1cacb22beb72ccba0e8b335262b2
     def draw_statistics_frame(self):
         frame_vert = Gtk.Frame(label='Statistics')
         frame_vert.set_border_width(10)
@@ -330,6 +353,7 @@ if wc.is_config_file_exist(config_directory, config_filename) == True:
     configs = wc.load_configs(config_directory, config_filename)
 
     base_url = configs['ip_address']
+    default_host = int(configs['default_host'])
     web_password = configs['key_code']
     wc.validate_configs(configs)
     win = GridWindow()
