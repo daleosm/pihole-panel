@@ -50,6 +50,11 @@ class GridWindow(Gtk.Window):
     # This function is called periodically
 
     def on_timer(self):
+
+        text = hosts_combo.get_active()
+        if text is not None:
+            print("Selected: host=%s" % text)
+
         self.fetch_data_and_update_display()
         return True
 
@@ -120,6 +125,7 @@ class GridWindow(Gtk.Window):
         name_store.append([3, "Rob McRoberts"])
         name_store.append([31, "Xavier McRoberts"])
 
+        global hosts_combo
         hosts_combo = Gtk.ComboBox.new_with_model_and_entry(name_store)
         hosts_combo.set_entry_text_column(1)
         hosts_combo.set_active(3)
