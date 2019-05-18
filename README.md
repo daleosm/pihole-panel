@@ -19,7 +19,7 @@ PiHole-Panel 1.8
 - Fixed handling of when Pi-hole host is down
 - Fixed update notification
 
-Upcoming features:
+## Upcoming features
   - Ability to use multiple Pi-hole hosts
   - Live tracking of DNS requests
 
