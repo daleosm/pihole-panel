@@ -6,6 +6,7 @@
 
 Includes compliant desktop entry.
 
+## Changelog
 PiHole-Panel 2.0
 - Changes to API now require 3 second update interval
 
