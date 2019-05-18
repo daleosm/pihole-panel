@@ -152,9 +152,13 @@ class AssistantApp:
             if len(element_list) > 0:
                 configs['key_code'] = element_list[0].text
 
-            element_list = xml_root.findall("./default_host")
+            element_list = xml_root.findall("./2nd_host")
             if len(element_list) > 0:
-                configs['default_host'] = element_list[0].text
+                configs['2nd_host'] = element_list[0].text
+
+            element_list = xml_root.findall("./3rd_host")
+            if len(element_list) > 0:
+                configs['3rd_host'] = element_list[0].text
 
         return configs
 
