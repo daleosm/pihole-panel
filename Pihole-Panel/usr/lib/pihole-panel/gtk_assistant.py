@@ -1,7 +1,7 @@
 # Application: PiHole-Panel
 # Author: Dale Osm (https://github.com/daleosm/)
 # GNU GENERAL PUBLIC LICENSE
-#
+##
 import xml.etree.ElementTree as ET
 from pathlib import Path
 from gi.repository import Gtk
