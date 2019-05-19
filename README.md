@@ -25,9 +25,6 @@ PiHole-Panel 1.8
 
 ## Install/Update
 ```
-sudo apt install python3-gi
-```
-```
 cd ~/Downloads
 sudo dpkg -i PiHole-Panel-latest.deb
 ```
