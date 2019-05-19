@@ -1,7 +1,10 @@
 # Application: PiHole-Panel
 # Author: Dale Osm (https://github.com/daleosm/)
 # GNU GENERAL PUBLIC LICENSE
-#
+##
+import xml.etree.ElementTree as ET
+from pathlib import Path
+from gi.repository import Gtk
 import os
 import gi
 import json
@@ -9,11 +12,6 @@ import hashlib
 import urllib.request
 import urllib.error
 gi.require_version('Gtk', '3.0')
-
-
-from gi.repository import Gtk
-from pathlib import Path
-import xml.etree.ElementTree as ET
 
 
 # Configuration variables of the app
@@ -102,12 +100,12 @@ class AssistantApp:
         url = ip_address + "api.php?enable&auth=" + key_code
 
         try:
-            results = urllib.request.urlopen(url, timeout=5).read()
-                
+            urllib.request.urlopen(url, timeout=5).read()
+
         except urllib.error.URLError as e:
             dialog = Gtk.MessageDialog(self.assistant, 0, Gtk.MessageType.ERROR,
-                        Gtk.ButtonsType.CANCEL, "Invalid combination of Pi Address and Password")
-            
+                                       Gtk.ButtonsType.CANCEL, "Invalid combination of Pi Address and Password")
+
             dialog.connect("response", lambda *a: dialog.destroy())
             dialog.set_position(Gtk.WindowPosition.CENTER)
             dialog.run()
@@ -116,14 +114,14 @@ class AssistantApp:
 
         except urllib.error.HTTPError as e:
             dialog = Gtk.MessageDialog(self.assistant, 0, Gtk.MessageType.ERROR,
-                        Gtk.ButtonsType.CANCEL, "Invalid combination of Pi Address and Password")
-            
+                                       Gtk.ButtonsType.CANCEL, "Invalid combination of Pi Address and Password")
+
             dialog.connect("response", lambda *a: dialog.destroy())
             dialog.set_position(Gtk.WindowPosition.CENTER)
             dialog.run()
 
             return False
-    
+
         else:
             return True
 
@@ -154,6 +152,14 @@ class AssistantApp:
             if len(element_list) > 0:
                 configs['key_code'] = element_list[0].text
 
+            element_list = xml_root.findall("./2nd_host")
+            if len(element_list) > 0:
+                configs['2nd_host'] = element_list[0].text
+
+            element_list = xml_root.findall("./3rd_host")
+            if len(element_list) > 0:
+                configs['3rd_host'] = element_list[0].text
+
         return configs
 
     def check_configs_and_get_page_num(self, configs):
@@ -173,7 +179,7 @@ class AssistantApp:
         ip_address_entry = Gtk.Entry()
         ip_address_entry.set_text("http://pi.hole/admin/")
         ip_address_box.pack_start(ip_address_entry, False, False, 4)
-        
+
         if 'ip_address' in configs:
             ip_address_entry.set_text(configs['ip_address'])
 
