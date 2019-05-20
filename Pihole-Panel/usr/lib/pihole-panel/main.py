@@ -2,16 +2,19 @@
 # Author: Dale Osm (https://github.com/daleosm/)
 # GNU GENERAL PUBLIC LICENSE
 # PIPELINE TEST
+from pathlib import Path
+from urllib.request import urlopen  # tidy
+from gi.repository import Gtk, GLib
+from gi.repository import GLib as glib
+from gtk_assistant import AssistantApp
 import json
 import gi
+import sys
+import os
+import urllib.request
+import urllib.error
 
 gi.require_version('Gtk', '3.0')
-
-from gtk_assistant import AssistantApp
-from gi.repository import GLib as glib
-from gi.repository import Gtk, GLib
-from urllib.request import urlopen
-from pathlib import Path
 
 
 # AssistantApp window class
@@ -30,7 +33,7 @@ class GridWindow(Gtk.Window):
 
     def __init__(self):
         Gtk.Window.__init__(self, title="PiHole Panel")
-
+        self.assistant = Gtk.Assistant()
         grid = Gtk.Grid(margin=4)
         grid.set_column_homogeneous(True)
         self.add(grid)
@@ -43,7 +46,8 @@ class GridWindow(Gtk.Window):
         self.top_ads_frame = self.draw_top_ads_frame()
         self.updates_frame = self.draw_updates_frame()
         self.hosts_combo = self.draw_hosts_combo()
-        self.fetch_data_and_update_display()    # Initial data fetch-and-display
+        # Initial data fetch-and-display
+        self.fetch_data_and_update_display("http://pi.hole/admin/")
 
         # Create a timer --> self.on_timer will be called periodically
 
@@ -51,7 +55,39 @@ class GridWindow(Gtk.Window):
 
     def on_timer(self):
         # This function is called periodically
-        self.fetch_data_and_update_display()
+        print("Timer running...")
+
+        text = hosts_combo.get_active()
+        index = hosts_combo.get_active()
+        model = hosts_combo.get_model()
+        item = model[index]
+
+        try:
+            urllib.request.urlopen(item[1], timeout=5).read()
+
+        except urllib.error.URLError as e:
+            dialog = Gtk.MessageDialog(self.assistant, 0, Gtk.MessageType.ERROR,
+                                       Gtk.ButtonsType.CANCEL, "Invalid combination of Pi Address and Password")
+
+            dialog.connect("response", lambda *a: dialog.destroy())
+            dialog.set_position(Gtk.WindowPosition.CENTER)
+            dialog.run()
+            restart_program()
+            return False
+
+        except urllib.error.HTTPError as e:
+            dialog = Gtk.MessageDialog(self.assistant, 0, Gtk.MessageType.ERROR,
+                                       Gtk.ButtonsType.CANCEL, "Invalid combination of Pi Address and Password")
+
+            dialog.connect("response", lambda *a: dialog.destroy())
+            dialog.set_position(Gtk.WindowPosition.CENTER)
+            dialog.run()
+            restart_program()
+            return False
+
+        else:
+            self.fetch_data_and_update_display(item[1])
+
         return True
 
     def version_check(self):
@@ -67,16 +103,16 @@ class GridWindow(Gtk.Window):
         else:
             return False
 
-    def fetch_data_and_update_display(self):
+    def fetch_data_and_update_display(self, host_url):
         # Fetch required data from the Pi-Hole API, and update the window elements using responses received
 
         # Fetch data
 
-        status, statistics_dict = self.get_status_and_statistics(base_url)
+        status, statistics_dict = self.get_status_and_statistics(host_url)
         readable_statistics_dict = make_dictionary_keys_readable(
             statistics_dict)
         top_queries_dict, top_ads_dict = self.get_top_items(
-            base_url, web_password)
+            host_url, web_password)
 
         # Update frames
 
@@ -114,17 +150,15 @@ class GridWindow(Gtk.Window):
     def draw_hosts_combo(self):
 
         name_store = Gtk.ListStore(int, str)
-        name_store.append([1, "Billy Bob"])
-        name_store.append([11, "Billy Bob Junior"])
-        name_store.append([12, "Sue Bob"])
-        name_store.append([2, "Joey Jojo"])
-        name_store.append([3, "Rob McRoberts"])
-        name_store.append([31, "Xavier McRoberts"])
+        name_store.append([1, "http://pi.hole/admin/"])
+        name_store.append([2, "http://pi2.hole/admin/"])
+        name_store.append([3, "http://broken.hole/admin/"])
 
         global hosts_combo
+
         hosts_combo = Gtk.ComboBox.new_with_model_and_entry(name_store)
         hosts_combo.set_entry_text_column(1)
-        hosts_combo.set_active(3)
+        hosts_combo.set_active(1)
 
         hosts_combo.connect("changed", self.on_hosts_combo_changed)
 
@@ -345,6 +379,14 @@ class GridWindow(Gtk.Window):
 
         if text is not None:
             print("Selected: host=%s" % item[1])
+
+
+def restart_program():
+    """Restarts the current program.
+    Note: this function does not return. Any cleanup action (like
+    saving data) must be done before calling this function."""
+    python = sys.executable
+    os.execl(python, python, * sys.argv)
 
 # This function makes the keys in the dictionary human-readable
 
