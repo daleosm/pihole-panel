@@ -4,7 +4,7 @@
 ![](https://raw.githubusercontent.com/daleosm/PiHole-Panel/master/setup.png)
 ![](https://raw.githubusercontent.com/daleosm/PiHole-Panel/master/setup_done.png)
 
-Includes compliant desktop entry. (Icon belongs to https://github.com/pi-hole/pi-hole)
+Includes compliant desktop entry. (Icon belongs to https://github.com/pi-hole)
 
 ## Changelog
 PiHole-Panel 2.0
