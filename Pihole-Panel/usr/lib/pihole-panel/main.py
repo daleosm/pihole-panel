@@ -49,14 +49,8 @@ class GridWindow(Gtk.Window):
 
         glib.timeout_add_seconds(update_interval_seconds, self.on_timer)
 
-    # This function is called periodically
-
     def on_timer(self):
-
-        text = hosts_combo.get_active()
-        if text is not None:
-            print("Selected: host=%s" % text)
-
+        # This function is called periodically
         self.fetch_data_and_update_display()
         return True
 
@@ -345,8 +339,12 @@ class GridWindow(Gtk.Window):
 
     def on_hosts_combo_changed(self, combo):
         text = combo.get_active()
+        index = combo.get_active()
+        model = combo.get_model()
+        item = model[index]
+
         if text is not None:
-            print("Selected: host=%s" % text)
+            print("Selected: host=%s" % item[1])
 
 # This function makes the keys in the dictionary human-readable
 
