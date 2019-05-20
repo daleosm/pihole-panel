@@ -2,15 +2,17 @@
 # Author: Dale Osm (https://github.com/daleosm/)
 # GNU GENERAL PUBLIC LICENSE
 # PIPELINE TEST
+import json
+import gi
+
+gi.require_version('Gtk', '3.0')
+
 from gtk_assistant import AssistantApp
 from gi.repository import GLib as glib
 from gi.repository import Gtk, GLib
-import json
 from urllib.request import urlopen
 from pathlib import Path
 
-import gi
-gi.require_version('Gtk', '3.0')
 
 # AssistantApp window class
 
