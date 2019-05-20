@@ -6,6 +6,7 @@
 
 Includes compliant desktop entry.
 
+## Changelog
 PiHole-Panel 2.0
 - Changes to API now require 3 second update interval
 
@@ -18,14 +19,11 @@ PiHole-Panel 1.8
 - Fixed handling of when Pi-hole host is down
 - Fixed update notification
 
-Upcoming features:
+## Upcoming features
   - Ability to use multiple Pi-hole hosts
   - Live tracking of DNS requests
 
 ## Install/Update
-```
-sudo apt install python3-gi
-```
 ```
 cd ~/Downloads
 sudo dpkg -i PiHole-Panel-latest.deb
