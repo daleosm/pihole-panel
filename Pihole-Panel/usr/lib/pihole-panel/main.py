@@ -4,7 +4,7 @@
 # PIPELINE TEST
 from pathlib import Path
 from urllib.request import urlopen  # tidy
-from gi.repository import Gtk, GLib
+from gi.repository import Gtk, GLib, Gio
 from gi.repository import GLib as glib
 from gtk_assistant import AssistantApp
 import json
@@ -45,6 +45,7 @@ class GridWindow(Gtk.Window):
         self.top_queries_frame = self.draw_top_queries_frame()
         self.top_ads_frame = self.draw_top_ads_frame()
         self.updates_frame = self.draw_updates_frame()
+        self.header_bar = self.draw_header_bar()
         self.hosts_combo = self.draw_hosts_combo()
         # Initial data fetch-and-display
         self.fetch_data_and_update_display("http://pi.hole/admin/")
@@ -146,6 +147,20 @@ class GridWindow(Gtk.Window):
         self.grid.attach(empty_label_2, 2, 3, 1, 1)
 
         return status_label, button1
+
+    def draw_header_bar(self):
+        
+        hb = Gtk.HeaderBar()
+        hb.set_show_close_button(True)
+        self.set_titlebar(hb)
+
+        button = Gtk.Button()
+        icon = Gio.ThemedIcon(name="open-menu-symbolic")
+        image = Gtk.Image.new_from_gicon(icon, Gtk.IconSize.BUTTON)
+        button.add(image)
+        hb.pack_end(button)
+
+        return button
 
     def draw_hosts_combo(self):
 
