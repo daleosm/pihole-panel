@@ -148,6 +148,17 @@ class GridWindow(Gtk.Window):
 
         return status_label, button1
 
+    def open_sub_window(self, button):
+        self.popup = Gtk.Window()
+        vbox = Gtk.VBox()
+        self.popup.add(vbox)
+        self.popup.set_size_request(500,100)
+        self.label = Gtk.Label("Settings...")
+        vbox.pack_start(self.label, True, True, 0)
+        
+        self.popup.show_all()
+
+
     def draw_header_bar(self):
         
         hb = Gtk.HeaderBar()
@@ -160,6 +171,8 @@ class GridWindow(Gtk.Window):
         button.add(image)
         hb.pack_end(button)
 
+        button.connect("clicked", self.open_sub_window)
+        
         return button
 
     def draw_hosts_combo(self):
