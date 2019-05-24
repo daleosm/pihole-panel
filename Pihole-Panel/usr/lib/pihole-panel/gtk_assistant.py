@@ -5,12 +5,15 @@
 import xml.etree.ElementTree as ET
 from pathlib import Path
 from gi.repository import Gtk
+
+import urllib.request
+import urllib.error
+
 import os
 import gi
 import json
 import hashlib
-import urllib.request
-import urllib.error
+
 gi.require_version('Gtk', '3.0')
 
 
