@@ -7,12 +7,15 @@ from urllib.request import urlopen  # tidy
 from gi.repository import Gtk, GLib, Gio
 from gi.repository import GLib as glib
 from gtk_assistant import AssistantApp
+
+import urllib.request
+import urllib.error
+
 import json
 import gi
 import sys
 import os
-import urllib.request
-import urllib.error
+
 
 gi.require_version('Gtk', '3.0')
 
