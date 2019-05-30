@@ -90,9 +90,13 @@ class GridWindow(Gtk.Window):
             return False
 
         else:
-            self.fetch_data_and_update_display(item[1])
 
-        return True
+           # if item[0] == 1:
+           #      self.fetch_data_and_update_display(item[1], web_password)
+           # else:
+           #      self.fetch_data_and_update_display(item[1], configs[item[1] + "_host_key"])
+
+            return True
 
     def version_check(self):
         # Fetch version number from GitHub repo
@@ -155,15 +159,14 @@ class GridWindow(Gtk.Window):
         self.popup = Gtk.Window()
         vbox = Gtk.VBox()
         self.popup.add(vbox)
-        self.popup.set_size_request(500,100)
+        self.popup.set_size_request(500, 100)
         self.label = Gtk.Label("Settings...")
         vbox.pack_start(self.label, True, True, 0)
-        
+
         self.popup.show_all()
 
-
     def draw_header_bar(self):
-        
+
         hb = Gtk.HeaderBar()
         hb.set_show_close_button(True)
         self.set_titlebar(hb)
@@ -175,7 +178,7 @@ class GridWindow(Gtk.Window):
         hb.pack_end(button)
 
         button.connect("clicked", self.open_sub_window)
-        
+
         return button
 
     def draw_hosts_combo(self):
