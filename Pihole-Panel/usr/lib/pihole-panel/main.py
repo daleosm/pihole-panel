@@ -90,12 +90,13 @@ class GridWindow(Gtk.Window):
             return False
 
         else:
+            # Decide what host id has been selected
             if item[0] == 1:
-                self.fetch_data_and_update_display(item[1], web_password)
+                self.fetch_data_and_update_display(base_url, web_password)
             if item[0] == 2:
-                self.fetch_data_and_update_display(item[1], configs["two_key_code"])
+                self.fetch_data_and_update_display(configs["two_ip_address"], configs["two_key_code"])
             if item[0] == 3:
-                self.fetch_data_and_update_display(item[1], configs["three_key_code"])
+                self.fetch_data_and_update_display(configs["three_ip_address"], configs["three_key_code"])
            
             return True
 
@@ -158,11 +159,24 @@ class GridWindow(Gtk.Window):
 
     def open_sub_window(self, button):
         self.popup = Gtk.Window()
-        vbox = Gtk.VBox()
-        self.popup.add(vbox)
+        page_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
+        self.popup.add(page_box)
         self.popup.set_size_request(500, 100)
-        self.label = Gtk.Label("Settings...")
-        vbox.pack_start(self.label, True, True, 0)
+
+        # Create IP Address box
+
+        ip_address_box = Gtk.HBox(homogeneous=False, spacing=12)
+
+        ip_address_label = Gtk.Label(label='Pi Address:  ')
+        ip_address_box.pack_start(ip_address_label, False, False, 12)
+
+        ip_address_entry = Gtk.Entry()
+        ip_address_entry.set_text("http://pi.hole/admin/")
+        ip_address_box.pack_start(ip_address_entry, False, False, 4)
+  
+        # Pack IP Address box
+        page_box.pack_start(ip_address_box, False, False, 0)
+
 
         self.popup.show_all()
 
