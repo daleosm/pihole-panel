@@ -51,7 +51,7 @@ class GridWindow(Gtk.Window):
         self.header_bar = self.draw_header_bar()
         self.hosts_combo = self.draw_hosts_combo()
         # Initial data fetch-and-display
-        self.fetch_data_and_update_display("http://pi.hole/admin/")
+        self.fetch_data_and_update_display("http://pi.hole/admin/", web_password)
 
         # Create a timer --> self.on_timer will be called periodically
 
@@ -90,12 +90,13 @@ class GridWindow(Gtk.Window):
             return False
 
         else:
-
-           # if item[0] == 1:
-           #      self.fetch_data_and_update_display(item[1], web_password)
-           # else:
-           #      self.fetch_data_and_update_display(item[1], configs[item[1] + "_host_key"])
-
+            if item[0] == 1:
+                self.fetch_data_and_update_display(item[1], web_password)
+            if item[0] == 2:
+                self.fetch_data_and_update_display(item[1], configs["two_key_code"])
+            if item[0] == 3:
+                self.fetch_data_and_update_display(item[1], configs["three_key_code"])
+           
             return True
 
     def version_check(self):
@@ -111,7 +112,7 @@ class GridWindow(Gtk.Window):
         else:
             return False
 
-    def fetch_data_and_update_display(self, host_url):
+    def fetch_data_and_update_display(self, host_url, web_password):
         # Fetch required data from the Pi-Hole API, and update the window elements using responses received
 
         # Fetch data
