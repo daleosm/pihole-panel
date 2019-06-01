@@ -18,7 +18,7 @@ import sys
 import os
 
 
-gi.require_version('Gtk', '3.0')
+gi.require_version("Gtk", "3.0")
 
 
 # AssistantApp window class
@@ -52,7 +52,8 @@ class GridWindow(Gtk.Window):
         self.header_bar = self.draw_header_bar()
         self.hosts_combo = self.draw_hosts_combo()
         # Initial data fetch-and-display
-        self.fetch_data_and_update_display("http://pi.hole/admin/", web_password)
+        self.fetch_data_and_update_display(
+            "http://pi.hole/admin/", web_password)
 
         # Create a timer --> self.on_timer will be called periodically
 
@@ -95,19 +96,21 @@ class GridWindow(Gtk.Window):
             if item[0] == 1:
                 self.fetch_data_and_update_display(base_url, web_password)
             if item[0] == 2:
-                self.fetch_data_and_update_display(configs["two_ip_address"], configs["two_key_code"])
+                self.fetch_data_and_update_display(
+                    configs["two_ip_address"], configs["two_key_code"])
             if item[0] == 3:
-                self.fetch_data_and_update_display(configs["three_ip_address"], configs["three_key_code"])
-           
+                self.fetch_data_and_update_display(
+                    configs["three_ip_address"], configs["three_key_code"])
+
             return True
 
     def version_check(self):
         # Fetch version number from GitHub repo
 
         get_version = urlopen(
-            'https://raw.githubusercontent.com/daleosm/PiHole-Panel/master/VERSION').read()
-        version_decoded = get_version.decode('utf-8')
-        latest_version = version_decoded.strip('\n')
+            "https://raw.githubusercontent.com/daleosm/PiHole-Panel/master/VERSION").read()
+        version_decoded = get_version.decode("utf-8")
+        latest_version = version_decoded.strip("\n")
 
         if latest_version > version_number:
             return True
@@ -139,7 +142,7 @@ class GridWindow(Gtk.Window):
         button1.connect("notify::active", self.on_status_switch_activated)
 
         status_label = Gtk.Label(halign=Gtk.Align.END)
-        status_label.set_markup("<b>%s</b>" % 'Status:')
+        status_label.set_markup("<b>%s</b>" % "Status:")
 
         box = Gtk.Box(spacing=3)
         box.pack_start(status_label, True, True, 4)
@@ -147,13 +150,13 @@ class GridWindow(Gtk.Window):
 
         # To add space between elements
 
-        empty_label_1 = Gtk.Label(label='', margin=1)
+        empty_label_1 = Gtk.Label(label="", margin=1)
         self.grid.attach(empty_label_1, 2, 1, 1, 1)
         self.grid.attach(box, 2, 2, 1, 1)
 
         # To add space between elements
 
-        empty_label_2 = Gtk.Label(label='', margin=1)
+        empty_label_2 = Gtk.Label(label="", margin=1)
         self.grid.attach(empty_label_2, 2, 3, 1, 1)
 
         return status_label, button1
@@ -168,26 +171,26 @@ class GridWindow(Gtk.Window):
 
         ip_address_box = Gtk.HBox(homogeneous=False, spacing=12)
 
-        ip_address_label = Gtk.Label(label='Pi Address:  ')
+        ip_address_label = Gtk.Label(label="Pi Address:  ")
         ip_address_box.pack_start(ip_address_label, False, False, 12)
 
         ip_address_entry = Gtk.Entry()
         ip_address_entry.set_text(configs["ip_address"])
         ip_address_box.pack_start(ip_address_entry, False, False, 4)
-  
+
         # Pack IP Address box
         page_box.pack_start(ip_address_box, False, False, 0)
 
         # Create 2IP Address box
         two_ip_address_box = Gtk.HBox(homogeneous=False, spacing=12)
 
-        ip_address_label = Gtk.Label(label='2nd Pi Address:  ')
+        ip_address_label = Gtk.Label(label="2nd Pi Address:  ")
         two_ip_address_box.pack_start(ip_address_label, False, False, 12)
 
         two_ip_address_entry = Gtk.Entry()
         two_ip_address_entry.set_text(configs["two_ip_address"])
         two_ip_address_box.pack_start(two_ip_address_entry, False, False, 4)
-  
+
         # Pack 2IP Address box
         page_box.pack_start(two_ip_address_box, False, False, 0)
 
@@ -195,8 +198,8 @@ class GridWindow(Gtk.Window):
         button_box = Gtk.HBox(homogeneous=False, spacing=12)
         button = Gtk.Button.new_with_label("Save")
 
-
-        button.connect("clicked", self.on_settings_save, configs, ip_address_entry, two_ip_address_entry)
+        button.connect("clicked", self.on_settings_save, configs,
+                       ip_address_entry, two_ip_address_entry)
         button_box.pack_end(button, False, False, 4)
 
         # Pack save button box
@@ -206,9 +209,9 @@ class GridWindow(Gtk.Window):
 
     def on_settings_save(self, button, configs2, ip_address_entry, two_ip_address_entry):
 
-        configs["ip_address"] =  ip_address_entry.get_text()
+        configs["ip_address"] = ip_address_entry.get_text()
         configs["two_ip_address"] = two_ip_address_entry.get_text()
-        
+
         result = wc.validate_configs(configs)
 
         if result:
@@ -234,10 +237,10 @@ class GridWindow(Gtk.Window):
 
         name_store = Gtk.ListStore(int, str)
         name_store.append([1, configs["ip_address"]])
-        if 'two_ip_address' in configs:
+        if "two_ip_address" in configs:
             name_store.append([2, configs["two_ip_address"]])
 
-        if 'three_ip_address' in configs:
+        if "three_ip_address" in configs:
             name_store.append([3, configs["three_ip_address"]])
 
         global hosts_combo
@@ -252,7 +255,7 @@ class GridWindow(Gtk.Window):
         return hosts_combo
 
     def draw_statistics_frame(self):
-        frame_vert = Gtk.Frame(label='Statistics')
+        frame_vert = Gtk.Frame(label="Statistics")
         frame_vert.set_border_width(10)
         frame_vert.table_box = None
 
@@ -260,7 +263,7 @@ class GridWindow(Gtk.Window):
         return frame_vert
 
     def draw_top_queries_frame(self):
-        frame_vert = Gtk.Frame(label='Top Queries')
+        frame_vert = Gtk.Frame(label="Top Queries")
         frame_vert.set_border_width(10)
         frame_vert.table_box = None
 
@@ -268,7 +271,7 @@ class GridWindow(Gtk.Window):
         return frame_vert
 
     def draw_top_ads_frame(self):
-        frame_vert = Gtk.Frame(label='Top Ads')
+        frame_vert = Gtk.Frame(label="Top Ads")
         frame_vert.set_border_width(10)
         frame_vert.table_box = None
 
@@ -345,26 +348,26 @@ class GridWindow(Gtk.Window):
         result = urlopen(url, timeout=15).read()
         json_obj = json.loads(result)
 
-        status = str(json_obj['status'])
-        del json_obj['status']  # We only want the statistics
+        status = str(json_obj["status"])
+        del json_obj["status"]  # We only want the statistics
 
-        if 'gravity_last_updated' in json_obj:
-            del json_obj['gravity_last_updated']  # This needs more work
+        if "gravity_last_updated" in json_obj:
+            del json_obj["gravity_last_updated"]  # This needs more work
 
-        if 'dns_queries_all_types' in json_obj:
-            del json_obj['dns_queries_all_types']  # Useless
+        if "dns_queries_all_types" in json_obj:
+            del json_obj["dns_queries_all_types"]  # Useless
 
-        if 'reply_NODATA' in json_obj:
-            del json_obj['reply_NODATA']  # Useless
+        if "reply_NODATA" in json_obj:
+            del json_obj["reply_NODATA"]  # Useless
 
-        if 'reply_NXDOMAIN' in json_obj:
-            del json_obj['reply_NXDOMAIN']  # Useless
+        if "reply_NXDOMAIN" in json_obj:
+            del json_obj["reply_NXDOMAIN"]  # Useless
 
-        if 'reply_CNAME' in json_obj:
-            del json_obj['reply_CNAME']  # Useless
+        if "reply_CNAME" in json_obj:
+            del json_obj["reply_CNAME"]  # Useless
 
-        if 'reply_IP' in json_obj:
-            del json_obj['reply_IP']  # Useless
+        if "reply_IP" in json_obj:
+            del json_obj["reply_IP"]  # Useless
 
         return status, json_obj
 
@@ -373,8 +376,8 @@ class GridWindow(Gtk.Window):
         results = urlopen(url, timeout=15).read()
         json_obj = json.loads(results)
 
-        top_queries_dict = json_obj['top_queries']
-        top_ads_dict = json_obj['top_ads']
+        top_queries_dict = json_obj["top_queries"]
+        top_ads_dict = json_obj["top_ads"]
 
         return top_queries_dict, top_ads_dict
 
@@ -382,7 +385,7 @@ class GridWindow(Gtk.Window):
 
         # Frame to contain the wrapper box
 
-        frame_vert = Gtk.Frame(label='Top Ads')
+        frame_vert = Gtk.Frame(label="Top Ads")
         frame_vert.set_border_width(10)
 
         if top_ads_dict:
@@ -407,15 +410,15 @@ class GridWindow(Gtk.Window):
         url = base_url + "api.php?enable&auth=" + web_password
         results = urlopen(url, timeout=15).read()
         json_obj = json.loads(results)
-        return json_obj['status']
+        return json_obj["status"]
 
     def send_disable_request(self):
         url = base_url + "api.php?disable&auth=" + web_password
         results = urlopen(url, timeout=15).read()
         json_obj = json.loads(results)
-        return json_obj['status']
+        return json_obj["status"]
 
-    # This function creates a box that contains data in the 'items_dict' arranged as a 2-column table
+    # This function creates a box that contains data in the "items_dict" arranged as a 2-column table
 
     def create_table_box(self, left_heading, right_heading, items_dict):
 
@@ -425,7 +428,7 @@ class GridWindow(Gtk.Window):
             orientation=Gtk.Orientation.VERTICAL, spacing=0)
         first_col_heading_label = Gtk.Label(margin=4, halign=Gtk.Align.START)
         first_col_heading_label.set_markup(
-            '<u>' + left_heading + '</u>')   # Column heading label
+            "<u>" + left_heading + "</u>")   # Column heading label
         first_column_box.pack_start(first_col_heading_label, False, False, 4)
 
         # Second column box
@@ -434,13 +437,13 @@ class GridWindow(Gtk.Window):
             orientation=Gtk.Orientation.VERTICAL, spacing=0)
         second_col_label = Gtk.Label(margin=4, halign=Gtk.Align.END)
         second_col_label.set_markup(
-            '<u>' + right_heading + '</u>')  # Column heading label
+            "<u>" + right_heading + "</u>")  # Column heading label
         second_column_box.pack_start(second_col_label, False, False, 4)
 
         # Add rows to the two two columns
 
         for first, second in items_dict.items():
-            info = (first[:36] + '..') if len(first) > 36 else first
+            info = (first[:36] + "..") if len(first) > 36 else first
             first_col_label = Gtk.Label(
                 label=str(info), margin=4, halign=Gtk.Align.START)
             first_column_box.pack_start(first_col_label, False, False, 0)
@@ -481,9 +484,9 @@ def make_dictionary_keys_readable(dict):
     new_dict = {}
     for key, val in dict.items():
         # Replace underscores with spaces and convert to Title Case
-        new_key = key.replace('_', ' ').title()
+        new_key = key.replace("_", " ").title()
         new_dict[new_key] = val
-        # print('{} --> {}'.format(key, new_key))
+        # print("{} --> {}".format(key, new_key))
 
     return new_dict
 
@@ -491,8 +494,8 @@ def make_dictionary_keys_readable(dict):
 if wc.is_config_file_exist(config_directory, config_filename) == True:
     configs = wc.load_configs(config_directory, config_filename)
 
-    base_url = configs['ip_address']
-    web_password = configs['key_code']
+    base_url = configs["ip_address"]
+    web_password = configs["key_code"]
     wc.validate_configs(configs)
     win = GridWindow()
     win.set_icon_from_file("/usr/lib/pihole-panel/pihole-panel.png")
