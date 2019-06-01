@@ -89,10 +89,8 @@ class AssistantApp:
 
         # Multiple hosts entrys
         configs["two_ip_address"] = ""
-        configs["three_ip_address"] = ""
         configs["two_key_code"] = ""
-        configs["three_key_code"] = ""
-
+        
         result = self.validate_configs(configs)
 
         if result:
@@ -168,14 +166,6 @@ class AssistantApp:
             element_list = xml_root.findall("./two_key_code")
             if len(element_list) > 0:
                 configs["two_key_code"] = element_list[0].text
-
-            element_list = xml_root.findall("./three_ip_address")
-            if len(element_list) > 0:
-                configs["three_ip_address"] = element_list[0].text
-
-            element_list = xml_root.findall("./three_key_code")
-            if len(element_list) > 0:
-                configs["three_key_code"] = element_list[0].text
 
         return configs
 

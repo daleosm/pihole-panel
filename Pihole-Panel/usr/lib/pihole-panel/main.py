@@ -99,9 +99,6 @@ class GridWindow(Gtk.Window):
             if item[0] == 2:
                 self.fetch_data_and_update_display(
                     configs["two_ip_address"], configs["two_key_code"])
-            if item[0] == 3:
-                self.fetch_data_and_update_display(
-                    configs["three_ip_address"], configs["three_key_code"])
 
             return True
 
@@ -172,68 +169,96 @@ class GridWindow(Gtk.Window):
 
         ip_address_box = Gtk.HBox(homogeneous=False, spacing=12)
 
-        ip_address_label = Gtk.Label(label="Pi Address:  ")
-        ip_address_box.pack_start(ip_address_label, False, False, 12)
+        ip_address_label = Gtk.Label(label="Pi Address:               ")
+        ip_address_box.pack_start(ip_address_label, False, False, 6)
 
         ip_address_entry = Gtk.Entry()
         ip_address_entry.set_text(configs["ip_address"])
-        ip_address_box.pack_start(ip_address_entry, False, False, 4)
+        ip_address_box.pack_start(ip_address_entry, False, False, 6)
 
         # Pack IP Address box
-        page_box.pack_start(ip_address_box, False, False, 0)
+        page_box.pack_start(ip_address_box, False, False, 6)
 
         # Create key code box
 
         key_code_box = Gtk.HBox(homogeneous=False, spacing=12)
 
-        key_code_label = Gtk.Label(label="Pi Keycode:  ")
-        key_code_box.pack_start(key_code_label, False, False, 12)
+        key_code_label = Gtk.Label(label="Pi Keycode:               ")
+        key_code_box.pack_start(key_code_label, False, False, 6)
 
         key_code_entry = Gtk.Entry()
         key_code_entry.set_text(configs["key_code"])
-        key_code_box.pack_start(key_code_entry, False, False, 4)
+        key_code_box.pack_start(key_code_entry, False, False, 6)
 
         # Pack key code box
-        page_box.pack_start(key_code_box, False, False, 0)
+        page_box.pack_start(key_code_box, False, False, 6)
 
         # Create 2IP Address box
         two_ip_address_box = Gtk.HBox(homogeneous=False, spacing=12)
 
-        ip_address_label = Gtk.Label(label="2nd Pi Address:  ")
-        two_ip_address_box.pack_start(ip_address_label, False, False, 12)
+        ip_address_label = Gtk.Label(label="Two Pi Address:      ")
+        two_ip_address_box.pack_start(ip_address_label, False, False, 6)
 
         two_ip_address_entry = Gtk.Entry()
 
-        if configs["two_ip_address"]:
-            two_ip_address_entry.set_text(configs["two_ip_address"])
+        if "two_ip_address" in configs:
+            if configs["two_ip_address"] == "":
+                two_ip_address_entry.set_text(configs["two_ip_address"])
 
-        two_ip_address_box.pack_start(two_ip_address_entry, False, False, 4)
+        two_ip_address_box.pack_start(two_ip_address_entry, False, False, 6)
 
         # Pack 2IP Address box
-        page_box.pack_start(two_ip_address_box, False, False, 0)
+        page_box.pack_start(two_ip_address_box, False, False, 6)
+
+        # Create key code box
+
+        two_key_code_box = Gtk.HBox(homogeneous=False, spacing=6)
+
+        two_key_code_label = Gtk.Label(label="Two Pi Keycode:        ")
+        two_key_code_box.pack_start(two_key_code_label, False, False, 6)
+
+        two_key_code_entry = Gtk.Entry()
+
+        if "two_key_code" in configs:
+                if configs["two_key_code"] == "":
+                    two_key_code_entry.set_text(configs["two_key_code"])
+
+        two_key_code_box.pack_start(two_key_code_entry, False, False, 6)
+
+        # Pack key code box
+        page_box.pack_start(two_key_code_box, False, False, 6)
 
         # Create save button box
         button_box = Gtk.HBox(homogeneous=False, spacing=12)
         button = Gtk.Button.new_with_label("Save")
 
-        button.connect("clicked", self.on_settings_save, configs,
-                       ip_address_entry, key_code_entry, two_ip_address_entry)
+        button.connect("clicked", self.on_settings_save,
+                       ip_address_entry, key_code_entry, two_ip_address_entry, two_key_code_entry)
         button_box.pack_end(button, False, False, 4)
 
         # Pack save button box
-        page_box.pack_start(button_box, False, False, 4)
+        page_box.pack_start(button_box, False, False, 12)
 
         self.popup.show_all()
 
-    def on_settings_save(self, button, configs2, ip_address_entry, key_code, two_ip_address_entry):
+    def on_settings_save(self, button, ip_address_entry, key_code_entry, two_ip_address_entry, two_key_code_entry):
 
         configs["ip_address"] = ip_address_entry.get_text()
         configs["two_ip_address"] = two_ip_address_entry.get_text()
 
+        configs["key_code"] = key_code_entry.get_text()
+        configs["two_key_code"] = two_key_code_entry.get_text()
+
+        configs["key_code"] = hashlib.sha256(
+           configs["key_code"].encode("utf-8")).hexdigest()
         configs["key_code"] = hashlib.sha256(
             configs["key_code"].encode("utf-8")).hexdigest()
-        configs["key_code"] = hashlib.sha256(
-            configs["key_code"].encode("utf-8")).hexdigest()
+
+        if "two_key_code" in configs != "":
+            configs["two_key_code"] = hashlib.sha256(
+                configs["two_key_code"].encode("utf-8")).hexdigest()
+            configs["two_key_code"] = hashlib.sha256(
+                configs["two_key_code"].encode("utf-8")).hexdigest()
 
         result = wc.validate_configs(configs)
 
@@ -262,8 +287,9 @@ class GridWindow(Gtk.Window):
 
         name_store = Gtk.ListStore(int, str)
         name_store.append([1, configs["ip_address"]])
-        name_store.append([2, configs["two_ip_address"]])
-        name_store.append([3, configs["three_ip_address"]])
+
+        if "two_ip_address" in configs:
+            name_store.append([2, configs["two_ip_address"]])
 
         global hosts_combo
 
