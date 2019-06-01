@@ -87,6 +87,12 @@ class AssistantApp:
         configs["key_code"] = hashlib.sha256(
             configs["key_code"].encode("utf-8")).hexdigest()
 
+        # Multiple hosts entrys
+        configs["two_ip_address"] = ""
+        configs["three_ip_address"] = ""
+        configs["two_key_code"] = ""
+        configs["three_key_code"] = ""
+
         result = self.validate_configs(configs)
 
         if result:

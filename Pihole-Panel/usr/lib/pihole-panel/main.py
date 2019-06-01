@@ -16,6 +16,7 @@ import json
 import gi
 import sys
 import os
+import hashlib
 
 
 gi.require_version("Gtk", "3.0")
@@ -181,6 +182,20 @@ class GridWindow(Gtk.Window):
         # Pack IP Address box
         page_box.pack_start(ip_address_box, False, False, 0)
 
+        # Create key code box
+
+        key_code_box = Gtk.HBox(homogeneous=False, spacing=12)
+
+        key_code_label = Gtk.Label(label="Pi Keycode:  ")
+        key_code_box.pack_start(key_code_label, False, False, 12)
+
+        key_code_entry = Gtk.Entry()
+        key_code_entry.set_text(configs["key_code"])
+        key_code_box.pack_start(key_code_entry, False, False, 4)
+
+        # Pack key code box
+        page_box.pack_start(key_code_box, False, False, 0)
+
         # Create 2IP Address box
         two_ip_address_box = Gtk.HBox(homogeneous=False, spacing=12)
 
@@ -188,7 +203,10 @@ class GridWindow(Gtk.Window):
         two_ip_address_box.pack_start(ip_address_label, False, False, 12)
 
         two_ip_address_entry = Gtk.Entry()
-        two_ip_address_entry.set_text(configs["two_ip_address"])
+
+        if configs["two_ip_address"]:
+            two_ip_address_entry.set_text(configs["two_ip_address"])
+
         two_ip_address_box.pack_start(two_ip_address_entry, False, False, 4)
 
         # Pack 2IP Address box
@@ -199,7 +217,7 @@ class GridWindow(Gtk.Window):
         button = Gtk.Button.new_with_label("Save")
 
         button.connect("clicked", self.on_settings_save, configs,
-                       ip_address_entry, two_ip_address_entry)
+                       ip_address_entry, key_code_entry, two_ip_address_entry)
         button_box.pack_end(button, False, False, 4)
 
         # Pack save button box
@@ -207,15 +225,22 @@ class GridWindow(Gtk.Window):
 
         self.popup.show_all()
 
-    def on_settings_save(self, button, configs2, ip_address_entry, two_ip_address_entry):
+    def on_settings_save(self, button, configs2, ip_address_entry, key_code, two_ip_address_entry):
 
         configs["ip_address"] = ip_address_entry.get_text()
         configs["two_ip_address"] = two_ip_address_entry.get_text()
+
+        configs["key_code"] = hashlib.sha256(
+            configs["key_code"].encode("utf-8")).hexdigest()
+        configs["key_code"] = hashlib.sha256(
+            configs["key_code"].encode("utf-8")).hexdigest()
 
         result = wc.validate_configs(configs)
 
         if result:
             wc.save_configs(config_directory, config_filename, configs)
+
+        restart_program()
 
     def draw_header_bar(self):
 
@@ -237,11 +262,8 @@ class GridWindow(Gtk.Window):
 
         name_store = Gtk.ListStore(int, str)
         name_store.append([1, configs["ip_address"]])
-        if "two_ip_address" in configs:
-            name_store.append([2, configs["two_ip_address"]])
-
-        if "three_ip_address" in configs:
-            name_store.append([3, configs["three_ip_address"]])
+        name_store.append([2, configs["two_ip_address"]])
+        name_store.append([3, configs["three_ip_address"]])
 
         global hosts_combo
 
