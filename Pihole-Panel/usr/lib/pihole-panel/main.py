@@ -4,6 +4,7 @@
 # PIPELINE TEST
 from pathlib import Path
 from urllib.request import urlopen  # tidy
+import xml.etree.ElementTree as ET
 from gi.repository import Gtk, GLib, Gio
 from gi.repository import GLib as glib
 from gtk_assistant import AssistantApp
@@ -161,7 +162,7 @@ class GridWindow(Gtk.Window):
         self.popup = Gtk.Window()
         page_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
         self.popup.add(page_box)
-        self.popup.set_size_request(500, 100)
+        self.popup.set_size_request(100, 400)
 
         # Create IP Address box
 
@@ -171,14 +172,47 @@ class GridWindow(Gtk.Window):
         ip_address_box.pack_start(ip_address_label, False, False, 12)
 
         ip_address_entry = Gtk.Entry()
-        ip_address_entry.set_text("http://pi.hole/admin/")
+        ip_address_entry.set_text(configs["ip_address"])
         ip_address_box.pack_start(ip_address_entry, False, False, 4)
   
         # Pack IP Address box
         page_box.pack_start(ip_address_box, False, False, 0)
 
+        # Create 2IP Address box
+        two_ip_address_box = Gtk.HBox(homogeneous=False, spacing=12)
+
+        ip_address_label = Gtk.Label(label='2nd Pi Address:  ')
+        two_ip_address_box.pack_start(ip_address_label, False, False, 12)
+
+        two_ip_address_entry = Gtk.Entry()
+        two_ip_address_entry.set_text(configs["two_ip_address"])
+        two_ip_address_box.pack_start(two_ip_address_entry, False, False, 4)
+  
+        # Pack 2IP Address box
+        page_box.pack_start(two_ip_address_box, False, False, 0)
+
+        # Create save button box
+        button_box = Gtk.HBox(homogeneous=False, spacing=12)
+        button = Gtk.Button.new_with_label("Save")
+
+
+        button.connect("clicked", self.on_settings_save, configs, ip_address_entry, two_ip_address_entry)
+        button_box.pack_end(button, False, False, 4)
+
+        # Pack save button box
+        page_box.pack_start(button_box, False, False, 4)
 
         self.popup.show_all()
+
+    def on_settings_save(self, button, configs2, ip_address_entry, two_ip_address_entry):
+
+        configs["ip_address"] =  ip_address_entry.get_text()
+        configs["two_ip_address"] = two_ip_address_entry.get_text()
+        
+        result = wc.validate_configs(configs)
+
+        if result:
+            wc.save_configs(config_directory, config_filename, configs)
 
     def draw_header_bar(self):
 
@@ -199,15 +233,18 @@ class GridWindow(Gtk.Window):
     def draw_hosts_combo(self):
 
         name_store = Gtk.ListStore(int, str)
-        name_store.append([1, "http://pi.hole/admin/"])
-        name_store.append([2, "http://pi2.hole/admin/"])
-        name_store.append([3, "http://broken.hole/admin/"])
+        name_store.append([1, configs["ip_address"]])
+        if 'two_ip_address' in configs:
+            name_store.append([2, configs["two_ip_address"]])
+
+        if 'three_ip_address' in configs:
+            name_store.append([3, configs["three_ip_address"]])
 
         global hosts_combo
 
         hosts_combo = Gtk.ComboBox.new_with_model_and_entry(name_store)
         hosts_combo.set_entry_text_column(1)
-        hosts_combo.set_active(1)
+        hosts_combo.set_active(0)
 
         hosts_combo.connect("changed", self.on_hosts_combo_changed)
 
