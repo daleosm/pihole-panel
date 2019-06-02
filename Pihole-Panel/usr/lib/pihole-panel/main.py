@@ -268,48 +268,93 @@ class GridWindow(Gtk.Window):
         if two_key_code_entry.get_text() != configs["two_key_code"]:
             configs3["two_key_code"] = two_key_code_entry.get_text()
 
+            
             configs["two_key_code"] = hashlib.sha256(
                 configs3["two_key_code"].encode("utf-8")).hexdigest()
             configs["two_key_code"] = hashlib.sha256(
                 configs["two_key_code"].encode("utf-8")).hexdigest()
 
-            # Check updated settings for Pi1
-            url = configs["ip_address"] + "api.php?topItems&auth=" + configs["key_code"]
-            results = urllib.request.urlopen(url, timeout=15).read()
-            json_obj = json.loads(results)
+        # Check updated settings for Pi1
+        url = configs["ip_address"] + "api.php?topItems&auth=" + configs["key_code"]
+
+        try: 
+            urllib.request.urlopen(url, timeout=15).read()
+
+        except urllib.error.URLError as e:
+            dialog = Gtk.MessageDialog(self.assistant, 0, Gtk.MessageType.ERROR,
+                                    Gtk.ButtonsType.CANCEL, "Invalid combination of Pi Address and Password")
+
+            dialog.connect("response", lambda *a: dialog.destroy())
+            dialog.set_position(Gtk.WindowPosition.CENTER)
+            dialog.run()
+                
+            
+
+        except urllib.error.HTTPError as e:
+            dialog = Gtk.MessageDialog(self.assistant, 0, Gtk.MessageType.ERROR,
+                                       Gtk.ButtonsType.CANCEL, "Invalid combination of Pi Address and Password")
+
+            dialog.connect("response", lambda *a: dialog.destroy())
+            dialog.set_position(Gtk.WindowPosition.CENTER)
+            dialog.run()
+
+        results = urllib.request.urlopen(url, timeout=15).read()
+        json_obj = json.loads(results)
            
-            if "top_queries" not in json_obj:
-                dialog = Gtk.MessageDialog(self.assistant, 0, Gtk.MessageType.ERROR,
-                    Gtk.ButtonsType.CANCEL, "Invalid combination of Pi Address and Password")
+        if "top_queries" not in json_obj:
+            dialog = Gtk.MessageDialog(self.assistant, 0, Gtk.MessageType.ERROR,
+                Gtk.ButtonsType.CANCEL, "Invalid combination of Pi Address and Password")
 
-                dialog.connect("response", lambda *a: dialog.destroy())
-                dialog.set_position(Gtk.WindowPosition.CENTER)
-                dialog.run()
+            dialog.connect("response", lambda *a: dialog.destroy())
+            dialog.set_position(Gtk.WindowPosition.CENTER)
+            dialog.run()
 
-            result = wc.validate_configs(configs)
-
-            if result:
-                wc.save_configs(config_directory, config_filename, configs)
-
-            # Check updated settings for Pi2
+        # Check updated settings for Pi2
+        if two_ip_address_entry.get_text():
             url = configs["two_ip_address"] + "api.php?topItems&auth=" + configs["two_key_code"]
-            results = urllib.request.urlopen(url, timeout=15).read()
-            json_obj = json.loads(results)
-           
-            if "top_queries" not in json_obj:
+
+            try: 
+                urllib.request.urlopen(url, timeout=15).read()
+
+            except urllib.error.URLError as e:
                 dialog = Gtk.MessageDialog(self.assistant, 0, Gtk.MessageType.ERROR,
-                    Gtk.ButtonsType.CANCEL, "Invalid combination of Pi Address and Password")
+                                       Gtk.ButtonsType.CANCEL, "Invalid combination of Pi Address and Password")
 
                 dialog.connect("response", lambda *a: dialog.destroy())
                 dialog.set_position(Gtk.WindowPosition.CENTER)
                 dialog.run()
+                
+            
 
-            result = wc.validate_configs(configs)
+            except urllib.error.HTTPError as e:
+                dialog = Gtk.MessageDialog(self.assistant, 0, Gtk.MessageType.ERROR,
+                                       Gtk.ButtonsType.CANCEL, "Invalid combination of Pi Address and Password")
 
-            if result:
-                wc.save_configs(config_directory, config_filename, configs)
+                dialog.connect("response", lambda *a: dialog.destroy())
+                dialog.set_position(Gtk.WindowPosition.CENTER)
+                dialog.run()
+                
 
-        restart_program()
+            results = urllib.request.urlopen(url, timeout=15).read()
+            json_obj = json.loads(results)
+            
+            if "top_queries" not in json_obj:
+                    dialog = Gtk.MessageDialog(self.assistant, 0, Gtk.MessageType.ERROR,
+                        Gtk.ButtonsType.CANCEL, "Invalid combination of Pi Address and Password")
+
+                    dialog.connect("response", lambda *a: dialog.destroy())
+                    dialog.set_position(Gtk.WindowPosition.CENTER)
+                    dialog.run()
+        else:
+            if configs["two_ip_address"] == "":
+                configs["two_key_code"] = None
+
+        result = wc.validate_configs(configs)
+
+        if result:
+            wc.save_configs(config_directory, config_filename, configs)
+
+            restart_program()
 
     def draw_header_bar(self):
 
@@ -333,7 +378,8 @@ class GridWindow(Gtk.Window):
         name_store.append([1, configs["ip_address"]])
 
         if "two_ip_address" in configs:
-            name_store.append([2, configs["two_ip_address"]])
+            if configs["two_ip_address"] != None:
+                name_store.append([2, configs["two_ip_address"]])
 
         global hosts_combo
 
