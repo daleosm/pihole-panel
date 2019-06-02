@@ -127,6 +127,18 @@ class AssistantApp:
             dialog.set_position(Gtk.WindowPosition.CENTER)
             dialog.run()
 
+        url = ip_address + "api.php?topItems&auth=" + key_code
+        results = urllib.request.urlopen(url, timeout=15).read()
+        json_obj = json.loads(results)
+
+        if "top_queries" not in json_obj:
+            dialog = Gtk.MessageDialog(self.assistant, 0, Gtk.MessageType.ERROR,
+                Gtk.ButtonsType.CANCEL, "Invalid combination of Pi Address and Password")
+
+            dialog.connect("response", lambda *a: dialog.destroy())
+            dialog.set_position(Gtk.WindowPosition.CENTER)
+            dialog.run()
+
             return False
 
         else:
