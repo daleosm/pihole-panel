@@ -7,6 +7,9 @@
 Includes compliant desktop entry. (Icon belongs to https://github.com/pi-hole)
 
 ## Changelog
+PiHole-Panel 2.1
+- Complete and stable host-switching
+
 PiHole-Panel 2.0
 - Changes to API now require 3 second update interval
 
