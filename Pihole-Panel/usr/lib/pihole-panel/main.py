@@ -64,7 +64,6 @@ class GridWindow(Gtk.Window):
         # This function is called periodically
         print("Timer running...")
 
-        text = hosts_combo.get_active()
         index = hosts_combo.get_active()
         model = hosts_combo.get_model()
         item = model[index]
@@ -161,15 +160,16 @@ class GridWindow(Gtk.Window):
 
     def open_sub_window(self, button):
         self.popup = Gtk.Window()
+        self.popup.set_title("Settings")
         page_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
         self.popup.add(page_box)
-        self.popup.set_size_request(100, 300)
+        self.popup.set_size_request(100, 250)
 
         # Create IP Address box
 
         ip_address_box = Gtk.HBox(homogeneous=False, spacing=12)
 
-        ip_address_label = Gtk.Label(label="Pi Address:               ")
+        ip_address_label = Gtk.Label(label="Pi Address:                ")
         ip_address_box.pack_start(ip_address_label, False, False, 6)
 
         ip_address_entry = Gtk.Entry()
@@ -183,7 +183,7 @@ class GridWindow(Gtk.Window):
 
         key_code_box = Gtk.HBox(homogeneous=False, spacing=12)
 
-        key_code_label = Gtk.Label(label="Pi Password:            ")
+        key_code_label = Gtk.Label(label="Pi Password:             ")
         key_code_box.pack_start(key_code_label, False, False, 6)
 
         key_code_entry = Gtk.Entry()
@@ -244,11 +244,11 @@ class GridWindow(Gtk.Window):
     def on_settings_save(self, button, ip_address_entry, key_code_entry, two_ip_address_entry, two_key_code_entry):
 
         # Make sure config has new entries
-        if configs["two_ip_address"] is None:
+        if "two_ip_address" not in configs:
             configs["two_ip_address"] = ""
             wc.save_configs(config_directory, config_filename, configs)
 
-        if configs["two_key_code"] is None:
+        if "two_key_code" not in configs:
             configs["two_key_code"] = ""
             wc.save_configs(config_directory, config_filename, configs)
 
@@ -273,10 +273,41 @@ class GridWindow(Gtk.Window):
             configs["two_key_code"] = hashlib.sha256(
                 configs["two_key_code"].encode("utf-8")).hexdigest()
 
-        result = wc.validate_configs(configs)
+            # Check updated settings for Pi1
+            url = configs["ip_address"] + "api.php?topItems&auth=" + configs["key_code"]
+            results = urllib.request.urlopen(url, timeout=15).read()
+            json_obj = json.loads(results)
+           
+            if "top_queries" not in json_obj:
+                dialog = Gtk.MessageDialog(self.assistant, 0, Gtk.MessageType.ERROR,
+                    Gtk.ButtonsType.CANCEL, "Invalid combination of Pi Address and Password")
 
-        if result:
-            wc.save_configs(config_directory, config_filename, configs)
+                dialog.connect("response", lambda *a: dialog.destroy())
+                dialog.set_position(Gtk.WindowPosition.CENTER)
+                dialog.run()
+
+            result = wc.validate_configs(configs)
+
+            if result:
+                wc.save_configs(config_directory, config_filename, configs)
+
+            # Check updated settings for Pi2
+            url = configs["two_ip_address"] + "api.php?topItems&auth=" + configs["two_key_code"]
+            results = urllib.request.urlopen(url, timeout=15).read()
+            json_obj = json.loads(results)
+           
+            if "top_queries" not in json_obj:
+                dialog = Gtk.MessageDialog(self.assistant, 0, Gtk.MessageType.ERROR,
+                    Gtk.ButtonsType.CANCEL, "Invalid combination of Pi Address and Password")
+
+                dialog.connect("response", lambda *a: dialog.destroy())
+                dialog.set_position(Gtk.WindowPosition.CENTER)
+                dialog.run()
+
+            result = wc.validate_configs(configs)
+
+            if result:
+                wc.save_configs(config_directory, config_filename, configs)
 
         restart_program()
 
