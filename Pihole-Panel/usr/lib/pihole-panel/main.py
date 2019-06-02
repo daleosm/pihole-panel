@@ -163,7 +163,7 @@ class GridWindow(Gtk.Window):
         self.popup = Gtk.Window()
         page_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
         self.popup.add(page_box)
-        self.popup.set_size_request(100, 400)
+        self.popup.set_size_request(100, 300)
 
         # Create IP Address box
 
@@ -183,7 +183,7 @@ class GridWindow(Gtk.Window):
 
         key_code_box = Gtk.HBox(homogeneous=False, spacing=12)
 
-        key_code_label = Gtk.Label(label="Pi Keycode:               ")
+        key_code_label = Gtk.Label(label="Pi Password:            ")
         key_code_box.pack_start(key_code_label, False, False, 6)
 
         key_code_entry = Gtk.Entry()
@@ -202,7 +202,7 @@ class GridWindow(Gtk.Window):
         two_ip_address_entry = Gtk.Entry()
 
         if "two_ip_address" in configs:
-            if configs["two_ip_address"] == "":
+            if configs["two_ip_address"] is not None:
                 two_ip_address_entry.set_text(configs["two_ip_address"])
 
         two_ip_address_box.pack_start(two_ip_address_entry, False, False, 6)
@@ -214,14 +214,14 @@ class GridWindow(Gtk.Window):
 
         two_key_code_box = Gtk.HBox(homogeneous=False, spacing=6)
 
-        two_key_code_label = Gtk.Label(label="Two Pi Keycode:        ")
+        two_key_code_label = Gtk.Label(label="Two Pi Password:     ")
         two_key_code_box.pack_start(two_key_code_label, False, False, 6)
 
         two_key_code_entry = Gtk.Entry()
 
         if "two_key_code" in configs:
-                if configs["two_key_code"] == "":
-                    two_key_code_entry.set_text(configs["two_key_code"])
+            if configs["two_key_code"] is not None:
+                two_key_code_entry.set_text(configs["two_key_code"])
 
         two_key_code_box.pack_start(two_key_code_entry, False, False, 6)
 
@@ -243,20 +243,33 @@ class GridWindow(Gtk.Window):
 
     def on_settings_save(self, button, ip_address_entry, key_code_entry, two_ip_address_entry, two_key_code_entry):
 
+        # Make sure config has new entries
+        if configs["two_ip_address"] is None:
+            configs["two_ip_address"] = ""
+            wc.save_configs(config_directory, config_filename, configs)
+
+        if configs["two_key_code"] is None:
+            configs["two_key_code"] = ""
+            wc.save_configs(config_directory, config_filename, configs)
+
         configs["ip_address"] = ip_address_entry.get_text()
         configs["two_ip_address"] = two_ip_address_entry.get_text()
+        configs2 = {}
+        configs3 = {}
 
-        configs["key_code"] = key_code_entry.get_text()
-        configs["two_key_code"] = two_key_code_entry.get_text()
+        if key_code_entry.get_text() != configs["key_code"]:
+            configs2["key_code"] = key_code_entry.get_text()
 
-        configs["key_code"] = hashlib.sha256(
-           configs["key_code"].encode("utf-8")).hexdigest()
-        configs["key_code"] = hashlib.sha256(
-            configs["key_code"].encode("utf-8")).hexdigest()
+            configs["key_code"] = hashlib.sha256(
+                configs2["key_code"].encode("utf-8")).hexdigest()
+            configs["key_code"] = hashlib.sha256(
+                configs["key_code"].encode("utf-8")).hexdigest()
 
-        if "two_key_code" in configs != "":
+        if two_key_code_entry.get_text() != configs["two_key_code"]:
+            configs3["two_key_code"] = two_key_code_entry.get_text()
+
             configs["two_key_code"] = hashlib.sha256(
-                configs["two_key_code"].encode("utf-8")).hexdigest()
+                configs3["two_key_code"].encode("utf-8")).hexdigest()
             configs["two_key_code"] = hashlib.sha256(
                 configs["two_key_code"].encode("utf-8")).hexdigest()
 
