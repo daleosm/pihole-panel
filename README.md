@@ -3,6 +3,7 @@
 ![](https://raw.githubusercontent.com/daleosm/PiHole-Panel/master/main_window.png)
 ![](https://raw.githubusercontent.com/daleosm/PiHole-Panel/master/setup.png)
 ![](https://raw.githubusercontent.com/daleosm/PiHole-Panel/master/setup_done.png)
+![](https://raw.githubusercontent.com/daleosm/PiHole-Panel/master/settings.png)
 
 Includes compliant desktop entry. (Icon belongs to https://github.com/pi-hole)
 
