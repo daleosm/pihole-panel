@@ -159,6 +159,8 @@ class GridWindow(Gtk.Window):
         return status_label, button1
 
     def open_sub_window(self, button):
+        # This is the setttings menu
+
         self.popup = Gtk.Window()
         self.popup.set_title("Settings")
         page_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
@@ -187,6 +189,7 @@ class GridWindow(Gtk.Window):
         key_code_box.pack_start(key_code_label, False, False, 6)
 
         key_code_entry = Gtk.Entry()
+        key_code_entry.set_visibility(False)
         key_code_entry.set_text(configs["key_code"])
         key_code_box.pack_start(key_code_entry, False, False, 6)
 
@@ -218,6 +221,7 @@ class GridWindow(Gtk.Window):
         two_key_code_box.pack_start(two_key_code_label, False, False, 6)
 
         two_key_code_entry = Gtk.Entry()
+        two_key_code_entry.set_visibility(False)
 
         if "two_key_code" in configs:
             if configs["two_key_code"] is not None:
@@ -254,33 +258,34 @@ class GridWindow(Gtk.Window):
 
         configs["ip_address"] = ip_address_entry.get_text()
         configs["two_ip_address"] = two_ip_address_entry.get_text()
-        configs2 = {}
-        configs3 = {}
+        key_code_entry = {}
+        two_key_code_entry = {}
 
         if key_code_entry.get_text() != configs["key_code"]:
-            configs2["key_code"] = key_code_entry.get_text()
+            key_code_entry["key_code"] = key_code_entry.get_text()
 
             configs["key_code"] = hashlib.sha256(
-                configs2["key_code"].encode("utf-8")).hexdigest()
+                key_code_entry["key_code"].encode("utf-8")).hexdigest()
             configs["key_code"] = hashlib.sha256(
                 configs["key_code"].encode("utf-8")).hexdigest()
 
         if two_key_code_entry.get_text() != configs["two_key_code"]:
-            configs3["two_key_code"] = two_key_code_entry.get_text()
+            two_key_code_entry["two_key_code"] = two_key_code_entry.get_text()
 
             configs["two_key_code"] = hashlib.sha256(
-                configs3["two_key_code"].encode("utf-8")).hexdigest()
+                two_key_code_entry["two_key_code"].encode("utf-8")).hexdigest()
             configs["two_key_code"] = hashlib.sha256(
                 configs["two_key_code"].encode("utf-8")).hexdigest()
 
             # Check updated settings for Pi1
-            url = configs["ip_address"] + "api.php?topItems&auth=" + configs["key_code"]
+            url = configs["ip_address"] + \
+                "api.php?topItems&auth=" + configs["key_code"]
             results = urllib.request.urlopen(url, timeout=15).read()
             json_obj = json.loads(results)
-           
+
             if "top_queries" not in json_obj:
                 dialog = Gtk.MessageDialog(self.assistant, 0, Gtk.MessageType.ERROR,
-                    Gtk.ButtonsType.CANCEL, "Invalid combination of Pi Address and Password")
+                                           Gtk.ButtonsType.CANCEL, "Invalid combination of Pi Address and Password")
 
                 dialog.connect("response", lambda *a: dialog.destroy())
                 dialog.set_position(Gtk.WindowPosition.CENTER)
@@ -292,13 +297,14 @@ class GridWindow(Gtk.Window):
                 wc.save_configs(config_directory, config_filename, configs)
 
             # Check updated settings for Pi2
-            url = configs["two_ip_address"] + "api.php?topItems&auth=" + configs["two_key_code"]
+            url = configs["two_ip_address"] + \
+                "api.php?topItems&auth=" + configs["two_key_code"]
             results = urllib.request.urlopen(url, timeout=15).read()
             json_obj = json.loads(results)
-           
+
             if "top_queries" not in json_obj:
                 dialog = Gtk.MessageDialog(self.assistant, 0, Gtk.MessageType.ERROR,
-                    Gtk.ButtonsType.CANCEL, "Invalid combination of Pi Address and Password")
+                                           Gtk.ButtonsType.CANCEL, "Invalid combination of Pi Address and Password")
 
                 dialog.connect("response", lambda *a: dialog.destroy())
                 dialog.set_position(Gtk.WindowPosition.CENTER)
