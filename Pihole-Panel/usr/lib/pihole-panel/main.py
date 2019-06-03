@@ -54,7 +54,7 @@ class GridWindow(Gtk.Window):
         self.hosts_combo = self.draw_hosts_combo()
         # Initial data fetch-and-display
         self.fetch_data_and_update_display(
-            "http://pi.hole/admin/", web_password)
+            base_url, web_password)
 
         # Create a timer --> self.on_timer will be called periodically
 
