@@ -1,0 +1,3 @@
+Main.py
+Changelog
+VERSION file hosted from GitHub

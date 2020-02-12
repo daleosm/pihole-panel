@@ -1,0 +1,6 @@
+#!/bin/bash
+# Application: PiHole-Panel
+# Author: Dale Osm (https://github.com/daleosm/)
+# GNU GENERAL PUBLIC LICENSE
+#
+python3 "/usr/lib/pihole-panel/main.py" $@
