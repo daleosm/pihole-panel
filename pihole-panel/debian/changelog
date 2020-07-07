@@ -1,3 +1,10 @@
+
+pihole-panel (2.7) focal; urgency=low
+
+  * Set win resizable to false.
+  
+ -- Dale Osm <contact@daleosmond.com>  Fri, 4 Oct 2019 11:02:01 +0500
+
 pihole-panel (2.6) disco; urgency=low
 
   * Fixed alignment for settings items with some themes.
