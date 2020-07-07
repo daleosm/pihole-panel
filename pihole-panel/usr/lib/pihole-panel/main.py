@@ -599,6 +599,7 @@ if wc.is_config_file_exist(config_directory, config_filename):
     win.set_wmclass("PiHole Panel", "PiHole Panel")
     win.set_title("PiHole Panel")
     win.set_position(Gtk.WindowPosition.CENTER)
+    win.set_resizable(False)
     win.show_all()
 
 Gtk.main()
