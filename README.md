@@ -34,6 +34,12 @@ sudo apt remove pihole-panel
 ```
 
 ## Changelog
+PiHole-Panel 2.8
+-  Issue with reuploading to PPA.
+
+PiHole-Panel 2.7
+-  Set win resizable to false.
+
 PiHole-Panel 2.6
 -  Fixed alignment for settings items with some themes.
 
