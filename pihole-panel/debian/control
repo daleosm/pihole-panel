@@ -12,6 +12,4 @@ Package: pihole-panel
 Architecture: all
 Depends: python3-gi
 Description: Python/GTK3 based Pi-hole Dashboard for stats and more
- Connects to one or multiple Pi-hole hosts and reports statistics in real-time 
- and also allows you to use it as a control panel to control your Pi-hole hosts 
- sindependently.
+ Connects to one or multiple Pi-hole hosts and reports statistics in real-time and also allows you to use it as a control panel to control your Pi-hole hosts independently.
