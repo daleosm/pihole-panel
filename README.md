@@ -1,4 +1,4 @@
-# PiHole-Panel 2.6
+# PiHole-Panel
 Connects to one or multiple Pi-hole hosts and reports statistics in real-time and also allows you to use it as a control panel to control your Pi-hole hosts independently. 
 
 This program will run on your Pi or desktop computer that is running Raspian, Ubuntu, Pop_OS!, Debian etc...
