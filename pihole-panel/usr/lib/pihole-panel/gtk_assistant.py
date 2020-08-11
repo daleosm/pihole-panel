@@ -10,14 +10,13 @@ import gi
 import json
 import hashlib
 from pathlib import Path
-
 from gi.repository import Gtk
-
 
 gi.require_version("Gtk", "3.0")
 
-
+##################################################
 # Configuration variables of the app
+##################################################
 config_directory = str(Path.home()) + "/.config"
 config_filename = "pihole_panel_configs.xml"
 title = "PiHole Panel Assistant"
@@ -66,6 +65,7 @@ class AssistantApp:
 
         # Load main screen
         from main import GridWindow
+
         GridWindow()
 
     def on_prepare(self, assistant, page):
@@ -81,9 +81,11 @@ class AssistantApp:
 
         # Double to prevent rainbow attack
         configs["key_code"] = hashlib.sha256(
-            configs["key_code"].encode("utf-8")).hexdigest()
+            configs["key_code"].encode("utf-8")
+        ).hexdigest()
         configs["key_code"] = hashlib.sha256(
-            configs["key_code"].encode("utf-8")).hexdigest()
+            configs["key_code"].encode("utf-8")
+        ).hexdigest()
 
         # Multiple hosts entrys
         configs["two_ip_address"] = ""
@@ -108,8 +110,13 @@ class AssistantApp:
             urllib.request.urlopen(url, timeout=5).read()
 
         except urllib.error.URLError as e:
-            dialog = Gtk.MessageDialog(self.assistant, 0, Gtk.MessageType.ERROR,
-                                       Gtk.ButtonsType.CANCEL, "Invalid combination of Pi Address and Password")
+            dialog = Gtk.MessageDialog(
+                self.assistant,
+                0,
+                Gtk.MessageType.ERROR,
+                Gtk.ButtonsType.CANCEL,
+                "Invalid combination of Pi Address and Password",
+            )
 
             dialog.connect("response", lambda *a: dialog.destroy())
             dialog.set_position(Gtk.WindowPosition.CENTER)
@@ -118,8 +125,13 @@ class AssistantApp:
             return False
 
         except urllib.error.HTTPError as e:
-            dialog = Gtk.MessageDialog(self.assistant, 0, Gtk.MessageType.ERROR,
-                                       Gtk.ButtonsType.CANCEL, "Invalid combination of Pi Address and Password")
+            dialog = Gtk.MessageDialog(
+                self.assistant,
+                0,
+                Gtk.MessageType.ERROR,
+                Gtk.ButtonsType.CANCEL,
+                "Invalid combination of Pi Address and Password",
+            )
 
             dialog.connect("response", lambda *a: dialog.destroy())
             dialog.set_position(Gtk.WindowPosition.CENTER)
@@ -127,11 +139,16 @@ class AssistantApp:
 
         url = ip_address + "api.php?topItems&auth=" + key_code
         results = urllib.request.urlopen(url, timeout=15).read()
-        json_obj = json.loads(results.decode('utf-8'))
+        json_obj = json.loads(results.decode("utf-8"))
 
         if "top_queries" not in json_obj:
-            dialog = Gtk.MessageDialog(self.assistant, 0, Gtk.MessageType.ERROR,
-                                       Gtk.ButtonsType.CANCEL, "Invalid combination of Pi Address and Password")
+            dialog = Gtk.MessageDialog(
+                self.assistant,
+                0,
+                Gtk.MessageType.ERROR,
+                Gtk.ButtonsType.CANCEL,
+                "Invalid combination of Pi Address and Password",
+            )
 
             dialog.connect("response", lambda *a: dialog.destroy())
             dialog.set_position(Gtk.WindowPosition.CENTER)
@@ -203,9 +220,11 @@ class AssistantApp:
         key_code_explanation_box = Gtk.VBox(homogeneous=False, spacing=12)
         key_code_explanation_box.set_border_width(12)
         key_code_explanation_label = Gtk.Label(
-            label="Details for your Pi-hole admin console")
+            label="Details for your Pi-hole admin console"
+        )
         key_code_explanation_box.pack_start(
-            key_code_explanation_label, False, False, 12)
+            key_code_explanation_label, False, False, 12
+        )
 
         # Create Password box
         key_code_box = Gtk.HBox(homogeneous=False, spacing=12)
@@ -234,12 +253,14 @@ class AssistantApp:
         self.assistant.set_page_complete(page_box, True)
 
         pixbuf = self.assistant.render_icon(
-            Gtk.STOCK_DIALOG_INFO, Gtk.IconSize.DIALOG, None)
+            Gtk.STOCK_DIALOG_INFO, Gtk.IconSize.DIALOG, None
+        )
 
         self.assistant.set_page_header_image(page_box, pixbuf)
 
         self.assistant.set_forward_page_func(
-            self.on_page_one_next, ip_address_entry, key_code_entry)
+            self.on_page_one_next, ip_address_entry, key_code_entry
+        )
 
     def on_edit_setup_clicked(self, button):
         self.assistant.set_current_page(0)
@@ -269,7 +290,8 @@ class AssistantApp:
         self.assistant.set_page_type(page_box, Gtk.AssistantPageType.CONFIRM)
 
         pixbuf = self.assistant.render_icon(
-            Gtk.STOCK_DIALOG_INFO, Gtk.IconSize.DIALOG, None)
+            Gtk.STOCK_DIALOG_INFO, Gtk.IconSize.DIALOG, None
+        )
         self.assistant.set_page_header_image(page_box, pixbuf)
 
 

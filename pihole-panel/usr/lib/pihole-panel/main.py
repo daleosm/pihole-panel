@@ -12,17 +12,17 @@ import os
 import hashlib
 from pathlib import Path
 from urllib.request import urlopen
-
-from gi.repository import Gtk, Gio
-from gi.repository import GLib as glib
-
+from gi.repository import Gtk, Gio, GLib
 from gtk_assistant import AssistantApp
+
 gi.require_version("Gtk", "3.0")
 
-# AssistantApp window class
+# Reuse AssistantApp save/load
 wc = AssistantApp()
 
+##################################################
 # Configuration variables of the app
+##################################################
 update_interval_seconds = 3  # Time interval between updates
 version_number = "2.8"  # Change this on every release!
 config_directory = str(Path.home()) + "/.config"  # Directory of config file
@@ -30,7 +30,6 @@ config_filename = "pihole_panel_configs.xml"  # Filename of config file
 
 
 class GridWindow(Gtk.Window):
-
     def __init__(self):
         Gtk.Window.__init__(self)
         self.assistant = Gtk.Assistant()
@@ -48,11 +47,10 @@ class GridWindow(Gtk.Window):
         self.header_bar = self.draw_header_bar()
         self.hosts_combo = self.draw_hosts_combo()
         # Initial data fetch-and-display
-        self.fetch_data_and_update_display(
-            base_url, web_password)
+        self.fetch_data_and_update_display(base_url, web_password)
 
         # Create a timer --> self.on_timer will be called periodically
-        glib.timeout_add_seconds(update_interval_seconds, self.on_timer)
+        GLib.timeout_add_seconds(update_interval_seconds, self.on_timer)
 
     def on_timer(self):
         # This function is called periodically
@@ -67,8 +65,13 @@ class GridWindow(Gtk.Window):
             urlopen(item[1], timeout=5).read()
 
         except urllib.error.URLError as e:
-            dialog = Gtk.MessageDialog(self.assistant, 0, Gtk.MessageType.ERROR,
-                                       Gtk.ButtonsType.CANCEL, "Invalid combination of Pi Address and Password")
+            dialog = Gtk.MessageDialog(
+                self.assistant,
+                0,
+                Gtk.MessageType.ERROR,
+                Gtk.ButtonsType.CANCEL,
+                "Invalid combination of Pi Address and Password",
+            )
 
             dialog.connect("response", lambda *a: dialog.destroy())
             dialog.set_position(Gtk.WindowPosition.CENTER)
@@ -77,8 +80,13 @@ class GridWindow(Gtk.Window):
             return False
 
         except urllib.error.HTTPError as e:
-            dialog = Gtk.MessageDialog(self.assistant, 0, Gtk.MessageType.ERROR,
-                                       Gtk.ButtonsType.CANCEL, "Invalid combination of Pi Address and Password")
+            dialog = Gtk.MessageDialog(
+                self.assistant,
+                0,
+                Gtk.MessageType.ERROR,
+                Gtk.ButtonsType.CANCEL,
+                "Invalid combination of Pi Address and Password",
+            )
 
             dialog.connect("response", lambda *a: dialog.destroy())
             dialog.set_position(Gtk.WindowPosition.CENTER)
@@ -92,14 +100,16 @@ class GridWindow(Gtk.Window):
                 self.fetch_data_and_update_display(base_url, web_password)
             if item[0] == 2:
                 self.fetch_data_and_update_display(
-                    configs["two_ip_address"], configs["two_key_code"])
+                    configs["two_ip_address"], configs["two_key_code"]
+                )
 
             return True
 
     def version_check(self):
         # Fetch version number from GitHub repo
         get_version = urlopen(
-            "https://raw.githubusercontent.com/daleosm/PiHole-Panel/master/VERSION").read()
+            "https://raw.githubusercontent.com/daleosm/PiHole-Panel/master/VERSION"
+        ).read()
         version_decoded = get_version.decode("utf-8")
         latest_version = version_decoded.strip("\n")
 
@@ -111,10 +121,8 @@ class GridWindow(Gtk.Window):
     def fetch_data_and_update_display(self, host_url, web_password):
         # Fetch required data from the Pi-Hole API, and update the window elements using responses received
         status, statistics_dict = self.get_status_and_statistics(host_url)
-        readable_statistics_dict = make_dictionary_keys_readable(
-            statistics_dict)
-        top_queries_dict, top_ads_dict = self.get_top_items(
-            host_url, web_password)
+        readable_statistics_dict = make_dictionary_keys_readable(statistics_dict)
+        top_queries_dict, top_ads_dict = self.get_top_items(host_url, web_password)
 
         # Update frames
         self.update_status_elements(status)
@@ -226,8 +234,14 @@ class GridWindow(Gtk.Window):
         button_box = Gtk.HBox(homogeneous=False, spacing=12)
         button = Gtk.Button.new_with_label("Save")
 
-        button.connect("clicked", self.on_settings_save,
-                       ip_address_entry, key_code_entry, two_ip_address_entry, two_key_code_entry)
+        button.connect(
+            "clicked",
+            self.on_settings_save,
+            ip_address_entry,
+            key_code_entry,
+            two_ip_address_entry,
+            two_key_code_entry,
+        )
         button_box.pack_end(button, False, False, 4)
 
         # Pack save button box
@@ -299,8 +313,10 @@ class GridWindow(Gtk.Window):
 
         if self.version_check() is True:
             label = Gtk.Label()
-            label.set_markup("There is a new version <a href=\"https://github.com/daleosm/PiHole-Panel\" "
-                             "title=\"Click to find out more\">update available</a>.")
+            label.set_markup(
+                'There is a new version <a href="https://github.com/daleosm/PiHole-Panel" '
+                'title="Click to find out more">update available</a>.'
+            )
             label.set_line_wrap(True)
             label.set_justify(Gtk.Justification.FILL)
 
@@ -322,21 +338,19 @@ class GridWindow(Gtk.Window):
             # Destroy and remove current data table box
             self.statistics_frame.table_box.destroy()
         # Create new data table box with given values
-        table_box = self.create_table_box(
-            "Statistic", "Value", statistics_dict)
+        table_box = self.create_table_box("Statistic", "Value", statistics_dict)
         # Save so that it can be destroyed later
         self.statistics_frame.table_box = table_box
         self.statistics_frame.add(table_box)
 
-        table_box.show_all()    # Show the new data table box
+        table_box.show_all()  # Show the new data table box
 
     def update_top_queries_frame(self, top_queries_dict):
         if self.top_queries_frame.table_box:
             self.top_queries_frame.table_box.destroy()
 
         if top_queries_dict:
-            table_box = self.create_table_box(
-                "Domain", "Hits", top_queries_dict)
+            table_box = self.create_table_box("Domain", "Hits", top_queries_dict)
             # Save so that it can be destroyed later
             self.top_queries_frame.table_box = table_box
             self.top_queries_frame.add(table_box)
@@ -419,30 +433,32 @@ class GridWindow(Gtk.Window):
     # This could be useful in other projects
     def create_table_box(self, left_heading, right_heading, items_dict):
         # First column box
-        first_column_box = Gtk.Box(
-            orientation=Gtk.Orientation.VERTICAL, spacing=0)
+        first_column_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=0)
         first_col_heading_label = Gtk.Label(margin=4, halign=Gtk.Align.START)
         first_col_heading_label.set_markup(
-            "<u>" + left_heading + "</u>")   # Column heading label
+            "<u>" + left_heading + "</u>"
+        )  # Column heading label
         first_column_box.pack_start(first_col_heading_label, False, False, 4)
 
         # Second column box
-        second_column_box = Gtk.Box(
-            orientation=Gtk.Orientation.VERTICAL, spacing=0)
+        second_column_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=0)
         second_col_label = Gtk.Label(margin=4, halign=Gtk.Align.END)
         second_col_label.set_markup(
-            "<u>" + right_heading + "</u>")  # Column heading label
+            "<u>" + right_heading + "</u>"
+        )  # Column heading label
         second_column_box.pack_start(second_col_label, False, False, 4)
 
         # Add rows to the two two columns
         for first, second in items_dict.items():
             info = (first[:36] + "..") if len(first) > 36 else first
             first_col_label = Gtk.Label(
-                label=str(info), margin=4, halign=Gtk.Align.START)
+                label=str(info), margin=4, halign=Gtk.Align.START
+            )
             first_column_box.pack_start(first_col_label, False, False, 0)
 
             second_col_label = Gtk.Label(
-                label=str(second), margin=4, halign=Gtk.Align.END)
+                label=str(second), margin=4, halign=Gtk.Align.END
+            )
             second_column_box.pack_start(second_col_label, False, False, 0)
 
         # Include the two boxes in one wrapper box (table box)
@@ -452,7 +468,14 @@ class GridWindow(Gtk.Window):
 
         return table_box
 
-    def on_settings_save(self, button, ip_address_entry, key_code_entry, two_ip_address_entry, two_key_code_entry):
+    def on_settings_save(
+        self,
+        button,
+        ip_address_entry,
+        key_code_entry,
+        two_ip_address_entry,
+        two_key_code_entry,
+    ):
         # Make sure config has new entries
         if "two_ip_address" not in configs:
             configs["two_ip_address"] = ""
@@ -471,33 +494,46 @@ class GridWindow(Gtk.Window):
             configs2["key_code"] = key_code_entry.get_text()
 
             configs["key_code"] = hashlib.sha256(
-                configs2["key_code"].encode("utf-8")).hexdigest()
+                configs2["key_code"].encode("utf-8")
+            ).hexdigest()
             configs["key_code"] = hashlib.sha256(
-                configs["key_code"].encode("utf-8")).hexdigest()
+                configs["key_code"].encode("utf-8")
+            ).hexdigest()
 
         if two_key_code_entry.get_text() != configs["two_key_code"]:
             configs3["two_key_code"] = two_key_code_entry.get_text()
             configs["two_key_code"] = hashlib.sha256(
-                configs3["two_key_code"].encode("utf-8")).hexdigest()
+                configs3["two_key_code"].encode("utf-8")
+            ).hexdigest()
             configs["two_key_code"] = hashlib.sha256(
-                configs["two_key_code"].encode("utf-8")).hexdigest()
+                configs["two_key_code"].encode("utf-8")
+            ).hexdigest()
 
         # Check updated settings for Pi1
-        url = configs["ip_address"] + \
-            "api.php?topItems&auth=" + configs["key_code"]
+        url = configs["ip_address"] + "api.php?topItems&auth=" + configs["key_code"]
 
         try:
             urlopen(url, timeout=15).read()
         except urllib.error.URLError as e:
-            dialog = Gtk.MessageDialog(self.assistant, 0, Gtk.MessageType.ERROR,
-                                       Gtk.ButtonsType.CANCEL, "Invalid combination of Pi Address and Password")
+            dialog = Gtk.MessageDialog(
+                self.assistant,
+                0,
+                Gtk.MessageType.ERROR,
+                Gtk.ButtonsType.CANCEL,
+                "Invalid combination of Pi Address and Password",
+            )
 
             dialog.connect("response", lambda *a: dialog.destroy())
             dialog.set_position(Gtk.WindowPosition.CENTER)
             dialog.run()
         except urllib.error.HTTPError as e:
-            dialog = Gtk.MessageDialog(self.assistant, 0, Gtk.MessageType.ERROR,
-                                       Gtk.ButtonsType.CANCEL, "Invalid combination of Pi Address and Password")
+            dialog = Gtk.MessageDialog(
+                self.assistant,
+                0,
+                Gtk.MessageType.ERROR,
+                Gtk.ButtonsType.CANCEL,
+                "Invalid combination of Pi Address and Password",
+            )
 
             dialog.connect("response", lambda *a: dialog.destroy())
             dialog.set_position(Gtk.WindowPosition.CENTER)
@@ -506,8 +542,13 @@ class GridWindow(Gtk.Window):
         results = urlopen(url, timeout=15).read()
         json_obj = json.loads(results.decode())
         if "top_queries" not in json_obj:
-            dialog = Gtk.MessageDialog(self.assistant, 0, Gtk.MessageType.ERROR,
-                                       Gtk.ButtonsType.CANCEL, "Invalid combination of Pi Address and Password")
+            dialog = Gtk.MessageDialog(
+                self.assistant,
+                0,
+                Gtk.MessageType.ERROR,
+                Gtk.ButtonsType.CANCEL,
+                "Invalid combination of Pi Address and Password",
+            )
 
             dialog.connect("response", lambda *a: dialog.destroy())
             dialog.set_position(Gtk.WindowPosition.CENTER)
@@ -515,21 +556,34 @@ class GridWindow(Gtk.Window):
 
         # Check updated settings for Pi2
         if two_ip_address_entry.get_text():
-            url = configs["two_ip_address"] + \
-                "api.php?topItems&auth=" + configs["two_key_code"]
+            url = (
+                configs["two_ip_address"]
+                + "api.php?topItems&auth="
+                + configs["two_key_code"]
+            )
 
             try:
                 urlopen(url, timeout=15).read()
             except urllib.error.URLError as e:
-                dialog = Gtk.MessageDialog(self.assistant, 0, Gtk.MessageType.ERROR,
-                                           Gtk.ButtonsType.CANCEL, "Invalid combination of Pi Address and Password")
+                dialog = Gtk.MessageDialog(
+                    self.assistant,
+                    0,
+                    Gtk.MessageType.ERROR,
+                    Gtk.ButtonsType.CANCEL,
+                    "Invalid combination of Pi Address and Password",
+                )
 
                 dialog.connect("response", lambda *a: dialog.destroy())
                 dialog.set_position(Gtk.WindowPosition.CENTER)
                 dialog.run()
             except urllib.error.HTTPError as e:
-                dialog = Gtk.MessageDialog(self.assistant, 0, Gtk.MessageType.ERROR,
-                                           Gtk.ButtonsType.CANCEL, "Invalid combination of Pi Address and Password")
+                dialog = Gtk.MessageDialog(
+                    self.assistant,
+                    0,
+                    Gtk.MessageType.ERROR,
+                    Gtk.ButtonsType.CANCEL,
+                    "Invalid combination of Pi Address and Password",
+                )
 
                 dialog.connect("response", lambda *a: dialog.destroy())
                 dialog.set_position(Gtk.WindowPosition.CENTER)
@@ -537,8 +591,13 @@ class GridWindow(Gtk.Window):
             results = urlopen(url, timeout=15).read()
             json_obj = json.loads(results.decode())
             if "top_queries" not in json_obj:
-                dialog = Gtk.MessageDialog(self.assistant, 0, Gtk.MessageType.ERROR,
-                                           Gtk.ButtonsType.CANCEL, "Invalid combination of Pi Address and Password")
+                dialog = Gtk.MessageDialog(
+                    self.assistant,
+                    0,
+                    Gtk.MessageType.ERROR,
+                    Gtk.ButtonsType.CANCEL,
+                    "Invalid combination of Pi Address and Password",
+                )
 
                 dialog.connect("response", lambda *a: dialog.destroy())
                 dialog.set_position(Gtk.WindowPosition.CENTER)
@@ -569,7 +628,7 @@ def restart_program():
     Note: this function does not return. Any cleanup action (like
     saving data) must be done before calling this function."""
     python = sys.executable
-    os.execl(python, python, * sys.argv)
+    os.execl(python, python, *sys.argv)
 
 
 # This function makes the keys in the dictionary human-readable
