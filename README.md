@@ -3,7 +3,7 @@ Connects to one or multiple Pi-hole hosts and reports statistics in real-time an
 
 This program will run on your Pi or desktop computer that is running Raspian, Ubuntu, Pop_OS!, Debian etc...
 
-![](https://raw.githubusercontent.com/daleosm/PiHole-Panel/master/pihole-panel.png)
+![](pihole-panel.png)
 
 ## Install/Update
 ```
