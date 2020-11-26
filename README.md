@@ -34,14 +34,24 @@ sudo apt remove pihole-panel
 ```
 
 ## Changelog
-PiHole-Panel 2.8
--  Issue with reuploading to PPA.
+pihole-panel (2.8)
 
-PiHole-Panel 2.7
--  Set win resizable to false.
+  * Issue with reuploading to PPA
+ 
+pihole-panel (2.7)
 
-PiHole-Panel 2.6
--  Fixed alignment for settings items with some themes.
+  * Set main window resizable to false
 
-PiHole-Panel 2.5
-- Settings window is now centered.
+pihole-panel (2.6)
+
+  * Fixed alignment for settings items with some themes
+  
+  
+pihole-panel (2.5)
+
+  * Settings window is now centered
+
+pihole-panel (2.3)
+
+  * Settings window is now a fixed size
+  * Code and performance improvements
