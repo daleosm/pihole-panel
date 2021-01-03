@@ -1,2 +1,2 @@
-Update version in Main.py, Changelog, and VERSION file.
+Update version in main.py, changelog, and VERSION file.
 Replace pihole-panel-latest.deb
