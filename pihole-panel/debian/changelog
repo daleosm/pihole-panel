@@ -1,14 +1,8 @@
-pihole-panel (2.9) focal; urgency=low
+pihole-panel (3.0) focal; urgency=low
 
-  * Settings window is now homogeneous.
+  * Settings window is now homogeneous
   
  -- Dale Osmond <daleosmond@outlook.com>  Sun, 3 Jan 2021 16:34:56 +0500
- 
-pihole-panel (2.8) focal; urgency=low
-
-  * Issue with reuploading to PPA
-  
- -- Dale Osmond <daleosmond@outlook.com>  Mon, 3 Aug 2020 23:41:12 +0500
  
 pihole-panel (2.7) focal; urgency=low
 

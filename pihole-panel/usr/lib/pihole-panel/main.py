@@ -24,7 +24,7 @@ wc = AssistantApp()
 # Configuration variables of the app
 ##################################################
 update_interval_seconds = 3  # Time interval between updates
-version_number = "2.9"  # Change this on every release!
+version_number = "3.0"  # Change this on every release!
 config_directory = str(Path.home()) + "/.config"  # Directory of config file
 config_filename = "pihole_panel_configs.xml"  # Filename of config file
 
@@ -36,9 +36,7 @@ class GridWindow(Gtk.Window):
         grid = Gtk.Grid(margin=4)
         grid.set_column_homogeneous(True)
         self.add(grid)
-
         self.grid = grid
-
         self.status_label, self.status_button = self.draw_status_elements()
         self.statistics_frame = self.draw_statistics_frame()
         self.top_queries_frame = self.draw_top_queries_frame()
@@ -48,22 +46,18 @@ class GridWindow(Gtk.Window):
         self.hosts_combo = self.draw_hosts_combo()
         # Initial data fetch-and-display
         self.fetch_data_and_update_display(base_url, web_password)
-
         # Create a timer --> self.on_timer will be called periodically
         GLib.timeout_add_seconds(update_interval_seconds, self.on_timer)
 
     def on_timer(self):
         # This function is called periodically
         print("Timer running...")
-
         # Get actively selected host ID
         index = hosts_combo.get_active()
         model = hosts_combo.get_model()
         item = model[index]
-
         try:
             urlopen(item[1], timeout=5).read()
-
         except urllib.error.URLError as e:
             dialog = Gtk.MessageDialog(
                 self.assistant,
@@ -72,13 +66,11 @@ class GridWindow(Gtk.Window):
                 Gtk.ButtonsType.CANCEL,
                 "Invalid combination of Pi Address and Password",
             )
-
             dialog.connect("response", lambda *a: dialog.destroy())
             dialog.set_position(Gtk.WindowPosition.CENTER)
             dialog.run()
             restart_program()
             return False
-
         except urllib.error.HTTPError as e:
             dialog = Gtk.MessageDialog(
                 self.assistant,
@@ -87,13 +79,11 @@ class GridWindow(Gtk.Window):
                 Gtk.ButtonsType.CANCEL,
                 "Invalid combination of Pi Address and Password",
             )
-
             dialog.connect("response", lambda *a: dialog.destroy())
             dialog.set_position(Gtk.WindowPosition.CENTER)
             dialog.run()
             restart_program()
             return False
-
         else:
             # Decide what hostname has been selected
             if item[0] == 1:
@@ -102,7 +92,6 @@ class GridWindow(Gtk.Window):
                 self.fetch_data_and_update_display(
                     configs["two_ip_address"], configs["two_key_code"]
                 )
-
             return True
 
     def version_check(self):
@@ -112,7 +101,6 @@ class GridWindow(Gtk.Window):
         ).read()
         version_decoded = get_version.decode("utf-8")
         latest_version = version_decoded.strip("\n")
-
         if latest_version > version_number:
             return True
         else:
@@ -125,7 +113,6 @@ class GridWindow(Gtk.Window):
             statistics_dict)
         top_queries_dict, top_ads_dict = self.get_top_items(
             host_url, web_password)
-
         # Update frames
         self.update_status_elements(status)
         self.update_statistics_frame(readable_statistics_dict)
@@ -136,23 +123,18 @@ class GridWindow(Gtk.Window):
     def draw_status_elements(self):
         button1 = Gtk.Switch(halign=Gtk.Align.CENTER)
         button1.connect("notify::active", self.on_status_switch_activated)
-
         status_label = Gtk.Label(halign=Gtk.Align.END)
         status_label.set_markup("<b>%s</b>" % "Status:")
-
         box = Gtk.Box(spacing=3)
         box.pack_start(status_label, True, True, 4)
         box.pack_start(button1, True, True, 4)
-
         # To add space between elements
         empty_label_1 = Gtk.Label(label="", margin=1)
         self.grid.attach(empty_label_1, 2, 1, 1, 1)
         self.grid.attach(box, 2, 2, 1, 1)
-
         # To add space between elements
         empty_label_2 = Gtk.Label(label="", margin=1)
         self.grid.attach(empty_label_2, 2, 3, 1, 1)
-
         return status_label, button1
 
     def draw_sub_window(self, button):
@@ -163,76 +145,52 @@ class GridWindow(Gtk.Window):
         page_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=5)
         page_box.set_margin_top(5)
         self.popup.add(page_box)
-
         # Create IP Address box
         ip_address_box = Gtk.HBox(homogeneous=True, spacing=5)
-
         ip_address_label = Gtk.Label(label="Pi1 Address:")
         ip_address_label.set_justify(Gtk.Justification.LEFT)
         ip_address_box.pack_start(ip_address_label, True, False, 0)
-
         ip_address_entry = Gtk.Entry()
         ip_address_entry.set_text(configs["ip_address"])
         ip_address_box.pack_start(ip_address_entry, True, False, 5)
-
         # Pack IP Address box
         page_box.pack_start(ip_address_box, True, False, 0)
-
         # Create key code box
         key_code_box = Gtk.HBox(homogeneous=True, spacing=5)
-
         key_code_label = Gtk.Label(label="Pi1 Password:")
         key_code_box.pack_start(key_code_label, True, False, 0)
-
         key_code_entry = Gtk.Entry()
         key_code_entry.set_visibility(False)
-
         key_code_entry.set_text(configs["key_code"])
         key_code_box.pack_start(key_code_entry, True, False, 0)
-
         # Pack key code box
         page_box.pack_start(key_code_box, True, False, 5)
-
         # Create 2IP Address box
         two_ip_address_box = Gtk.HBox(homogeneous=False, spacing=5)
-
         two_ip_address_label = Gtk.Label(label="Pi2 Address")
         two_ip_address_box.pack_start(two_ip_address_label, True, False, 0)
-
         two_ip_address_entry = Gtk.Entry()
-
         if "two_ip_address" in configs:
             if configs["two_ip_address"] is not None:
                 two_ip_address_entry.set_text(configs["two_ip_address"])
-
         two_ip_address_box.pack_start(two_ip_address_entry, False, False, 5)
-
         # Pack 2IP Address box
         page_box.pack_start(two_ip_address_box, True, False, 0)
-
         # Create key code box
-
         two_key_code_box = Gtk.HBox(homogeneous=False, spacing=5)
-
         two_key_code_label = Gtk.Label(label="Pi2 Password:")
         two_key_code_box.pack_start(two_key_code_label, True, False, 0)
-
         two_key_code_entry = Gtk.Entry()
         two_key_code_entry.set_visibility(False)
-
         if "two_key_code" in configs:
             if configs["two_key_code"] is not None:
                 two_key_code_entry.set_text(configs["two_key_code"])
-
         two_key_code_box.pack_start(two_key_code_entry, False, False, 5)
-
         # Pack key code box
         page_box.pack_start(two_key_code_box, True, False, 5)
-
         # Create save button box
         button_box = Gtk.HBox(homogeneous=False, spacing=5)
         button = Gtk.Button.new_with_label("Save")
-
         button.connect(
             "clicked",
             self.on_settings_save,
@@ -242,45 +200,34 @@ class GridWindow(Gtk.Window):
             two_key_code_entry,
         )
         button_box.pack_end(button, False, False, 6)
-
         # Pack save button box
         page_box.pack_start(button_box, True, False, 6)
-
         self.popup.show_all()
 
     def draw_header_bar(self):
-
         hb = Gtk.HeaderBar()
         hb.set_show_close_button(True)
         self.set_titlebar(hb)
-
         button = Gtk.Button()
         icon = Gio.ThemedIcon(name="open-menu-symbolic")
         image = Gtk.Image.new_from_gicon(icon, Gtk.IconSize.BUTTON)
         button.add(image)
         hb.pack_end(button)
-
         button.connect("clicked", self.draw_sub_window)
-
         return button
 
     def draw_hosts_combo(self):
-
         name_store = Gtk.ListStore(int, str)
         name_store.append([1, configs["ip_address"]])
-
         if "two_ip_address" in configs:
             if configs["two_ip_address"] is not None:
                 name_store.append([2, configs["two_ip_address"]])
 
         global hosts_combo  # This is bad and should be removed at some point
-
         hosts_combo = Gtk.ComboBox.new_with_model_and_entry(name_store)
         hosts_combo.set_entry_text_column(1)
         hosts_combo.set_active(0)
-
         hosts_combo.connect("changed", self.on_hosts_combo_changed)
-
         self.grid.attach(hosts_combo, 1, 2, 1, 1)
         return hosts_combo
 
@@ -288,7 +235,6 @@ class GridWindow(Gtk.Window):
         frame_vert = Gtk.Frame(label="Statistics")
         frame_vert.set_border_width(10)
         frame_vert.table_box = None
-
         self.grid.attach(frame_vert, 0, 4, 1, 1)
         return frame_vert
 
@@ -296,7 +242,6 @@ class GridWindow(Gtk.Window):
         frame_vert = Gtk.Frame(label="Top Queries")
         frame_vert.set_border_width(10)
         frame_vert.table_box = None
-
         self.grid.attach(frame_vert, 1, 4, 1, 1)
         return frame_vert
 
@@ -304,12 +249,10 @@ class GridWindow(Gtk.Window):
         frame_vert = Gtk.Frame(label="Top Ads")
         frame_vert.set_border_width(10)
         frame_vert.table_box = None
-
         self.grid.attach(frame_vert, 2, 4, 1, 1)
         return frame_vert
 
     def draw_updates_frame(self):
-
         if self.version_check() is True:
             label = Gtk.Label()
             label.set_markup(
@@ -318,7 +261,6 @@ class GridWindow(Gtk.Window):
             )
             label.set_line_wrap(True)
             label.set_justify(Gtk.Justification.FILL)
-
             self.grid.attach(label, 2, 5, 1, 1)
             return label
 
@@ -342,13 +284,11 @@ class GridWindow(Gtk.Window):
         # Save so that it can be destroyed later
         self.statistics_frame.table_box = table_box
         self.statistics_frame.add(table_box)
-
         table_box.show_all()  # Show the new data table box
 
     def update_top_queries_frame(self, top_queries_dict):
         if self.top_queries_frame.table_box:
             self.top_queries_frame.table_box.destroy()
-
         if top_queries_dict:
             table_box = self.create_table_box(
                 "Domain", "Hits", top_queries_dict)
@@ -360,7 +300,6 @@ class GridWindow(Gtk.Window):
     def update_top_ads_frame(self, top_ads_dict):
         if self.top_ads_frame.table_box:
             self.top_ads_frame.table_box.destroy()
-
         if top_ads_dict:
             table_box = self.create_table_box("Domain", "Hits", top_ads_dict)
             # Save so that it can be destroyed later
@@ -370,42 +309,31 @@ class GridWindow(Gtk.Window):
 
     # Following 3 functions send requests to Pi-Hole API and return the response received
     def get_status_and_statistics(self, base_url):
-
         url = base_url + "api.php?summary"
         result = urlopen(url, timeout=15).read()
         json_obj = json.loads(result.decode())
-
         status = str(json_obj["status"])
         del json_obj["status"]  # We only want the statistics
-
         if "gravity_last_updated" in json_obj:
             del json_obj["gravity_last_updated"]  # This needs more work
-
         if "dns_queries_all_types" in json_obj:
             del json_obj["dns_queries_all_types"]  # Useless
-
         if "reply_NODATA" in json_obj:
             del json_obj["reply_NODATA"]  # Useless
-
         if "reply_NXDOMAIN" in json_obj:
             del json_obj["reply_NXDOMAIN"]  # Useless
-
         if "reply_CNAME" in json_obj:
             del json_obj["reply_CNAME"]  # Useless
-
         if "reply_IP" in json_obj:
             del json_obj["reply_IP"]  # Useless
-
         return status, json_obj
 
     def get_top_items(self, base_url, web_password):
         url = base_url + "api.php?topItems&auth=" + web_password
         results = urlopen(url, timeout=15).read()
         json_obj = json.loads(results.decode())
-
         top_queries_dict = json_obj["top_queries"]
         top_ads_dict = json_obj["top_ads"]
-
         return top_queries_dict, top_ads_dict
 
     # Function that runs when the status button is clicked
@@ -414,7 +342,6 @@ class GridWindow(Gtk.Window):
             status = self.send_enable_request()
         else:
             status = self.send_disable_request()
-
         self.update_status_elements(status)
 
     # Following 2 functions sends requests to Pi-Hole API to enable/ disable it
@@ -441,7 +368,6 @@ class GridWindow(Gtk.Window):
             "<u>" + left_heading + "</u>"
         )  # Column heading label
         first_column_box.pack_start(first_col_heading_label, False, False, 4)
-
         # Second column box
         second_column_box = Gtk.Box(
             orientation=Gtk.Orientation.VERTICAL, spacing=0)
@@ -450,7 +376,6 @@ class GridWindow(Gtk.Window):
             "<u>" + right_heading + "</u>"
         )  # Column heading label
         second_column_box.pack_start(second_col_label, False, False, 4)
-
         # Add rows to the two two columns
         for first, second in items_dict.items():
             info = (first[:36] + "..") if len(first) > 36 else first
@@ -463,12 +388,10 @@ class GridWindow(Gtk.Window):
                 label=str(second), margin=4, halign=Gtk.Align.END
             )
             second_column_box.pack_start(second_col_label, False, False, 0)
-
         # Include the two boxes in one wrapper box (table box)
         table_box = Gtk.Box(spacing=8)
         table_box.pack_start(first_column_box, True, True, 0)
         table_box.pack_start(second_column_box, True, True, 0)
-
         return table_box
 
     def on_settings_save(
@@ -483,16 +406,13 @@ class GridWindow(Gtk.Window):
         if "two_ip_address" not in configs:
             configs["two_ip_address"] = ""
             wc.save_configs(config_directory, config_filename, configs)
-
         if "two_key_code" not in configs:
             configs["two_key_code"] = ""
             wc.save_configs(config_directory, config_filename, configs)
-
         configs["ip_address"] = ip_address_entry.get_text()
         configs["two_ip_address"] = two_ip_address_entry.get_text()
         configs2 = {}
         configs3 = {}
-
         if key_code_entry.get_text() != configs["key_code"]:
             configs2["key_code"] = key_code_entry.get_text()
 
@@ -502,7 +422,6 @@ class GridWindow(Gtk.Window):
             configs["key_code"] = hashlib.sha256(
                 configs["key_code"].encode("utf-8")
             ).hexdigest()
-
         if two_key_code_entry.get_text() != configs["two_key_code"]:
             configs3["two_key_code"] = two_key_code_entry.get_text()
             configs["two_key_code"] = hashlib.sha256(
@@ -511,11 +430,9 @@ class GridWindow(Gtk.Window):
             configs["two_key_code"] = hashlib.sha256(
                 configs["two_key_code"].encode("utf-8")
             ).hexdigest()
-
         # Check updated settings for Pi1
         url = configs["ip_address"] + \
             "api.php?topItems&auth=" + configs["key_code"]
-
         try:
             urlopen(url, timeout=15).read()
         except urllib.error.URLError as e:
@@ -526,7 +443,6 @@ class GridWindow(Gtk.Window):
                 Gtk.ButtonsType.CANCEL,
                 "Invalid combination of Pi Address and Password",
             )
-
             dialog.connect("response", lambda *a: dialog.destroy())
             dialog.set_position(Gtk.WindowPosition.CENTER)
             dialog.run()
@@ -538,11 +454,9 @@ class GridWindow(Gtk.Window):
                 Gtk.ButtonsType.CANCEL,
                 "Invalid combination of Pi Address and Password",
             )
-
             dialog.connect("response", lambda *a: dialog.destroy())
             dialog.set_position(Gtk.WindowPosition.CENTER)
             dialog.run()
-
         results = urlopen(url, timeout=15).read()
         json_obj = json.loads(results.decode())
         if "top_queries" not in json_obj:
@@ -553,11 +467,9 @@ class GridWindow(Gtk.Window):
                 Gtk.ButtonsType.CANCEL,
                 "Invalid combination of Pi Address and Password",
             )
-
             dialog.connect("response", lambda *a: dialog.destroy())
             dialog.set_position(Gtk.WindowPosition.CENTER)
             dialog.run()
-
         # Check updated settings for Pi2
         if two_ip_address_entry.get_text():
             url = (
@@ -565,7 +477,6 @@ class GridWindow(Gtk.Window):
                 + "api.php?topItems&auth="
                 + configs["two_key_code"]
             )
-
             try:
                 urlopen(url, timeout=15).read()
             except urllib.error.URLError as e:
@@ -576,7 +487,6 @@ class GridWindow(Gtk.Window):
                     Gtk.ButtonsType.CANCEL,
                     "Invalid combination of Pi Address and Password",
                 )
-
                 dialog.connect("response", lambda *a: dialog.destroy())
                 dialog.set_position(Gtk.WindowPosition.CENTER)
                 dialog.run()
@@ -588,7 +498,6 @@ class GridWindow(Gtk.Window):
                     Gtk.ButtonsType.CANCEL,
                     "Invalid combination of Pi Address and Password",
                 )
-
                 dialog.connect("response", lambda *a: dialog.destroy())
                 dialog.set_position(Gtk.WindowPosition.CENTER)
                 dialog.run()
@@ -602,16 +511,13 @@ class GridWindow(Gtk.Window):
                     Gtk.ButtonsType.CANCEL,
                     "Invalid combination of Pi Address and Password",
                 )
-
                 dialog.connect("response", lambda *a: dialog.destroy())
                 dialog.set_position(Gtk.WindowPosition.CENTER)
                 dialog.run()
         else:
             if configs["two_ip_address"] == "":
                 configs["two_key_code"] = None
-
         result = wc.validate_configs(configs)
-
         if result:
             wc.save_configs(config_directory, config_filename, configs)
 
@@ -622,7 +528,6 @@ class GridWindow(Gtk.Window):
         index = combo.get_active()
         model = combo.get_model()
         item = model[index]
-
         if text is not None:
             print("Selected: host=%s" % item[1])
 
@@ -643,19 +548,14 @@ def make_dictionary_keys_readable(dict):
         new_key = key.replace("_", " ").title()
         new_dict[new_key] = val
         # print("{} --> {}".format(key, new_key))
-
     return new_dict
 
 
 if wc.is_config_file_exist(config_directory, config_filename):
-
     configs = wc.load_configs(config_directory, config_filename)
-
     base_url = configs["ip_address"]
     web_password = configs["key_code"]
-
     wc.validate_configs(configs)
-
     win = GridWindow()
     win.set_icon_from_file("/usr/lib/pihole-panel/pihole-panel.png")
     win.connect("destroy", Gtk.main_quit)
@@ -664,5 +564,4 @@ if wc.is_config_file_exist(config_directory, config_filename):
     win.set_position(Gtk.WindowPosition.CENTER)
     win.set_resizable(False)
     win.show_all()
-
 Gtk.main()

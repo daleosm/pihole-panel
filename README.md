@@ -34,9 +34,9 @@ sudo apt remove pihole-panel
 ```
 
 ## Changelog
-pihole-panel (2.8)
+pihole-panel (3.0)
 
-  * Issue with reuploading to PPA
+  * Settings window is now homogeneous
  
 pihole-panel (2.7)
 
