@@ -1,30 +1,36 @@
+pihole-panel (2.9) focal; urgency=low
+
+  * Settings window is now homogeneous.
+  
+ -- Dale Osmond <daleosmond@outlook.com>  Sun, 3 Jan 2021 16:34:56 +0500
+ 
 pihole-panel (2.8) focal; urgency=low
 
   * Issue with reuploading to PPA
   
- -- Dale Osm <contact@daleosmond.com>  Fri, 4 Oct 2019 11:02:01 +0500
+ -- Dale Osmond <daleosmond@outlook.com>  Mon, 3 Aug 2020 23:41:12 +0500
  
 pihole-panel (2.7) focal; urgency=low
 
   * Set main window resizable to false
   
- -- Dale Osm <contact@daleosmond.com>  Fri, 4 Oct 2019 11:02:01 +0500
+ -- Dale Osmond <daleosmond@outlook.com>  Tue, 7 Jul 2020 10:17:52 +0500
 
 pihole-panel (2.6) disco; urgency=low
 
   * Fixed alignment for settings items with some themes
   
- -- Dale Osm <contact@daleosmond.com>  Fri, 4 Oct 2019 11:02:01 +0500
+ -- Dale Osmond <daleosmond@outlook.com>  Thu, 26 Sep 2019 01:08:50 +0500
   
 pihole-panel (2.5) disco; urgency=low
 
   * Settings window is now centered
 
- -- Dale Osm <contact@daleosmond.com>  Mon, 2 Sep 2019 09:13:26 +0500
+ -- Dale Osmond <daleosmond@outlook.com>  Mon, 2 Sep 2019 09:13:26 +0500
 
 pihole-panel (2.3) disco; urgency=low
 
-  * Settings window is now a fixed size
+  * Set settings window resizable to false
   * Code and performance improvements
 
- -- Dale Osm <contact@daleosmond.com>  Mon, 2 Sep 2019 09:13:26 +0500
+ -- Dale Osmond <daleosmond@outlook.com>  Thu, 15 Aug 2019 01:07:03 +0500

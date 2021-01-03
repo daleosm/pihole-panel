@@ -24,7 +24,7 @@ wc = AssistantApp()
 # Configuration variables of the app
 ##################################################
 update_interval_seconds = 3  # Time interval between updates
-version_number = "2.8"  # Change this on every release!
+version_number = "2.9"  # Change this on every release!
 config_directory = str(Path.home()) + "/.config"  # Directory of config file
 config_filename = "pihole_panel_configs.xml"  # Filename of config file
 
@@ -121,8 +121,10 @@ class GridWindow(Gtk.Window):
     def fetch_data_and_update_display(self, host_url, web_password):
         # Fetch required data from the Pi-Hole API, and update the window elements using responses received
         status, statistics_dict = self.get_status_and_statistics(host_url)
-        readable_statistics_dict = make_dictionary_keys_readable(statistics_dict)
-        top_queries_dict, top_ads_dict = self.get_top_items(host_url, web_password)
+        readable_statistics_dict = make_dictionary_keys_readable(
+            statistics_dict)
+        top_queries_dict, top_ads_dict = self.get_top_items(
+            host_url, web_password)
 
         # Update frames
         self.update_status_elements(status)
@@ -158,46 +160,44 @@ class GridWindow(Gtk.Window):
         self.popup.set_resizable(False)
         self.popup.set_title("Settings")
         self.popup.set_position(Gtk.WindowPosition.CENTER)
-        page_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
+        page_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=5)
+        page_box.set_margin_top(5)
         self.popup.add(page_box)
-        self.popup.set_size_request(100, 250)
 
         # Create IP Address box
-        ip_address_box = Gtk.HBox(homogeneous=False, spacing=12)
+        ip_address_box = Gtk.HBox(homogeneous=True, spacing=5)
 
         ip_address_label = Gtk.Label(label="Pi1 Address:")
         ip_address_label.set_justify(Gtk.Justification.LEFT)
-        ip_address_box.pack_start(ip_address_label, True, False, 6)
+        ip_address_box.pack_start(ip_address_label, True, False, 0)
 
         ip_address_entry = Gtk.Entry()
         ip_address_entry.set_text(configs["ip_address"])
-        ip_address_box.pack_start(ip_address_entry, True, False, 6)
+        ip_address_box.pack_start(ip_address_entry, True, False, 5)
 
         # Pack IP Address box
-        page_box.pack_start(ip_address_box, True, False, 6)
+        page_box.pack_start(ip_address_box, True, False, 0)
 
         # Create key code box
-        key_code_box = Gtk.HBox(homogeneous=False, spacing=12)
+        key_code_box = Gtk.HBox(homogeneous=True, spacing=5)
 
         key_code_label = Gtk.Label(label="Pi1 Password:")
-        key_code_label.set_justify(Gtk.Justification.LEFT)
-        key_code_box.pack_start(key_code_label, True, False, 6)
+        key_code_box.pack_start(key_code_label, True, False, 0)
 
         key_code_entry = Gtk.Entry()
         key_code_entry.set_visibility(False)
 
         key_code_entry.set_text(configs["key_code"])
-        key_code_box.pack_start(key_code_entry, True, False, 6)
+        key_code_box.pack_start(key_code_entry, True, False, 0)
 
         # Pack key code box
-        page_box.pack_start(key_code_box, True, False, 6)
+        page_box.pack_start(key_code_box, True, False, 5)
 
         # Create 2IP Address box
-        two_ip_address_box = Gtk.HBox(homogeneous=False, spacing=12)
+        two_ip_address_box = Gtk.HBox(homogeneous=False, spacing=5)
 
-        two_ip_address_label = Gtk.Label(label="Pi2 Address:  ")
-        two_ip_address_label.set_justify(Gtk.Justification.LEFT)
-        two_ip_address_box.pack_start(two_ip_address_label, True, False, 6)
+        two_ip_address_label = Gtk.Label(label="Pi2 Address")
+        two_ip_address_box.pack_start(two_ip_address_label, True, False, 0)
 
         two_ip_address_entry = Gtk.Entry()
 
@@ -205,18 +205,17 @@ class GridWindow(Gtk.Window):
             if configs["two_ip_address"] is not None:
                 two_ip_address_entry.set_text(configs["two_ip_address"])
 
-        two_ip_address_box.pack_start(two_ip_address_entry, False, False, 6)
+        two_ip_address_box.pack_start(two_ip_address_entry, False, False, 5)
 
         # Pack 2IP Address box
-        page_box.pack_start(two_ip_address_box, True, False, 6)
+        page_box.pack_start(two_ip_address_box, True, False, 0)
 
         # Create key code box
 
-        two_key_code_box = Gtk.HBox(homogeneous=False, spacing=6)
+        two_key_code_box = Gtk.HBox(homogeneous=False, spacing=5)
 
         two_key_code_label = Gtk.Label(label="Pi2 Password:")
-        two_key_code_label.set_justify(Gtk.Justification.LEFT)
-        two_key_code_box.pack_start(two_key_code_label, True, False, 6)
+        two_key_code_box.pack_start(two_key_code_label, True, False, 0)
 
         two_key_code_entry = Gtk.Entry()
         two_key_code_entry.set_visibility(False)
@@ -225,13 +224,13 @@ class GridWindow(Gtk.Window):
             if configs["two_key_code"] is not None:
                 two_key_code_entry.set_text(configs["two_key_code"])
 
-        two_key_code_box.pack_start(two_key_code_entry, False, False, 6)
+        two_key_code_box.pack_start(two_key_code_entry, False, False, 5)
 
         # Pack key code box
-        page_box.pack_start(two_key_code_box, True, False, 6)
+        page_box.pack_start(two_key_code_box, True, False, 5)
 
         # Create save button box
-        button_box = Gtk.HBox(homogeneous=False, spacing=12)
+        button_box = Gtk.HBox(homogeneous=False, spacing=5)
         button = Gtk.Button.new_with_label("Save")
 
         button.connect(
@@ -242,10 +241,10 @@ class GridWindow(Gtk.Window):
             two_ip_address_entry,
             two_key_code_entry,
         )
-        button_box.pack_end(button, False, False, 4)
+        button_box.pack_end(button, False, False, 6)
 
         # Pack save button box
-        page_box.pack_start(button_box, True, False, 12)
+        page_box.pack_start(button_box, True, False, 6)
 
         self.popup.show_all()
 
@@ -338,7 +337,8 @@ class GridWindow(Gtk.Window):
             # Destroy and remove current data table box
             self.statistics_frame.table_box.destroy()
         # Create new data table box with given values
-        table_box = self.create_table_box("Statistic", "Value", statistics_dict)
+        table_box = self.create_table_box(
+            "Statistic", "Value", statistics_dict)
         # Save so that it can be destroyed later
         self.statistics_frame.table_box = table_box
         self.statistics_frame.add(table_box)
@@ -350,7 +350,8 @@ class GridWindow(Gtk.Window):
             self.top_queries_frame.table_box.destroy()
 
         if top_queries_dict:
-            table_box = self.create_table_box("Domain", "Hits", top_queries_dict)
+            table_box = self.create_table_box(
+                "Domain", "Hits", top_queries_dict)
             # Save so that it can be destroyed later
             self.top_queries_frame.table_box = table_box
             self.top_queries_frame.add(table_box)
@@ -433,7 +434,8 @@ class GridWindow(Gtk.Window):
     # This could be useful in other projects
     def create_table_box(self, left_heading, right_heading, items_dict):
         # First column box
-        first_column_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=0)
+        first_column_box = Gtk.Box(
+            orientation=Gtk.Orientation.VERTICAL, spacing=0)
         first_col_heading_label = Gtk.Label(margin=4, halign=Gtk.Align.START)
         first_col_heading_label.set_markup(
             "<u>" + left_heading + "</u>"
@@ -441,7 +443,8 @@ class GridWindow(Gtk.Window):
         first_column_box.pack_start(first_col_heading_label, False, False, 4)
 
         # Second column box
-        second_column_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=0)
+        second_column_box = Gtk.Box(
+            orientation=Gtk.Orientation.VERTICAL, spacing=0)
         second_col_label = Gtk.Label(margin=4, halign=Gtk.Align.END)
         second_col_label.set_markup(
             "<u>" + right_heading + "</u>"
@@ -510,7 +513,8 @@ class GridWindow(Gtk.Window):
             ).hexdigest()
 
         # Check updated settings for Pi1
-        url = configs["ip_address"] + "api.php?topItems&auth=" + configs["key_code"]
+        url = configs["ip_address"] + \
+            "api.php?topItems&auth=" + configs["key_code"]
 
         try:
             urlopen(url, timeout=15).read()
