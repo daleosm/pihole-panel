@@ -415,7 +415,6 @@ class GridWindow(Gtk.Window):
         configs3 = {}
         if key_code_entry.get_text() != configs["key_code"]:
             configs2["key_code"] = key_code_entry.get_text()
-
             configs["key_code"] = hashlib.sha256(
                 configs2["key_code"].encode("utf-8")
             ).hexdigest()
