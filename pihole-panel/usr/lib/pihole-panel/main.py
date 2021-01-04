@@ -24,7 +24,7 @@ wc = AssistantApp()
 # Configuration variables of the app
 ##################################################
 update_interval_seconds = 3  # Time interval between updates
-version_number = "3.0"  # Change this on every release!
+version_number = "3.1"  # Change this on every release!
 config_directory = str(Path.home()) + "/.config"  # Directory of config file
 config_filename = "pihole_panel_configs.xml"  # Filename of config file
 
@@ -564,4 +564,5 @@ if wc.is_config_file_exist(config_directory, config_filename):
     win.set_resizable(False)
     win.set_keep_above(True)
     win.show_all()
+    win.set_keep_above(False) # Disable always on top (other method won't use set_position)
 Gtk.main()
