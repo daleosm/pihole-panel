@@ -34,6 +34,11 @@ sudo apt remove pihole-panel
 ```
 
 ## Changelog
+pihole-panel (3.1)
+
+  * Prevent window is ready message
+  * Labeling error
+  
 pihole-panel (3.0)
 
   * Settings window is now homogeneous

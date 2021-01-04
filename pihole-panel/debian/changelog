@@ -1,3 +1,10 @@
+pihole-panel (3.1) focal; urgency=low
+
+  * Prevent window is ready message
+  * Labeling error
+  
+ -- Dale Osmond <daleosmond@outlook.com>  Mon, 4 Jan 2021 10:51:03 +0500
+
 pihole-panel (3.0) focal; urgency=low
 
   * Settings window is now homogeneous
