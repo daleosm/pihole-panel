@@ -34,6 +34,10 @@ sudo apt remove pihole-panel
 ```
 
 ## Changelog
+pihole-panel (3.3)
+
+  * Prevent window is ready message
+
 pihole-panel (3.2)
 
   * Labeling error

@@ -1,3 +1,9 @@
+pihole-panel (3.3) focal; urgency=low
+
+  * Prevent window is ready message
+  
+ -- Dale Osmond <daleosmond@outlook.com>  Mon, 4 Jan 2021 10:51:03 +0500
+
 pihole-panel (3.2) focal; urgency=low
 
   * Labeling error
