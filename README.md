@@ -63,6 +63,3 @@ pihole-panel (2.3)
 
   * Settings window is now a fixed size
   * Code and performance improvements
-
-https://nextcloud-provider.readthedocs.io/en/latest/
-https://nextcloud-hosting.readthedocs.io/en/latest/
